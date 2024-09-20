@@ -38,20 +38,20 @@ function Header() {
             <div className={`fixed left-0 top-0 bg-white w-64 h-full shadow-lg transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0 pt-10' : '-translate-x-full'}`}>
                 <div className='flex flex-col p-4'>
                     <ul className='flex flex-col space-y-4'>
-                        <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
+                        <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
                             <a href="#home">Home</a>
                         </li>
-                        <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
-                            <a href="OurRoute">Our Route</a>
+                        <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
+                            <a href="#OurRoute">Our Route</a>
                         </li>
-                        <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
+                        <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
                             <a href="">  My Booking</a>
                         </li>
-                        <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
+                        <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
                             <a href="">Gallry</a>
                         </li>
-                        <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
-                            <a href="contact">Contact Us</a>
+                        <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
+                            <a href="#contact">Contact Us</a>
                         </li>
                     </ul>
                 </div>
