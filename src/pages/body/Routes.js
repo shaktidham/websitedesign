@@ -3,7 +3,7 @@ import Derdibus from "./../../img/derdibus.png";
 
 function Routes() {
     return (
-        <div className='bg-[#FFE5A0] text-black p-4'>
+        <div className='bg-[#FFE5A0] text-black p-4'id='OurRoute'>
             <h1 className='text-3xl my-10 font-extrabold text-black'>OUR ROUTE</h1>
             <div class="flex items-center justify-center">
                 <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">

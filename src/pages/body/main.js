@@ -3,6 +3,7 @@ import Hero from './hero';
 import Routes from './Routes';
 import Sefty from './sefty';
 import Last from './last';
+import Footer from './footer';
 
 function Main() {
   return (
@@ -11,6 +12,7 @@ function Main() {
       <Routes />
       <Sefty />
       <Last />
+      <Footer />
     </div>
   );
 }
