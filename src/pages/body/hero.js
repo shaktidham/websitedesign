@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import AllBus from "./../../img/allbus.png";
 import { setBooked } from '../../Redux/userside';
+import Form from './form';
 
 function Hero() {
   const [formData, setFormData] = useState({
@@ -11,7 +13,7 @@ function Hero() {
   });
 
   const dispatch = useDispatch();
-  const inputs = useSelector((state) => state.inputs);
+  // const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,7 +21,8 @@ function Hero() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setBooked(true));
+    dispatch(setBooked(true)); // Update Redux state if necessary
+    // navigate('/seating', { state: formData }); // Navigate to Seating page and pass formData
   };
 
   return (
@@ -31,7 +34,7 @@ function Hero() {
           alt="Buses" 
         />
       </div>
-      <div className="w-full max-w-md mx-auto mt-6 md:mt-0 md:w-1/4">
+      {/* <div className="w-full max-w-md mx-auto mt-6 md:mt-0 md:w-1/4">
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <h1 className="text-2xl font-bold text-gray-800">Bus Booking</h1>
           <input 
@@ -61,7 +64,8 @@ function Hero() {
             Search Buses
           </button>
         </form>
-      </div>
+      </div> */}
+      <Form />
     </div>
   );
 }

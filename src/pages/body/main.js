@@ -12,7 +12,7 @@ function Main() {
       <Routes />
       <Sefty />
       <Last />
-      <Footer />
+  
     </div>
   );
 }
