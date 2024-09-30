@@ -3,9 +3,8 @@ import CustomerInformation from './CustomerInformations';
 import JourneyInformation from './JourneyInformation';
 import { useSelector } from 'react-redux';
 
-function ConformBookingDetails() {
+function ConformBookingDetails({ pickup, drop, date, from, to, price, seatNumber }) {
   const inputs = useSelector((state) => state.inputs);
-  
   
   return (
     inputs.Tablemanuplation?.passengerdetails && (
@@ -13,7 +12,15 @@ function ConformBookingDetails() {
         <div className="p-4 bg-gray-100 h-[86%] overflow-y-auto"> {/* Adjust height here */}
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
             <CustomerInformation />
-            <JourneyInformation />
+            <JourneyInformation 
+              pickup={pickup} 
+              drop={drop} 
+              date={date} 
+              from={from} 
+              to={to} 
+              price={price} 
+              seatNumber={seatNumber} 
+            />
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ function Form() {
                     throw new Error("Network response was not ok");
                 }
                 const result = await response.json();
-             
+          
                 dispatch(setShowAllRoute(result))
                 navigate('/AvailbleRoutes', { state: formData });
                 dispatch(setBooked(true));
