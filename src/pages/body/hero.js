@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import AllBus from "./../../img/allbus.png";
@@ -18,6 +18,11 @@ function Hero() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    dispatch(setBooked(false));
+   
+  }, [dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

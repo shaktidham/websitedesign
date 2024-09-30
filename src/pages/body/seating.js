@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPassengerDetails } from "../../Redux/userside";
 import ConformBookingDetails from "./conformBooking/conformBookingDetails";
 import Surat from "./../../constvalue/constvalue"
+import Header from "../header";
+import Footer from "./footer";
 
 
 
@@ -23,8 +25,12 @@ const Seating = () => {
   const [selectedSeats, setSelectedSeats] = useState({});
   const [visibleSeatsId, setVisibleSeatsId] = useState(null);
   const [ticketprice, setTickitPrice] = useState()
+  
+
+ 
 
   const handleRoute = (route, id, date, price) => {
+    console.log(route,"route");
     localStorage.setItem("route", route);
     localStorage.setItem("routeId", id);
     setTickitPrice(price)
@@ -72,9 +78,10 @@ const Seating = () => {
       console.error("Fetch operation error:", error);
     }
   }, [inputs]);
-  console.log(pickup,drop,"ss");
+ 
 
   return (
+    <div><Header />
     <div className="bg-red-400 min-h-screen p-6 flex flex-col items-center">
       <div className="overflow-x-auto rounded-md w-full mb-6">
         {inputs?.Tablemanuplation?.AllRoute.map((item) => (
@@ -124,19 +131,27 @@ const Seating = () => {
               <div key={idx} className="mr-5">
                 <h1 className="text-center font-bold">LB</h1>
                 {group.map((num) => {
-                  const item = sortdata.data?.find(item => item.seatNumber === num);
+  const item = sortdata.data?.find(item => item.seatNumber === num);
+  const isSelected = selectedSeats[num];
+  const isAvailable = item?.seatNumber === num;
 
-                  return (
-                    <div
-                      key={num}
-                      className={`border border-gray-300 text-center p-5 font-bold rounded-md m-1 cursor-pointer 
-                      ${selectedSeats[num] ? 'bg-blue-400' : (item?.seatNumber === num ? 'bg-green-500 text-white' : 'bg-white')}`}
-                      onClick={() => handleSeatSelect(num, selectedSeats[num] ? null : num)}
-                    >
-                      {num}
-                    </div>
-                  );
-                })}
+  return (
+    <div
+    key={num}
+    className={`border border-gray-300 text-center p-5 font-bold rounded-md m-1 cursor-pointer 
+    ${isSelected ? 'bg-blue-400' : isAvailable ? 'bg-green-500 text-white' : 'bg-white'}`}
+    onClick={() => {
+      // Prevent selection if the seat is available
+      if (!isAvailable) {
+        handleSeatSelect(num, !isSelected); // Toggle selection
+      }
+    }}
+  >
+    {num}
+  </div>
+  );
+})}
+
               </div>
             ))}
           </div>
@@ -151,7 +166,7 @@ const Seating = () => {
           value={pickup}
         >
           <option value="" >Select</option>
-          {inputs.Tablemanuplation.searchdata.from === "Village 2" ? (
+          {inputs.Tablemanuplation.searchdata.from === "Surat" ? (
             Surat.map((location, index) => (
               <option key={index} value={location}>
                 {location}
@@ -171,7 +186,7 @@ const Seating = () => {
           value={drop}
         >
           <option value="" >Select</option>
-          {inputs.Tablemanuplation.searchdata.to === "Village 2" ? (
+          {inputs.Tablemanuplation.searchdata.to === "Surat" ? (
             Surat.map((location, index) => (
               <option key={index} value={location}>
                 {location}
@@ -246,6 +261,8 @@ const Seating = () => {
         to={inputs.Tablemanuplation.searchdata.to}
         seatNumber={Object.keys(selectedSeats).length > 0 ? Object.keys(selectedSeats).join(", ") : "None"}
         price={totalCount * ticketprice} />
+    </div>
+    <Footer />
     </div>
   );
 };

@@ -15,10 +15,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
+      
         
         {/* Conditionally render the Main component */}
-        {inputs?.Tablemanuplation?.booked !== true && <Main />}
+        <Routes>
+          <Route path="/" element={<Main />} />
+        </Routes>
         
         {/* You can conditionally render Seating as well if needed */}
         {/* {inputs.Tablemanuplation.booked && <Seating />} */}
@@ -30,7 +32,7 @@ function App() {
           <Route path="/AvailbleRoutes" element={<Seating />} />
         </Routes>
 
-        <Footer />
+   
       </div>
     </Router>
  

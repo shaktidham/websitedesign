@@ -6,6 +6,7 @@ const initialState = {
     AllRoute:[],
     searchdata:[],
     passengerdetails:false,
+    bookdetails:[]
     
   },
 };
@@ -25,12 +26,16 @@ const InputSlice = createSlice({
     setPassengerDetails: (state, action) => {
       state.Tablemanuplation.passengerdetails = action.payload;
     },
+    setBookDetails: (state, action) => {
+      state.Tablemanuplation.bookdetails = action.payload;
+    },
+    
    
   },
 });
 
 // Export actions
-export const { setBooked,setShowAllRoute,setSearchData,setPassengerDetails } =InputSlice.actions;
+export const { setBooked,setShowAllRoute,setSearchData,setPassengerDetails,setBookDetails } =InputSlice.actions;
 
 // Export reducer
 export default InputSlice.reducer;
