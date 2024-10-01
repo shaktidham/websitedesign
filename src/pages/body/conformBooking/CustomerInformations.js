@@ -50,6 +50,7 @@ const route=localStorage.getItem("routeId")
     
           if (response.ok) {
             await response.json();
+            OpenBox()
             navigate("/");
           } else {
             console.error("Submission failed");
@@ -64,15 +65,15 @@ const route=localStorage.getItem("routeId")
     };
 
     return (
-        <div className="bg-blue-400 p-6 rounded-lg shadow-lg max-w-md mx-auto mt-8">
-            <h2 className="text-3xl font-semibold mb-6 text-white text-center">Customer Information</h2>
+        <div className=" p-6 rounded-lg shadow-lg max-w-md mx-auto border border-2 border-black bg-white mt-8">
+            <h2 className="text-3xl font-semibold mb-6 text-black text-center">Customer Information</h2>
             <div className="bg-white p-4 rounded-lg shadow-md">
                 <h3 className="text-xl font-semibold mb-4 text-blue-600">Passenger Details</h3>
                 <input
                     type="text"
                     name="name"
                     placeholder="Passenger Name"
-                    className="input input-bordered w-full bg-gray-100 p-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
+                    className="input input-bordered w-full bg-gray-200 p-3 rounded-md focus:outline-none focus:ring focus:ring-blue-400"
                     value={bookeddata.name}
                     onChange={handleChange}
                 />
@@ -118,13 +119,13 @@ const route=localStorage.getItem("routeId")
 
             <div className="flex flex-col mt-6">
                 <button 
-                    className="bg-green-500 hover:bg-green-600 font-bold text-white py-3 rounded-md mb-2 transition duration-300 ease-in-out"
+                    className="bg-blue-500 hover:bg-blue-800 font-bold text-white py-3 rounded-md mb-2 transition duration-300 ease-in-out"
                     onClick={handleSubmit} // Book action
                 >
                     Book
                 </button>
                 <button 
-                    className="bg-red-600 hover:bg-red-700 font-bold text-white py-3 rounded-md transition duration-300 ease-in-out" 
+                    className="bg-red-500 hover:bg-red-800 font-bold text-white py-3 rounded-md transition duration-300 ease-in-out" 
                     onClick={OpenBox}
                 >
                     Cancel
