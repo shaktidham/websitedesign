@@ -21,11 +21,11 @@ function App() {
         
         {/* Define your routes */}
         <Routes>
-          <Route path="/booksuccess" element={inputs.Tablemanuplation.loading ? <Loader /> : <Main />} />
+          <Route path="/" element={inputs.Tablemanuplation.loading ? <Loader /> : <Main />} />
           <Route path="/AvailableRoutes" element={<Seating />} />
           {/* Add other routes as needed */}
           <Route path="/conformBooking" element={<ConformBookingDetails />} />
-          <Route path="/" element={<SuccessMsg />} />
+          <Route path="/booksuccess" element={<SuccessMsg />} />
         </Routes>
 
       </div>
