@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Logo from "./../img/logo1.png";
 import { ReactComponent as Openpop } from './../svg/popopen.svg';
 import { ReactComponent as Offpop } from './../svg/popoff.svg';
+import { Link } from 'react-router-dom';
 
 function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -38,9 +39,10 @@ function Header() {
             <div className={`fixed left-0 top-0 bg-white w-64 h-full shadow-lg transform transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0 pt-10' : '-translate-x-full'}`}>
                 <div className='flex flex-col p-4'>
                     <ul className='flex flex-col space-y-4'>
+                        <Link to="/">
                         <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
-                            <a href="#home">Home</a>
-                        </li>
+                            <a >Home</a>
+                        </li></Link>
                         <li onClick={toggleSidebar} className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer'>
                             <a href="#OurRoute">Our Route</a>
                         </li>
@@ -59,10 +61,10 @@ function Header() {
 
             {/* Desktop Menu */}
             <div className='hidden md:flex justify-between items-center p-4'>
-                <ul className='flex space-x-12'>
+                <ul className='flex space-x-12'><Link to="/">
                     <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer'>
-                    <a href="#home">Home</a>
-                    </li>
+                    <a >Home</a>
+                    </li></Link>
                     <li className='text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer'>
                     <a href="OurRoute">Our Route</a>
                     </li>

@@ -8,6 +8,8 @@ import Seating from './pages/body/seating';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ConformBookingDetails from './pages/body/conformBooking/conformBookingDetails';
+import Loader from './pages/Loader/Loader';
+import SuccessMsg from './pages/body/conformBooking/successmsg';
 
 function App() {
   const inputs = useSelector((state) => state.inputs);
@@ -15,27 +17,19 @@ function App() {
   return (
     <Router>
       <div className="App">
-      
+    
         
-        {/* Conditionally render the Main component */}
-        <Routes>
-          <Route path="/" element={<Main />} />
-        </Routes>
-        
-        {/* You can conditionally render Seating as well if needed */}
-        {/* {inputs.Tablemanuplation.booked && <Seating />} */}
-        
-       
-
         {/* Define your routes */}
         <Routes>
-          <Route path="/AvailbleRoutes" element={<Seating />} />
+          <Route path="/booksuccess" element={inputs.Tablemanuplation.loading ? <Loader /> : <Main />} />
+          <Route path="/AvailableRoutes" element={<Seating />} />
+          {/* Add other routes as needed */}
+          <Route path="/conformBooking" element={<ConformBookingDetails />} />
+          <Route path="/" element={<SuccessMsg />} />
         </Routes>
 
-   
       </div>
     </Router>
- 
   );
 }
 

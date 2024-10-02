@@ -51,7 +51,7 @@ const route=localStorage.getItem("routeId")
           if (response.ok) {
             await response.json();
             OpenBox()
-            navigate("/");
+            navigate("/booksuccess");
           } else {
             console.error("Submission failed");
           }

@@ -1,0 +1,40 @@
+
+
+.Loader {
+  pointer-events: all;
+  z-index: 99999;
+  border: none;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  cursor: wait;
+  position: fixed;
+  background-color: rgb(37, 31, 31);
+ 
+}
+.imgLoader {
+  border: 16px solid var(--light);
+  /* Light gray border */
+  border-radius: 50%;
+  /* Circular shape */
+  border-top: 16px solid var(--primary);
+  /* Blue loading color */
+  width: 80px;
+  height: 80px;
+  -webkit-animation: spin 2s linear infinite;
+  /* Chrome, Safari */
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
