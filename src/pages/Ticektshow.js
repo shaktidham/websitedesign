@@ -14,13 +14,16 @@ const Ticektshow = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:3002/seats/searchTicket", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestData),
-      });
+      const response = await fetch(
+        "https://shaktidham-backend.vercel.app/seats/searchTicket",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestData),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Network response was not ok");
