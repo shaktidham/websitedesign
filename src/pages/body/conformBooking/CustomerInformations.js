@@ -26,6 +26,7 @@ function CustomerInformation({
     date: date,
     gender: "",
     age: "",
+    price: price,
   };
 
   const route = localStorage.getItem("routeId");
@@ -56,6 +57,7 @@ function CustomerInformation({
       if (response.ok) {
         await response.json();
         OpenBox();
+
         navigate("/booksuccess", { state: { bookeddata } });
       } else {
         console.error("Submission failed");
