@@ -26,6 +26,7 @@ import debounce from "lodash.debounce";
 
 import Showbusnumber from "./showbusnumber";
 import Msgbox from "./msgbox";
+import Fulldetails from './fulldetails';
 
 function AdminHomePage() {
     const [display, setDisplay] = useState(false);
@@ -44,6 +45,7 @@ function AdminHomePage() {
     const [ticketprice, setTickitPrice] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const[adminsortdata,setAdminsortdata]=useState()
+    const[passengerdata,setPassengerdata]=useState()
 
     const [data, setData] = useState({
       pickup: "",
@@ -609,7 +611,8 @@ function AdminHomePage() {
     },
     [inputs]
   );
-const showpassngerdetails=()=>{
+const showpassngerdetails=(data)=>{
+setPassengerdata(data)
   dispatch(setFulldetails(!inputs.Tablemanuplation.fulldetails))
 }
     return (
@@ -728,7 +731,7 @@ const showpassngerdetails=()=>{
                         <td className="p-2 border">{seatData ? seatData.to : ''}</td>
                         <td className="p-2 border">{seatData ? seatData.name : ''}</td>
                         <td className="p-2 border">{seatData ? seatData.mobile : ''}</td>
-                        <td className="p-2 border" onClick={showpassngerdetails}><Show className="w-6 h-6 text-blue-500" fill='black'/></td>
+                        <td className="p-2 border"  onClick={() => showpassngerdetails(seatData)}><Show className="w-6 h-6 text-blue-500" fill='black'/></td>
                         <td className="relative border">
                           <button
                             className="ml-4 hover:text-blue-600 transition duration-200"
@@ -806,6 +809,7 @@ const showpassngerdetails=()=>{
           setAllsitprice={setAllsitprice}
           allsitprice={allsitprice}
         />
+        <Fulldetails passengerdata={passengerdata}/>
       </div>
     </div>
     

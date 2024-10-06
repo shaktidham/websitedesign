@@ -12,7 +12,7 @@ const initialState = {
     sortdata: [],
     busdetails: [],
     routeadd:false,
-    fulldetails:false,
+    fulldetails:false
     
   },
 };
