@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setPassengerDetails } from "../../Redux/userside";
 import ConformBookingDetails from "./conformBooking/conformBookingDetails";
-import Surat from "./../../constvalue/constvalue";
+import {Surat} from "./../../constvalue/constvalue";
 import Header from "../header";
 import Footer from "./footer";
 import { useLocation } from "react-router-dom";

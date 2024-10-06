@@ -1,5 +1,5 @@
 // constat.jsx
-const surat = [
+const Surat = [
     "katargam",
     "nana varacha dhal",
     "jakatnaka",
@@ -7,5 +7,12 @@ const surat = [
     "shyamdham"
   ];
   
-  export default surat;
+  const village = [
+    "Jasdan",
+    "Devaliya",
+    "Surat",
+    "Chital",
+    "Dadva",
+  ];
+  export { Surat, village };
   

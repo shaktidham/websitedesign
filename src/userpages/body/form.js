@@ -89,9 +89,6 @@ function Form() {
         // Pass both formData and result to the AvailableRoutes page
         navigate("/AvailableRoutes", { state: { formData, result } });
 
-        dispatch(setShowAllRoute(result));
-        dispatch(setBooked(true));
-        dispatch(setSearchData(formData));
 
         // Clear the form data
         setFormData({

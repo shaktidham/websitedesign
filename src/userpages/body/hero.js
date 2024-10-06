@@ -19,14 +19,11 @@ function Hero() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  useEffect(() => {
-    dispatch(setBooked(false));
-   
-  }, [dispatch]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setBooked(true)); // Update Redux state if necessary
+  // Update Redux state if necessary
     // navigate('/seating', { state: formData }); // Navigate to Seating page and pass formData
   };
 

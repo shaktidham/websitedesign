@@ -34,9 +34,10 @@ function Header() {
           <div className="text-white xsm:text-[10px] md:text-xl font-bold">
             Help Line Number: 9427555062
           </div>
+          <Link to="/adminlogin">
           <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300 mt-2 md:hidden">
             Agent Login
-          </button>
+          </button></Link>
         </div>
       </div>
       <div
@@ -94,30 +95,32 @@ function Header() {
       <div className="hidden md:flex justify-between items-center p-4">
         <ul className="flex space-x-12">
           <Link to="/">
-            <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer">
+            <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md  p-2 cursor-pointer">
               <a>Home</a>
             </li>
           </Link>
-          <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer">
+          <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md  p-2 cursor-pointer">
             <a href="OurRoute">Our Route</a>
           </li>
           <Link to="/MyBooking">
-            <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer">
+            <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md  p-2 cursor-pointer">
               <a> My Booking</a>
             </li>
           </Link>
-          <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer">
+          <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md  p-2 cursor-pointer">
             <a href="">Gallry</a>
           </li>
-          <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md hover:px-2 py-2 cursor-pointer">
+          <li className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] hover:rounded-md  p-2 cursor-pointer">
             <a href="contact">Contact Us</a>
           </li>
         </ul>
+        <Link to="/adminlogin">
         <div className="flex items-center">
           <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300">
             Agent Login
           </button>
         </div>
+        </Link>
       </div>
     </div>
   );
