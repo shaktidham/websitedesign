@@ -11,7 +11,8 @@ const initialState = {
     totalsit: [],
     sortdata: [],
     busdetails: [],
-    routeadd:false
+    routeadd:false,
+    fulldetails:false,
     
   },
 };
@@ -51,6 +52,9 @@ const InputSlice = createSlice({
     setRouteadd: (state, action) => {
       state.Tablemanuplation.routeadd = action.payload;
     },
+    setFulldetails: (state, action) => {
+      state.Tablemanuplation.fulldetails = action.payload;
+    },
     
    
   },
@@ -64,7 +68,7 @@ export const { setPassengerDetails,setLoading, setSeatNumber,
   setRouteadd,
   setBusDetails,
   setSortdata,
-  setTotalsit, } =InputSlice.actions;
+  setTotalsit,setFulldetails } =InputSlice.actions;
 
 // Export reducer
 export default InputSlice.reducer;

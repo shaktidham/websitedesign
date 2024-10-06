@@ -6,6 +6,7 @@ import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { TextField, InputAdornment } from "@mui/material";
 import { ReactComponent as Action } from "../../svg/action.svg";
 import { ReactComponent as Celender } from "../../svg/celender.svg";
+import { ReactComponent as Show } from "../../svg/show.svg";
 import { ReactComponent as Upboxuparrow } from "../../svg/uparrow.svg";
 import { useNavigate } from "react-router-dom";
 import html2pdf from "html2pdf.js";
@@ -17,6 +18,7 @@ import {
   setBusDetails,
   setTotalsit,
   setSortdata,
+  setFulldetails,
 } from "../../Redux/userside";
 // import Bus from "./../img/image 4.png";
 import { ReactComponent as Vector } from "../../svg/Vector.svg";
@@ -607,7 +609,9 @@ function AdminHomePage() {
     },
     [inputs]
   );
-
+const showpassngerdetails=()=>{
+  dispatch(setFulldetails(!inputs.Tablemanuplation.fulldetails))
+}
     return (
       <div className="flex h-screen bg-gray-50">
       <Sidebar />
@@ -724,7 +728,7 @@ function AdminHomePage() {
                         <td className="p-2 border">{seatData ? seatData.to : ''}</td>
                         <td className="p-2 border">{seatData ? seatData.name : ''}</td>
                         <td className="p-2 border">{seatData ? seatData.mobile : ''}</td>
-                        <td className="p-2 border"></td>
+                        <td className="p-2 border" onClick={showpassngerdetails}><Show className="w-6 h-6 text-blue-500" fill='black'/></td>
                         <td className="relative border">
                           <button
                             className="ml-4 hover:text-blue-600 transition duration-200"
