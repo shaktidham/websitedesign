@@ -47,7 +47,7 @@ const Adminlogin = () => {
         Cookies.set("authToken", result.data, { expires: 7 });
 
         setInputlogindata(initialdata); // Reset form fields
-        navigate("/home"); // Redirect to home page
+        navigate("/adminHome"); // Redirect to home page
       } else {
         // Display specific error message based on response
         const errorResult = await response.json();

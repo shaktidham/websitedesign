@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
 import AllBus from "./../../img/allbus.png";
-
+import { setBooked } from '../../Redux/userside';
 import Form from './form';
 
 function Hero() {
@@ -23,7 +23,7 @@ function Hero() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     // Update Redux state if necessary
+  // Update Redux state if necessary
     // navigate('/seating', { state: formData }); // Navigate to Seating page and pass formData
   };
 

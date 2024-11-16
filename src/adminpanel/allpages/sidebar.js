@@ -1,82 +1,28 @@
 // Sidebar.js
-import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom'; // Make sure to install react-router-dom
+import React from 'react';
+import { Link } from 'react-router-dom'; // Make sure to install react-router-dom if you're using routing
 
 const Sidebar = () => {
-    const location = useLocation(); // This hook gets the current route
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Sidebar open state
-
-    const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-    };
-
     return (
-        <div
-            className={`${
-                isSidebarOpen ? 'w-64' : 'w-20'
-            } bg-gray-800 h-screen shadow-lg transition-all duration-300 ease-in-out`}
-        >
-            <button
-                onClick={toggleSidebar}
-                className="text-white mb-6 md:hidden focus:outline-none"
-            >
-                {isSidebarOpen ? 'Close' : 'Open'}
-            </button>
-            {isSidebarOpen && (
-                <div>
-                    <h2 className="text-2xl font-bold text-center py-5 text-white mb-6 bg-[#367FA9] w-100">Menu</h2>
-                    <ul className="space-y-4 p-5">
-                        <li className={`${
-                                    location.pathname === '/home'
-                                        ? 'bg-blue-500 font-bold text-black'
-                                        : 'text-white'
-                                }`}>
-                            <Link
-                                to="/home"
-                                className={` hover:text-blue-400 transition-colors duration-200`}
-                            >
-                                Home
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                to="/Village"
-                                className={`${
-                                    location.pathname === '/Village'
-                                        ? 'text-blue-500 font-bold'
-                                        : 'text-white'
-                                } hover:text-blue-400 transition-colors duration-200`}
-                            >
-                                Village
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                // to="/route-add"
-                                className={`${
-                                    location.pathname === '/route-add'
-                                        ? 'text-blue-500 font-bold'
-                                        : 'text-white'
-                                } hover:text-blue-400 transition-colors duration-200`}
-                            >
-                                Route Add
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                // to="/agent-account"
-                                className={`${
-                                    location.pathname === '/agent-account'
-                                        ? 'text-blue-500 font-bold'
-                                        : 'text-white'
-                                } hover:text-blue-400 transition-colors duration-200`}
-                            >
-                                Agent Account
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-            )}
+        <div className="w-64 bg-gray-100 h-screen shadow-lg p-5">
+            <h2 className="text-2xl font-bold mb-6">Menu</h2>
+            <ul className="space-y-4">
+                <li>
+                    <Link to="/adminHome" className="text-blue-600 hover:underline">
+                        Home
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/routeshow" className="text-blue-600 hover:underline">
+                        Route Add
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/agent-account" className="text-blue-600 hover:underline">
+                        Agent Account
+                    </Link>
+                </li>
+            </ul>
         </div>
     );
 };
