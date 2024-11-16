@@ -26,14 +26,14 @@ const Sidebar = () => {
                 <div>
                     <h2 className="text-2xl font-bold text-center py-5 text-white mb-6 bg-[#367FA9] w-100">Menu</h2>
                     <ul className="space-y-4 p-5">
-                        <li className={`${
-                                    location.pathname === '/home'
-                                        ? 'bg-blue-500 font-bold text-black'
-                                        : 'text-white'
-                                }`}>
+                        <li >
                             <Link
                                 to="/home"
-                                className={` hover:text-blue-400 transition-colors duration-200`}
+                                className={ `${
+                                    location.pathname === '/home'
+                                        ? 'text-blue-500 font-bold text-black'
+                                        : 'text-white'
+                                } hover:text-blue-400 transition-colors duration-200`}
                             >
                                 Home
                             </Link>
