@@ -13,6 +13,9 @@ import SuccessMsg from './userpages/body/conformBooking/successmsg';
 import Adminlogin from './adminpanel/adminLogin/adminlogin';
 import Village from './adminpanel/allpages/Village/village';
 import Home from './adminpanel/allpages/home';
+import Busshow from './adminpanel/allpages/BusAdd/busshow';
+import Busadd from './adminpanel/allpages/BusAdd/busAdd';
+
 
 
 function App() {
@@ -33,6 +36,8 @@ function App() {
           <Route path="/adminlogin" element={<Adminlogin />} />
           <Route path="/home" element={<Home />} />
           <Route path="/Village" element={<Village />} />
+          <Route path="/Bus" element={<Busshow />} />
+          <Route path="/BusAdd" element={<Busadd />} />
     
         </Routes>
 
