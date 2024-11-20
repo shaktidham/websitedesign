@@ -64,9 +64,9 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                // to="/route-add"
+                                to="/Bus"
                                 className={`${
-                                    location.pathname === '/route-add'
+                                    location.pathname === '/Bus'
                                         ? 'text-blue-500 font-bold'
                                         : 'text-white'
                                 } hover:text-blue-400 transition-colors duration-200`}
