@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../sidebar";
-// import Villageadd from "./Villageadd";
+
 import Loader from "../../../userpages/Loader/Loader";
 import { ReactComponent as Edit } from "./../../../svg/edit.svg";
 import { ReactComponent as Delete } from "./../../../svg/delete.svg";
 import { ReactComponent as Show } from "./../../../svg/eyes.svg";
 import { Link, useNavigate } from "react-router-dom";
-import Pointshow from "./pointshow";
 
-function Busshow() {
+
+function Bookinghomepage() {
    
     const [route, setRoute] = useState([]); // State to store the village data
     const [loading, setLoading] = useState(true); // State to track loading state
     const [error, setError] = useState(null); // State to store any errors
-    const[popup,setPopup]=useState(false)
-    const Navigate=useNavigate()
-    const [itemToEdit, setItemToEdit] = useState(null); // State to store the village being edited
+ const navigate=useNavigate()
 
     // Combined filter state
     const [filter, setFilter] = useState({
@@ -55,44 +53,14 @@ function Busshow() {
         }
     };
 
-    // Function to handle village deletion
-    const handleDelete = async (id) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this village?");
-        if (!confirmDelete) return;
-        setLoading(true);
 
-        try {
-            // Make the delete API call
-            const response = await fetch(`https://shaktidham-backend.vercel.app/route/delete/${id}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to delete the Bus");
-            }
-
-            fetchroute(); // Refresh the village list after deletion
-        } catch (error) {
-            setError(error.message); // Set error message if the API call fails
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Function to handle edit click
-    const handleEditClick = (id) => {
-     
-        const item = route.find((item) => item._id === id);
-        console.log(item);
-        Navigate('/BusAdd', { state: { itemToEdit: item } });
-       
-    };
         // Function to handle edit click
         const handlePopup = (id) => {
-            setPopup(true)
+            navigate("/Bookingpage")
+      
             const item = route.find((item) => item._id === id);
 
-            setItemToEdit(item)
+   
           
            
         };
@@ -137,17 +105,6 @@ function Busshow() {
 
                             </div>
 
-                            {/* Add Button */}
-                            <div>
-                            
-                                <button
-                                    className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
-                                    onClick={() => Navigate("/BusAdd")}  
-                                >
-                                    Add
-                                </button>
-                                
-                            </div>
                         </div>
 
                         {/* Table */}
@@ -160,8 +117,7 @@ function Busshow() {
                                         <th className="px-4 py-2 border bg-gray-200 border-gray-400 w-3/5">BusName</th>
                                         <th className="px-4 py-2 border bg-gray-200 border-gray-400 w-3/5">Price</th>
                                         <th className="px-4 py-2 border bg-gray-200 border-gray-400 w-3/5">Point</th>
-                                        <th className="px-4 py-2 border bg-gray-200 border-gray-400 w-1/12">Edit</th>
-                                        <th className="px-4 py-2 border bg-gray-200 border-gray-400 w-1/12">Delete</th>
+                                     
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -186,18 +142,7 @@ function Busshow() {
                                             >
                                                 <Show fill="red" className="h-6 w-6 mx-auto" />
                                             </td>
-                                            <td
-                                                className="px-4 py-2 border border-gray-400 text-center cursor-pointer"
-                                                onClick={() => handleEditClick(village._id)}
-                                            >
-                                                <Edit fill="red" className="h-6 w-6 mx-auto" />
-                                            </td>
-                                            <td
-                                                className="px-4 py-2 border border-gray-400 text-center cursor-pointer"
-                                                onClick={() => handleDelete(village._id)}
-                                            >
-                                                <Delete fill="red" className="h-6 w-6 mx-auto" />
-                                            </td>
+                                          
                                         </tr>
                                     ))}
                                 </tbody>
@@ -240,11 +185,11 @@ function Busshow() {
                     </div>
                 </div>
             )}
-            <Pointshow popup={popup} setPopup={setPopup} itemToEdit={itemToEdit}/>
+          
 
         </div>
     );
 
 }
 
-export default Busshow;
+export default Bookinghomepage;

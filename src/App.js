@@ -15,6 +15,8 @@ import Village from './adminpanel/allpages/Village/village';
 import Home from './adminpanel/allpages/home';
 import Busshow from './adminpanel/allpages/BusAdd/busshow';
 import Busadd from './adminpanel/allpages/BusAdd/busAdd';
+import Bookinghomepage from './adminpanel/allpages/Booking/bookinghomepage';
+import Bookingpage from './adminpanel/allpages/Booking/Bookingpage';
 
 
 
@@ -38,6 +40,8 @@ function App() {
           <Route path="/Village" element={<Village />} />
           <Route path="/Bus" element={<Busshow />} />
           <Route path="/BusAdd" element={<Busadd />} />
+          <Route path="/Bookinghomepage" element={<Bookinghomepage />} />
+          <Route path="/Bookingpage" element={<Bookingpage />} />
     
         </Routes>
 

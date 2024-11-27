@@ -1,74 +1,106 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-function Pickuppoint({ villages, setData }) {
+function Pickuppoint({ villages, setData, itemToEdit }) {
   const [selectedPoints, setSelectedPoints] = useState({});
+ console.log(selectedPoints,"selectedPoints");
+
+  // Initialize selected points and time values from itemToEdit when it changes
+  useEffect(() => {
+    if (itemToEdit && itemToEdit.from) {
+      const newSelectedPoints = {};
+      itemToEdit.from.forEach(({ village, point, time }) => {
+        const checkboxKey = `${village}-${point}`;
+        const timeKey = `${village}-${point}-time`;
+        const villageKey = `${village}-${point}-village`;
+      
+        newSelectedPoints[checkboxKey] = true;
+        newSelectedPoints[timeKey] = time || '';
+        newSelectedPoints[villageKey] = village;
+      });
+      setSelectedPoints(newSelectedPoints);
+    }
+  }, [itemToEdit]);
 
   // Memoize the handleCheckboxChange function to avoid re-creating it on each render
-  const handleCheckboxChange = useCallback((villageId, point, time, villageName) => {
+  const handleCheckboxChange = useCallback((villageName, point, time, villageLabel) => {
     setSelectedPoints((prevSelectedPoints) => {
       const newSelectedPoints = { ...prevSelectedPoints };
-      const checkboxKey = `${villageId}-${point}`;
-      const timeKey = `${villageId}-${point}-time`;
-      const villageKey = `${villageId}-${point}-village`;
-
+      const checkboxKey = `${villageName}-${point}`;
+      const timeKey = `${villageName}-${point}-time`;
+      const villageKey = `${villageName}-${point}-village`;
+  
       if (newSelectedPoints[checkboxKey]) {
         // If already selected, unselect and remove the entry
         delete newSelectedPoints[checkboxKey];
         delete newSelectedPoints[timeKey];
         delete newSelectedPoints[villageKey];
-
-        // Remove from the `from` array in data
+  
+        // Remove the corresponding data from 'from'
         setData((prevData) => ({
           ...prevData,
-          from: prevData.from.filter(item => !(item.village === villageName && item.point === point)),
+          from: Array.isArray(prevData.from)
+            ? prevData.from.filter(item => !(item.village === villageLabel && item.point === point))
+            : [], // Ensure 'from' is an array before filtering
         }));
       } else {
         // If not selected, select and store the village, point, and time
         newSelectedPoints[checkboxKey] = true;
-        newSelectedPoints[timeKey] = time || ''; // Default to empty string if no time
-        newSelectedPoints[villageKey] = villageName;
-
-        // Also update the `setData` function with the new selected data
+        newSelectedPoints[timeKey] = time || '';
+        newSelectedPoints[villageKey] = villageLabel;
+  
+        // Add the new selected data, but keep the existing ones
         setData((prevData) => ({
           ...prevData,
-          from: [
-            ...prevData.from,
-            {
-              village: villageName,
-              point: point,
-              time: time || '', // Default to empty string if no time
-            },
-          ],
+          from: Array.isArray(prevData.from)
+            ? [
+                ...prevData.from,
+                {
+                  village: villageLabel,
+                  point: point,
+                  time: time || '',
+                },
+              ]
+            : [ // If 'from' is not an array, initialize it with the new entry
+                {
+                  village: villageLabel,
+                  point: point,
+                  time: time || '',
+                },
+              ],
         }));
       }
-
+  
       return newSelectedPoints;
     });
   }, [setData]);
+  
+  
 
   // Memoize the handleTimeChange function
-  const handleTimeChange = useCallback((villageId, point, time) => {
+  const handleTimeChange = useCallback((villageName, point, time) => {
     setSelectedPoints((prevSelectedPoints) => {
       const newSelectedPoints = { ...prevSelectedPoints };
-      const checkboxKey = `${villageId}-${point}`;
-      const timeKey = `${villageId}-${point}-time`;
-
+      const timeKey = `${villageName}-${point}-time`;
+  
       // Update the time value for the selected point
       newSelectedPoints[timeKey] = time;
-
-      // Update the `from` array in data with the new time value
+  
+      // Update the `from` array with the new time value
       setData((prevData) => ({
         ...prevData,
-        from: prevData.from.map(item =>
-          item.village === newSelectedPoints[`${villageId}-${point}-village`] && item.point === point
-            ? { ...item, time }
-            : item
-        ),
+        from: Array.isArray(prevData.from)
+          ? prevData.from.map(item =>
+              item.village === newSelectedPoints[`${villageName}-${point}-village`] && item.point === point
+                ? { ...item, time }
+                : item
+            )
+          : [], // Ensure 'from' is an array before using map
       }));
-
+  
       return newSelectedPoints;
     });
   }, [setData]);
+  
 
   return (
     <div className="overflow-x-auto" style={{ maxHeight: '600px', overflowY: 'auto' }}>
@@ -83,21 +115,21 @@ function Pickuppoint({ villages, setData }) {
         </thead>
         <tbody>
           {villages?.map((village) => (
-            <React.Fragment key={village._id}>
+            <React.Fragment key={village.village}>
               {village.point?.map((point) => {
-                const checkboxKey = `${village._id}-${point}`;
-                const timeKey = `${village._id}-${point}-time`;
-                const villageKey = `${village._id}-${point}-village`;
+                const checkboxKey = `${village.village}-${point}`;
+                const timeKey = `${village.village}-${point}-time`;
+                const villageKey = `${village.village}-${point}-village`;
                 const isChecked = selectedPoints[checkboxKey] || false;
 
                 return (
-                  <tr key={`${village._id}-${point}`}>
+                  <tr key={`${village.village}-${point}`}>
                     <td className="px-4 py-2 border border-gray-400 text-center">
                       <input
                         type="checkbox"
                         checked={isChecked}
                         onChange={() =>
-                          handleCheckboxChange(village._id, point, isChecked ? '' : '', village.village)
+                          handleCheckboxChange(village.village, point, isChecked ? '' : '', village.village)
                         }
                         className="form-checkbox"
                       />
@@ -108,7 +140,7 @@ function Pickuppoint({ villages, setData }) {
                       <input
                         type="time"
                         value={selectedPoints[timeKey] || ''}
-                        onChange={(e) => handleTimeChange(village._id, point, e.target.value)}
+                        onChange={(e) => handleTimeChange(village.village, point, e.target.value)}
                         disabled={!isChecked} // Disable time input if checkbox is not selected
                         className="w-full px-2 py-1 border border-gray-300 rounded-md"
                       />

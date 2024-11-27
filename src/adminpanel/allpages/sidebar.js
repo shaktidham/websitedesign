@@ -64,14 +64,14 @@ const Sidebar = () => {
                         </li>
                         <li>
                             <Link
-                                to="/route-add"
+                                to="/Bookinghomepage"
                                 className={`${
-                                    location.pathname === '/route-add'
+                                    location.pathname === '/Bookinghomepage'
                                         ? 'text-blue-500 font-bold'
                                         : 'text-white'
                                 } hover:text-blue-400 transition-colors duration-200`}
                             >
-                                Route Add
+                                Booking
                             </Link>
                         </li>
                         <li>
