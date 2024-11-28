@@ -3,12 +3,15 @@ import Loader from '../../../userpages/Loader/Loader';
 import Sidebar from '../sidebar';
 import { ReactComponent as Action } from "./../../../svg/action.svg"; // Assuming you have this component for the action icon
 import { ReactComponent as Uparrow } from "./../../../svg/uparrow.svg"; // Assuming you have this component for the arrow icon
+import { useLocation } from 'react-router-dom';
 
 function Bookingpage({ loading }) {
   const [selectedRow, setSelectedRow] = useState(null); // Track the selected row
   const [tooltipId, setTooltipId] = useState(null); // Track which tooltip is shown
   const tooltipRef = useRef(null); // For positioning the tooltip if needed
   const buttonRefs = useRef([]); // Store references for the buttons if necessary
+  const location = useLocation();
+  const { routeData } = location.state || {};
 
   const getLabel = (index) => {
     const alphabet = "ABCDEFGHIJKL";
@@ -51,7 +54,7 @@ function Bookingpage({ loading }) {
               >
                 Back
               </button>
-              <h2 className="text-2xl font-semibold mb-6 text-gray-800">Chital</h2>
+              <h2 className="text-2xl font-semibold mb-6 text-gray-800">{routeData?.Busname}</h2>
               <button
                 className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
               >
@@ -76,11 +79,11 @@ function Bookingpage({ loading }) {
                   {tableData.map((label, index) => (
                     <tr key={index} className="border-t hover:bg-gray-100">
                       <td className="px-6 py-4 text-xl border border-2 font-bold text-gray-700 text-center">{label}</td>
-                      <td className="px-6 py-4 text-sm border border-2 text-gray-700">DEVALIYA</td>
-                      <td className="px-6 py-4 text-sm border border-2 text-gray-700">MIKESHBHAI</td>
-                      <td className="px-6 py-4 text-sm border border-2 text-gray-700">8141814190</td>
-                      <td className="px-6 py-4 text-sm border border-2 text-gray-700">500 levana</td>
-                      <td className="px-6 py-4 text-sm border border-2 text-gray-700">PARKING</td>
+                      <td className="px-6 py-4 text-sm border border-2 text-gray-700"></td>
+                      <td className="px-6 py-4 text-sm border border-2 text-gray-700"></td>
+                      <td className="px-6 py-4 text-sm border border-2 text-gray-700"></td>
+                      <td className="px-6 py-4 text-sm border border-2 text-gray-700"></td>
+                      <td className="px-6 py-4 text-sm border border-2 text-gray-700"></td>
                       <td className="relative border border-2">
                         <button
                           className="ml-4 hover:text-blue-900"

@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../sidebar";
-
 import Loader from "../../../userpages/Loader/Loader";
-import { ReactComponent as Edit } from "./../../../svg/edit.svg";
-import { ReactComponent as Delete } from "./../../../svg/delete.svg";
 import { ReactComponent as Show } from "./../../../svg/eyes.svg";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -56,12 +53,12 @@ function Bookinghomepage() {
 
         // Function to handle edit click
         const handlePopup = (id) => {
-            navigate("/Bookingpage")
+           
       
             const item = route.find((item) => item._id === id);
 
    
-          
+            navigate("/Bookingpage", { state: { routeData: item } });
            
         };
 
@@ -77,6 +74,7 @@ function Bookinghomepage() {
         if (newPage < 1 || newPage > totalPages) return; // Prevent going out of bounds
         updateFilter({ page: newPage });
     };
+  
 
     return (
         <div>

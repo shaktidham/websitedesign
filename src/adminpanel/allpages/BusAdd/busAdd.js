@@ -20,7 +20,7 @@ function Busadd() {
         first:"",
         last:"",location:"",driver:"",cabinprice:""
     });
-    console.log(data,"ll");
+ 
     const location = useLocation();  // Access location state (itemToEdit)
     const { itemToEdit } = location.state || {}; 
 
@@ -66,10 +66,10 @@ function Busadd() {
             });
         }
     }, [itemToEdit]);
-
+console.log(data,"op");
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
-        console.log(itemToEdit,"itemToEditssssssssssss");
+     
         try {
             const url = itemToEdit
                 ? `https://shaktidham-backend.vercel.app/route/update/${itemToEdit._id}` // Use PUT for update

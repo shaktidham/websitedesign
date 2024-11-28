@@ -17,6 +17,7 @@ import Busshow from './adminpanel/allpages/BusAdd/busshow';
 import Busadd from './adminpanel/allpages/BusAdd/busAdd';
 import Bookinghomepage from './adminpanel/allpages/Booking/bookinghomepage';
 import Bookingpage from './adminpanel/allpages/Booking/Bookingpage';
+import Bookingform from './adminpanel/allpages/Booking/bookingform';
 
 
 
@@ -42,6 +43,7 @@ function App() {
           <Route path="/BusAdd" element={<Busadd />} />
           <Route path="/Bookinghomepage" element={<Bookinghomepage />} />
           <Route path="/Bookingpage" element={<Bookingpage />} />
+          <Route path="/Bookingform" element={<Bookingform />} />
     
         </Routes>
 

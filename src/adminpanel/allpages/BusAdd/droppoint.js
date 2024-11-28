@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-function Droppoint({ villages, setData, itemToEdit }) {
+function Pickuppoint({ villages, setData, itemToEdit }) {
   const [selectedPoints, setSelectedPoints] = useState({});
- 
+  console.log(selectedPoints, "selectedPoints");
 
-  // Initialize selected points and time values from itemToEdit when it changes
+  // Initialize selected points and time values to itemToEdit when it changes
   useEffect(() => {
     if (itemToEdit && itemToEdit.to) {
       const newSelectedPoints = {};
@@ -12,7 +12,7 @@ function Droppoint({ villages, setData, itemToEdit }) {
         const checkboxKey = `${village}-${point}`;
         const timeKey = `${village}-${point}-time`;
         const villageKey = `${village}-${point}-village`;
-      
+
         newSelectedPoints[checkboxKey] = true;
         newSelectedPoints[timeKey] = time || '';
         newSelectedPoints[villageKey] = village;
@@ -21,55 +21,62 @@ function Droppoint({ villages, setData, itemToEdit }) {
     }
   }, [itemToEdit]);
 
-  // Memoize the handleCheckboxChange function to avoid re-creating it on each render
+  // Memoize the handleCheckboxChange function
   const handleCheckboxChange = useCallback((villageName, point, time, villageLabel) => {
     setSelectedPoints((prevSelectedPoints) => {
       const newSelectedPoints = { ...prevSelectedPoints };
       const checkboxKey = `${villageName}-${point}`;
       const timeKey = `${villageName}-${point}-time`;
       const villageKey = `${villageName}-${point}-village`;
-  
+
+      // Check if the checkbox is checked or unchecked
       if (newSelectedPoints[checkboxKey]) {
         // If already selected, unselect and remove the entry
         delete newSelectedPoints[checkboxKey];
         delete newSelectedPoints[timeKey];
         delete newSelectedPoints[villageKey];
-  
-        // Ensure prevData.to is an array before performing filter
+
+        // Remove the corresponding point to the 'to' array
         setData((prevData) => ({
           ...prevData,
-          to: Array.isArray(prevData.to) 
-            ? prevData.to.filter(item => !(item.village === villageLabel && item.point === point))
-            : [], // If to is not an array, reset to empty array
+          to: prevData.to.map((item) =>
+            item.village === villageLabel
+              ? { ...item, point: item.point.filter((p) => p !== point) }
+              : item
+          ).filter((item) => item.point.length > 0), // Ensure empty points arrays are removed
         }));
       } else {
         // If not selected, select and store the village, point, and time
         newSelectedPoints[checkboxKey] = true;
-        newSelectedPoints[timeKey] = time || ''; // Default to empty string if no time
+        newSelectedPoints[timeKey] = time || '';
         newSelectedPoints[villageKey] = villageLabel;
-  
-        // Also update the `setData` function with the new selected data
-        setData((prevData) => ({
-          ...prevData,
-          to: Array.isArray(prevData.to)
-            ? [
-                ...prevData.to,
-                {
-                  village: villageLabel,
-                  point: point,
-                  time: time || '', // Default to empty string if no time
-                },
-              ]
-            : [
-                {
-                  village: villageLabel,
-                  point: point,
-                  time: time || '', // Default to empty string if no time
-                },
-              ], // If to is not an array, create a new array with the new entry
-        }));
+
+        // Add or update the data in 'to'
+        setData((prevData) => {
+          const updatedFrom = prevData.to.map((item) => {
+            if (item.village === villageLabel) {
+              return {
+                ...item,
+                point: [...new Set([...item.point, point])], // Add point to the list of points (ensure unique points)
+                time: time || item.time, // Update time (use existing time if no new time)
+              };
+            }
+            return item;
+          });
+
+          // If village not found, create a new entry
+          if (!updatedFrom.some((item) => item.village === villageLabel)) {
+            updatedFrom.push({
+              village: villageLabel,
+              point: [point],
+              time: time || '',
+            });
+          }
+
+          return { ...prevData, to: updatedFrom };
+        });
       }
-  
+
       return newSelectedPoints;
     });
   }, [setData]);
@@ -78,17 +85,16 @@ function Droppoint({ villages, setData, itemToEdit }) {
   const handleTimeChange = useCallback((villageName, point, time) => {
     setSelectedPoints((prevSelectedPoints) => {
       const newSelectedPoints = { ...prevSelectedPoints };
-      const checkboxKey = `${villageName}-${point}`;
       const timeKey = `${villageName}-${point}-time`;
 
       // Update the time value for the selected point
       newSelectedPoints[timeKey] = time;
 
-      // Update the `to` array in data with the new time value
+      // Update the 'to' array with the new time value
       setData((prevData) => ({
         ...prevData,
         to: prevData.to.map(item =>
-          item.village === newSelectedPoints[`${villageName}-${point}-village`] && item.point === point
+          item.village === newSelectedPoints[`${villageName}-${point}-village`] && item.point.includes(point)
             ? { ...item, time }
             : item
         ),
@@ -98,6 +104,17 @@ function Droppoint({ villages, setData, itemToEdit }) {
     });
   }, [setData]);
 
+  // Function to clean up and format points before displaying
+  const cleanPoints = (points) => {
+    // Join points into a single string, filter out any unwanted characters
+    const cleanedPoints = points
+      .map(point => point.trim()) // Remove any leading/trailing spaces
+      .filter(point => point !== '' && !/[\s\xA0]/.test(point)) // Filter out any spaces or special unwanted characters
+      .join(' '); // Join them with a single space
+
+    return cleanedPoints;
+  };
+console.log(villages,"villages");
   return (
     <div className="overflow-x-auto" style={{ maxHeight: '600px', overflowY: 'auto' }}>
       <table className="min-w-full table-auto bg-white">
@@ -110,46 +127,51 @@ function Droppoint({ villages, setData, itemToEdit }) {
           </tr>
         </thead>
         <tbody>
-          {villages?.map((village) => (
-            <React.Fragment key={village.village}>
-              {village.point?.map((point) => {
-                const checkboxKey = `${village.village}-${point}`;
-                const timeKey = `${village.village}-${point}-time`;
-                const villageKey = `${village.village}-${point}-village`;
-                const isChecked = selectedPoints[checkboxKey] || false;
+  {villages?.map((village) => (
+    <React.Fragment key={village.village}>
+      {village.point?.map((point, index) => {
+        const checkboxKey = `${village.village}-${point}`;
+        const timeKey = `${village.village}-${point}-time`;
+        const villageKey = `${village.village}-${point}-village`;
+        const isChecked = selectedPoints[checkboxKey] || false;
 
-                return (
-                  <tr key={`${village.village}-${point}`}>
-                    <td className="px-4 py-2 border border-gray-400 text-center">
-                      <input
-                        type="checkbox"
-                        checked={isChecked}
-                        onChange={() =>
-                          handleCheckboxChange(village.village, point, isChecked ? '' : '', village.village)
-                        }
-                        className="form-checkbox"
-                      />
-                    </td>
-                    <td className="px-4 py-2 border border-gray-400 text-center">{village.village}</td>
-                    <td className="px-4 py-2 border border-gray-400 text-center">{point}</td>
-                    <td className="px-4 py-2 border border-gray-400 text-center">
-                      <input
-                        type="time"
-                        value={selectedPoints[timeKey] || ''}
-                        onChange={(e) => handleTimeChange(village.village, point, e.target.value)}
-                        disabled={!isChecked} // Disable time input if checkbox is not selected
-                        className="w-full px-2 py-1 border border-gray-300 rounded-md"
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </React.Fragment>
-          ))}
-        </tbody>
+        return (
+          <tr key={`${village.village}-${point}`}>
+            <td className="px-4 py-2 border border-gray-400 text-center">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={() =>
+                  handleCheckboxChange(village.village, point, isChecked ? '' : '', village.village)
+                }
+                className="form-checkbox"
+              />
+            </td>
+            <td className="px-4 py-2 border border-gray-400 text-center">
+              { village.village} {/* Show village name only on the first point */}
+            </td>
+            <td className="px-4 py-2 border border-gray-400 text-center">
+              {point} {/* Display the individual points */}
+            </td>
+            <td className="px-4 py-2 border border-gray-400 text-center">
+              <input
+                type="time"
+                value={selectedPoints[timeKey] || ''}
+                onChange={(e) => handleTimeChange(village.village, point, e.target.value)}
+                disabled={!isChecked} // Disable time input if checkbox is not selected
+                className="w-full px-2 py-1 border border-gray-300 rounded-md"
+              />
+            </td>
+          </tr>
+        );
+      })}
+    </React.Fragment>
+  ))}
+</tbody>
+
       </table>
     </div>
   );
 }
 
-export default Droppoint;
+export default Pickuppoint;
