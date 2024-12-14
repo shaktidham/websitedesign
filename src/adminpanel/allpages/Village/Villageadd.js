@@ -46,8 +46,8 @@ function Villageadd({ popup, setPopup, itemToEdit,onSuccess }) {
 
     try {
       const url = itemToEdit
-        ? `https://shaktidham-backend.vercel.app/village/update/${itemToEdit._id}` // Edit endpoint if itemToEdit exists
-        : "https://shaktidham-backend.vercel.app/village/create"; // Create endpoint otherwise
+        ? `http://localhost:3001/village/update/${itemToEdit._id}` // Edit endpoint if itemToEdit exists
+        : "http://localhost:3001/village/create"; // Create endpoint otherwise
       const method = itemToEdit ? "PUT" : "POST"; // Use PUT if editing, POST if creating
 
       const response = await fetch(url, {

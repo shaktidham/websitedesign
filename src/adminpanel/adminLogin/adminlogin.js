@@ -33,7 +33,7 @@ const Adminlogin = () => {
     setShowerror(false); // Reset error state
 
     try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/auth/login`, {
+      const response = await fetch(`http://localhost:3001/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

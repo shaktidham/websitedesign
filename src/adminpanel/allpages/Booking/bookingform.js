@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Loader from '../../../userpages/Loader/Loader';
 import Sidebar from '../sidebar';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function Bookingform() {
-  const [loading, setLoading] = useState(true); // State to track loading state
+  const [loading, setLoading] = useState(false); // State to track loading state
   const [routeData, setRoutedata] = useState([]);
+const navigate=useNavigate()
+
   const [error, setError] = useState(null);
   const [data, setData] = useState({
     name: '',
@@ -19,34 +22,24 @@ function Bookingform() {
     price: '',
     age: '',
   });
-  console.log(data, "data");
-  const fetchroute = async () => {
+  const location = useLocation();
 
-    
-    try {
-        const response = await fetch(
-            `https://shaktidham-backend.vercel.app/route/read`
-        );
-        if (!response.ok) {
-            throw new Error("Failed to fetch route");
-        }
-        const data = await response.json();
-        // console.log(data,"aa");
-        setRoutedata(data.data); // Assuming the data comes in data.data
-      
-    } catch (error) {
-        setError(error.message);
-    } finally {
-        setLoading(false);
+
+  useEffect(() => {
+    // Set seatNumber from location.state if available
+    if (location.state && location.state.label) {
+      setData(prevData => ({
+        ...prevData,
+        seatNumber: location.state.label,
+        date:location.state.date,
+      }));
+      setRoutedata(location.state.personalroutedata)
     }
-};
-
-useEffect(() => {
-  fetchroute();
-}, []);
+  }, [location.state]);
+ 
 
 
-  // Function to handle input changes
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setData((prevData) => ({
@@ -55,16 +48,37 @@ useEffect(() => {
     }));
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data); // Logs the form data on submit
-    // Add your form submission logic here (API calls, etc.)
+    console.log(routeData);
+    const id= routeData._id
+    console.log(id);
+    const formattedData = {
+      ...data,
+      date: data.date, // Directly use the date from the state (no format change needed)
+    };
+
+    try {
+      const response = await fetch(`http://localhost:3001/seats/create/675d49c947f6f46b890405ea`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formattedData),
+      });
+
+      if (response.ok) {
+       navigate("/Bookingpage", { state: { routeData } })
+      } else {
+        console.error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Fetch operation error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
-  const formattedDate = (date) => {
-    return new Date(date).toLocaleDateString('en-CA'); // Formats the date in the "YYYY-MM-DD" format
-  };
-  
+console.log(routeData,"routeData");
   return (
     <div>
       {loading ? (
@@ -106,6 +120,7 @@ useEffect(() => {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.mobile}
                       onChange={handleInputChange}
+                      required
                     />
                   </div>
 
@@ -119,6 +134,7 @@ useEffect(() => {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.seatNumber}
                       onChange={handleInputChange}
+                      readOnly
                     />
                   </div>
 
@@ -130,7 +146,8 @@ useEffect(() => {
                       id="date"
                       type="date"
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={formattedDate(routeData.date)}
+                      value={data.date}
+                      onChange={handleInputChange}
                       readOnly
                     />
                   </div>
@@ -146,15 +163,16 @@ useEffect(() => {
                       onChange={handleInputChange}
                     >
                       <option value="">Select Village</option>
-                      {routeData?.from?.map((village) => (
-                        <option key={village.village} value={village.village}>
-                          {village.village}
-                        </option>
-                      ))}
+                     
+                       { routeData.from?.map((fromVillage) => (
+                          <option key={fromVillage.village} value={fromVillage.village}>
+                            {fromVillage.village}
+                          </option>
+                        ))}
+                   
                     </select>
                   </div>
 
-                  {/* To Field */}
                   <div>
                     <label htmlFor="to" className="block text-gray-700 font-medium">
                       To
@@ -166,36 +184,38 @@ useEffect(() => {
                       onChange={handleInputChange}
                     >
                       <option value="">Select Village</option>
-                      {routeData?.to?.map((village) => (
-                        <option key={village.village} value={village.village}>
-                          {village.village}
-                        </option>
-                      ))}
+                      {
+                        routeData.to?.map((toVillage) => (
+                          <option key={toVillage.village} value={toVillage.village}>
+                            {toVillage.village}
+                          </option>
+                        ))
+                     }
                     </select>
                   </div>
 
-                  {/* Pickup Location */}
                   <div>
                     <label htmlFor="pickup" className="block text-gray-700 font-medium">
                       Pickup Location
                     </label>
                     <select
-    id="pickup"
-    className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={data.pickup}
-    onChange={handleInputChange}
-  >
-    <option value="">Select Pickup Location</option>
-    {/* Ensure you're filtering villages based on the 'from' value */}
-    {routeData?.from?.map((village) => (
-      village.village === data.from && // Check if the village matches the 'from' value
-      village.point.map((point) => ( // Map through the points for that village
-        <option key={point} value={point}>
-          {point}
-        </option>
-      ))
-    ))}
-  </select>
+                      id="pickup"
+                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={data.pickup}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Select Pickup Location</option>
+                      {routeData?.map((village) =>
+                        routeData```.from?.map((fromVillage) =>
+                          fromVillage.village === data.from &&
+                          fromVillage.point?.map((point) => (
+                            <option key={point} value={point}>
+                              {point}
+                            </option>
+                          ))
+                        )
+                      )}
+                    </select>
                   </div>
 
                   <div>
@@ -203,22 +223,23 @@ useEffect(() => {
                       Drop Location
                     </label>
                     <select
-    id="pickup"
-    className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    value={data.drop}
-    onChange={handleInputChange}
-  >
-    <option value="">Select Pickup Location</option>
-    {/* Ensure you're filtering villages based on the 'from' value */}
-    {routeData?.to?.map((village) => (
-      village.village === data.to && // Check if the village matches the 'from' value
-      village.point.map((point) => ( // Map through the points for that village
-        <option key={point} value={point}>
-          {point}
-        </option>
-      ))
-    ))}
-  </select>
+                      id="drop"
+                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={data.drop}
+                      onChange={handleInputChange}
+                    >
+                      <option value="">Select Drop Location</option>
+                      {routeData?.map((village) =>
+                        village.to?.map((toVillage) =>
+                          toVillage.village === data.to &&
+                          toVillage.point?.map((point) => (
+                            <option key={point} value={point}>
+                              {point}
+                            </option>
+                          ))
+                        )
+                      )}
+                    </select>
                   </div>
 
                   <div>
@@ -242,8 +263,9 @@ useEffect(() => {
                       id="price"
                       type="number"
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={routeData.price}
-                    readOnly
+                      value={data.price}
+                      onChange={handleInputChange}
+                      // readOnly
                     />
                   </div>
 
@@ -264,6 +286,7 @@ useEffect(() => {
                 <div className="flex justify-end mt-6">
                   <button
                     type="submit"
+                    onClick={handleSubmit}
                     className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     Save Booking

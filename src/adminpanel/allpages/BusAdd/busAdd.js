@@ -28,7 +28,7 @@ function Busadd() {
     // Fetch villages data
     const fetchVillages = async () => {
         try {
-            const response = await fetch(`https://shaktidham-backend.vercel.app/village/read`);
+            const response = await fetch(`http://localhost:3001/village/read`);
             if (!response.ok) {
                 throw new Error("Failed to fetch villages");
             }
@@ -72,8 +72,8 @@ console.log(data,"op");
      
         try {
             const url = itemToEdit
-                ? `https://shaktidham-backend.vercel.app/route/update/${itemToEdit._id}` // Use PUT for update
-                : "https://shaktidham-backend.vercel.app/route/create";  // Use POST for create
+                ? `http://localhost:3001/route/update/${itemToEdit._id}` // Use PUT for update
+                : "http://localhost:3001/route/create";  // Use POST for create
             const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT for update
 
             const response = await fetch(url, {

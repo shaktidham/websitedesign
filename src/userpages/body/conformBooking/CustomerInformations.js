@@ -44,7 +44,7 @@ function CustomerInformation({
     e.preventDefault();
 
     try {
-      const endpoint = `https://shaktidham-backend.vercel.app/seats/create/${route}`;
+      const endpoint = `http://localhost:3001/seats/create/${route}`;
       const method = "POST";
       const response = await fetch(endpoint, {
         method,
