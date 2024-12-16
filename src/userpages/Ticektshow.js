@@ -17,7 +17,7 @@ const Ticektshow = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/seats/searchTicket",
+        "https://shaktidham-backend.vercel.app/seats/searchTicket",
         {
           method: "POST",
           headers: {

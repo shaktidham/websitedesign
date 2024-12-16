@@ -39,7 +39,7 @@ function Busshow() {
     
         try {
             const response = await fetch(
-                `http://localhost:3001/route/read?date=${filter.search }`
+                `https://shaktidham-backend.vercel.app/route/read?date=${filter.search }`
             );
             if (!response.ok) {
                 throw new Error("Failed to fetch route");
@@ -63,7 +63,7 @@ function Busshow() {
 
         try {
             // Make the delete API call
-            const response = await fetch(`http://localhost:3001/route/delete/${id}`, {
+            const response = await fetch(`https://shaktidham-backend.vercel.app/route/delete/${id}`, {
                 method: "DELETE",
             });
 

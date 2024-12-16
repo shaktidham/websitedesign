@@ -20,7 +20,7 @@ function Form() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const api = "http://localhost:3001/route/searchbyvillage";
+  const api = "https://shaktidham-backend.vercel.app/route/searchbyvillage";
   const Village = ["Surat", "Jasdan", "Devaliya", "Dadva", "Chital"];
 
   const handleChange = (e) => {

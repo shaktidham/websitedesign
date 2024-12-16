@@ -16,6 +16,7 @@ function Bookingpage({ loading }) {
   const buttonRefs = useRef([]);
   const tooltipRef = useRef(null);
   const navigate = useNavigate();
+  const [selectedBusId, setSelectedBusId] = useState(null);
 
   const getLabel = useCallback((index) => {
     const alphabet = "ABCDEFGHIJKL";
@@ -31,7 +32,7 @@ function Bookingpage({ loading }) {
   const tableData = Array.from({ length: 30 }, (_, index) => getLabel(index));
 
   const fetchSeatsData = useCallback(async (id) => {
-    console.log("Fetching seats for route ID:", id);
+    setSelectedBusId(id);
     // Check if route exists
     if (!route || !Array.isArray(route) || route.length === 0) {
       console.error("No route data available.");
@@ -46,7 +47,7 @@ function Bookingpage({ loading }) {
 
     setPersonalrouteData(routeData);
     try {
-      const response = await fetch(`http://localhost:3001/seats/search?_id=${id}`);
+      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/search?_id=${id}`);
       if (!response.ok) throw new Error('Failed to fetch seats data');
       const result = await response.json();
       setSeatsData(result.data || []);
@@ -59,7 +60,7 @@ function Bookingpage({ loading }) {
 
   const fetchRouteData = useCallback(async (selectedDate) => {
     try {
-      const response = await fetch(`http://localhost:3001/route/read?date=${selectedDate}`);
+      const response = await fetch(`https://shaktidham-backend.vercel.app/route/read?date=${selectedDate}`);
       if (!response.ok) throw new Error('Failed to fetch route data');
       const result = await response.json();
       setRoute(result.data || []);
@@ -126,14 +127,21 @@ function Bookingpage({ loading }) {
                 Back
               </button>
               {route?.map((item) => (
-                <button
-                  key={item._id}
-                  onClick={() => fetchSeatsData(item._id)}
-                  className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
-                >
-                  {item.Busname}
-                </button>
-              ))}
+        <button
+          key={item._id}
+          onClick={() => {
+            fetchSeatsData(item._id);
+            setSelectedBusId(item._id); // Update the selected bus id
+          }}
+          className={`${
+            selectedBusId === item._id
+              ? 'bg-green-800' // Change to a different background color when selected
+              : 'bg-red-600'
+          } hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300`}
+        >
+          {item.Busname}
+        </button>
+      ))}
               <button className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300">
                 Download
               </button>

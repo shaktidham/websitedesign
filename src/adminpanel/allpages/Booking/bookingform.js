@@ -4,11 +4,9 @@ import Sidebar from '../sidebar';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function Bookingform() {
-  const [loading, setLoading] = useState(false); // State to track loading state
+  const [loading, setLoading] = useState(false);
   const [routeData, setRoutedata] = useState([]);
-const navigate=useNavigate()
-
-  const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: '',
     mobile: '',
@@ -24,21 +22,16 @@ const navigate=useNavigate()
   });
   const location = useLocation();
 
-
   useEffect(() => {
-    // Set seatNumber from location.state if available
     if (location.state && location.state.label) {
       setData(prevData => ({
         ...prevData,
         seatNumber: location.state.label,
-        date:location.state.date,
+        date: location.state.date,
       }));
-      setRoutedata(location.state.personalroutedata)
+      setRoutedata(location.state.personalroutedata);
     }
   }, [location.state]);
- 
-
-
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -50,16 +43,11 @@ const navigate=useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(routeData);
-    const id= routeData._id
-    console.log(id);
-    const formattedData = {
-      ...data,
-      date: data.date, // Directly use the date from the state (no format change needed)
-    };
+    const id = routeData._id;
+    const formattedData = { ...data, date: data.date };
 
     try {
-      const response = await fetch(`http://localhost:3001/seats/create/675d49c947f6f46b890405ea`, {
+      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/create/675d49c947f6f46b890405ea`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -68,7 +56,7 @@ const navigate=useNavigate()
       });
 
       if (response.ok) {
-       navigate("/Bookingpage", { state: { routeData } })
+        navigate("/Bookingpage", { state: { routeData } });
       } else {
         console.error('Submission failed');
       }
@@ -78,7 +66,7 @@ const navigate=useNavigate()
       setLoading(false);
     }
   };
-console.log(routeData,"routeData");
+
   return (
     <div>
       {loading ? (
@@ -163,13 +151,11 @@ console.log(routeData,"routeData");
                       onChange={handleInputChange}
                     >
                       <option value="">Select Village</option>
-                     
-                       { routeData.from?.map((fromVillage) => (
-                          <option key={fromVillage.village} value={fromVillage.village}>
-                            {fromVillage.village}
-                          </option>
-                        ))}
-                   
+                      {routeData.from?.map((fromVillage) => (
+                        <option key={fromVillage.village} value={fromVillage.village}>
+                          {fromVillage.village}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -184,13 +170,11 @@ console.log(routeData,"routeData");
                       onChange={handleInputChange}
                     >
                       <option value="">Select Village</option>
-                      {
-                        routeData.to?.map((toVillage) => (
-                          <option key={toVillage.village} value={toVillage.village}>
-                            {toVillage.village}
-                          </option>
-                        ))
-                     }
+                      {routeData.to?.map((toVillage) => (
+                        <option key={toVillage.village} value={toVillage.village}>
+                          {toVillage.village}
+                        </option>
+                      ))}
                     </select>
                   </div>
 
@@ -206,7 +190,7 @@ console.log(routeData,"routeData");
                     >
                       <option value="">Select Pickup Location</option>
                       {routeData?.map((village) =>
-                        routeData```.from?.map((fromVillage) =>
+                        village.from?.map((fromVillage) =>
                           fromVillage.village === data.from &&
                           fromVillage.point?.map((point) => (
                             <option key={point} value={point}>
@@ -265,7 +249,6 @@ console.log(routeData,"routeData");
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.price}
                       onChange={handleInputChange}
-                      // readOnly
                     />
                   </div>
 
