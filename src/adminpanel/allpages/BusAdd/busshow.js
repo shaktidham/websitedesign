@@ -45,7 +45,7 @@ function Busshow() {
                 throw new Error("Failed to fetch route");
             }
             const data = await response.json();
-            // console.log(data,"aa");
+          
             setRoute(data.data); // Assuming the data comes in data.data
             setTotalEntries(data.totalEntries); // Set the total number of entries for pagination
         } catch (error) {
@@ -83,7 +83,7 @@ function Busshow() {
     const handleEditClick = (id) => {
      
         const item = route.find((item) => item._id === id);
-        console.log(item);
+       
         Navigate('/BusAdd', { state: { itemToEdit: item } });
        
     };

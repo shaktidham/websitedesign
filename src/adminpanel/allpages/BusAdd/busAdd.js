@@ -33,7 +33,7 @@ function Busadd() {
                 throw new Error("Failed to fetch villages");
             }
             const data = await response.json();
-           
+       
             setVillages(data.data); // Assuming the data comes in data.data
         } catch (error) {
             // Handle error
@@ -66,7 +66,7 @@ function Busadd() {
             });
         }
     }, [itemToEdit]);
-console.log(data,"op");
+
     const handleSubmit = useCallback(async (e) => {
         e.preventDefault();
      

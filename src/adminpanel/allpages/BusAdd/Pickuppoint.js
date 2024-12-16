@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 function Pickuppoint({ villages, setData, itemToEdit }) {
   const [selectedPoints, setSelectedPoints] = useState({});
-  console.log(selectedPoints, "selectedPoints");
+ 
 
   // Initialize selected points and time values from itemToEdit when it changes
   useEffect(() => {
@@ -114,7 +114,7 @@ function Pickuppoint({ villages, setData, itemToEdit }) {
 
     return cleanedPoints;
   };
-console.log(villages,"villages");
+
   return (
     <div className="overflow-x-auto" style={{ maxHeight: '600px', overflowY: 'auto' }}>
       <table className="min-w-full table-auto bg-white">

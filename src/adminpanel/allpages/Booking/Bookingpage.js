@@ -75,6 +75,24 @@ function Bookingpage({ loading }) {
     setSeatsData([]); // Clear seats data when date changes
     fetchRouteData(selectedDate);
   };
+  const handleDelete = async (id) => {
+    try {
+      // Send DELETE request to the API
+      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/delete/${id}`, {
+        method: 'DELETE',  // HTTP method for deletion
+      });
+  
+      if (response.ok) {
+       
+        fetchSeatsData(selectedBusId)
+      } else {
+        console.error('Failed to delete item');
+      }
+    } catch (error) {
+      console.error('Error deleting item:', error);
+    }
+  };
+  
 
   const handleSelectSeat = (label) => {
     navigate("/Bookingform", { state: { label, personalroutedata, date } });
@@ -89,6 +107,7 @@ function Bookingpage({ loading }) {
     if (location.state) {
       setDate(location.state.date);
       setRoute(location.state.route);
+     
     }
   }, [location.state]);
 
@@ -209,9 +228,9 @@ function Bookingpage({ loading }) {
                                       className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
                                       onClick={() => handleSelectSeat(label)}
                                     >
-                                      {label ? "Edit" : "Add"}
+                                      {item?.to ? "Edit" : "Add"}
                                     </li>
-                                    <li className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white">
+                                    <li className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white" onClick={() => handleDelete(item._id)}>
                                       Delete
                                     </li>
                                     <li className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white">

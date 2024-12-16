@@ -2,7 +2,7 @@ import React from 'react';
 import { ReactComponent as CloseButton } from "./../../../svg/close.svg";
 
 function Pointshow({ popup, setPopup, itemToEdit }) {
-    console.log(itemToEdit, "itemTossssEdit");
+  
     return (
         <div>
             {popup && (

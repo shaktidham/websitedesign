@@ -20,6 +20,10 @@ function Bookingform() {
     price: '',
     age: '',
   });
+  const [fromSearch, setFromSearch] = useState('');
+  const [toSearch, setToSearch] = useState('');
+  const [filteredFromOptions, setFilteredFromOptions] = useState([]);
+  const [filteredToOptions, setFilteredToOptions] = useState([]);
   const location = useLocation();
 
   useEffect(() => {
@@ -33,6 +37,26 @@ function Bookingform() {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    if (routeData?.from) {
+      setFilteredFromOptions(
+        routeData.from.filter((fromVillage) =>
+          fromVillage.village.toLowerCase().includes(fromSearch.toLowerCase())
+        )
+      );
+    }
+  }, [fromSearch, routeData]);
+
+  useEffect(() => {
+    if (routeData?.to) {
+      setFilteredToOptions(
+        routeData.to.filter((toVillage) =>
+          toVillage.village.toLowerCase().includes(toSearch.toLowerCase())
+        )
+      );
+    }
+  }, [toSearch, routeData]);
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setData((prevData) => ({
@@ -44,10 +68,11 @@ function Bookingform() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const id = routeData._id;
-    const formattedData = { ...data, date: data.date };
 
+    const formattedData = { ...data, date: data.date };
+const date=data.date
     try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/create/675d49c947f6f46b890405ea`, {
+      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/create/${id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +81,7 @@ function Bookingform() {
       });
 
       if (response.ok) {
-        navigate("/Bookingpage", { state: { routeData } });
+        navigate("/Bookingpage", { state: { routeData,date } });
       } else {
         console.error('Submission failed');
       }
@@ -140,44 +165,75 @@ function Bookingform() {
                     />
                   </div>
 
+                  {/* From Village Search (Auto-suggest) */}
                   <div>
                     <label htmlFor="from" className="block text-gray-700 font-medium">
                       From
                     </label>
-                    <select
+                    <input
+                      type="text"
                       id="from"
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={data.from}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Village</option>
-                      {routeData.from?.map((fromVillage) => (
-                        <option key={fromVillage.village} value={fromVillage.village}>
-                          {fromVillage.village}
-                        </option>
-                      ))}
-                    </select>
+                      value={fromSearch}
+                      onChange={(e) => setFromSearch(e.target.value)}
+                      placeholder="Search for Village"
+                    />
+                    {fromSearch && filteredFromOptions.length > 0 && (
+                      <ul className="absolute w-1/6  bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto z-10">
+                        {filteredFromOptions.map((fromVillage) => (
+                          <li
+                            key={fromVillage.village}
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-100 border-b border-gray-800"
+                            onClick={() => {
+                              setData((prevData) => ({
+                                ...prevData,
+                                from: fromVillage.village,
+                              }));
+                              setFromSearch(fromVillage.village);
+                            }}
+                          >
+                            {fromVillage.village}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
 
+                  {/* To Village Search (Auto-suggest) */}
                   <div>
                     <label htmlFor="to" className="block text-gray-700 font-medium">
                       To
                     </label>
-                    <select
+                    <input
+                      type="text"
                       id="to"
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={data.to}
-                      onChange={handleInputChange}
-                    >
-                      <option value="">Select Village</option>
-                      {routeData.to?.map((toVillage) => (
-                        <option key={toVillage.village} value={toVillage.village}>
-                          {toVillage.village}
-                        </option>
-                      ))}
-                    </select>
+                      value={toSearch}
+                      onChange={(e) => setToSearch(e.target.value)}
+                      placeholder="Search for Village"
+                    />
+                    {toSearch && filteredToOptions.length > 0 && (
+                      <ul className="absolute w-full bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto z-10">
+                        {filteredToOptions.map((toVillage) => (
+                          <li
+                            key={toVillage.village}
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-100"
+                            onClick={() => {
+                              setData((prevData) => ({
+                                ...prevData,
+                                to: toVillage.village,
+                              }));
+                              setToSearch(toVillage.village);
+                            }}
+                          >
+                            {toVillage.village}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
 
+                  {/* Pickup and Drop Locations */}
                   <div>
                     <label htmlFor="pickup" className="block text-gray-700 font-medium">
                       Pickup Location
@@ -189,15 +245,13 @@ function Bookingform() {
                       onChange={handleInputChange}
                     >
                       <option value="">Select Pickup Location</option>
-                      {routeData?.map((village) =>
-                        village.from?.map((fromVillage) =>
-                          fromVillage.village === data.from &&
-                          fromVillage.point?.map((point) => (
-                            <option key={point} value={point}>
-                              {point}
-                            </option>
-                          ))
-                        )
+                      {routeData.from?.map((fromVillage) =>
+                        fromVillage.village === data.from &&
+                        fromVillage.point?.map((point) => (
+                          <option key={point} value={point}>
+                            {point}
+                          </option>
+                        ))
                       )}
                     </select>
                   </div>
@@ -213,19 +267,18 @@ function Bookingform() {
                       onChange={handleInputChange}
                     >
                       <option value="">Select Drop Location</option>
-                      {routeData?.map((village) =>
-                        village.to?.map((toVillage) =>
-                          toVillage.village === data.to &&
-                          toVillage.point?.map((point) => (
-                            <option key={point} value={point}>
-                              {point}
-                            </option>
-                          ))
-                        )
+                      {routeData.to?.map((toVillage) =>
+                        toVillage.village === data.to &&
+                        toVillage.point?.map((point) => (
+                          <option key={point} value={point}>
+                            {point}
+                          </option>
+                        ))
                       )}
                     </select>
                   </div>
 
+                  {/* Additional Fields */}
                   <div>
                     <label htmlFor="gender" className="block text-gray-700 font-medium">
                       Gender
