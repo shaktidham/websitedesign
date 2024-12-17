@@ -8,6 +8,7 @@ import Loader from "./../../../userpages/Loader/Loader"; // Assuming Loader is a
 function Villageadd({ popup, setPopup, itemToEdit,onSuccess }) {
   const dispatch = useDispatch();
   const [village, setVillage] = useState(""); // State for the village name
+  const [evillage, setEvillage] = useState(""); // State for the village name
   const [points, setPoints] = useState([""]); // Array to store point values
   const [loading, setLoadingState] = useState(false); // Local loading state
 
@@ -33,6 +34,7 @@ function Villageadd({ popup, setPopup, itemToEdit,onSuccess }) {
   useEffect(() => {
     if (itemToEdit) {
       setVillage(itemToEdit.village);
+      setEvillage(itemToEdit.evillage)
       setPoints(itemToEdit.point || []); // Set points if available
     }
   }, [itemToEdit]);
@@ -55,7 +57,7 @@ function Villageadd({ popup, setPopup, itemToEdit,onSuccess }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ village, point: points }),
+        body: JSON.stringify({ village, point: points,evillage }),
       });
 
       const data = await response.json();
@@ -64,6 +66,7 @@ function Villageadd({ popup, setPopup, itemToEdit,onSuccess }) {
         setPopup(false); // Close the popup on success
         setVillage(""); // Clear the village input field
         setPoints([""]); // Clear the points array
+        setEvillage("")
       } else {
         alert("Error adding village: " + data.message);
       }
@@ -109,6 +112,21 @@ function Villageadd({ popup, setPopup, itemToEdit,onSuccess }) {
                 name="village"
                 value={village}
                 onChange={(e) => setVillage(e.target.value)}
+                placeholder="Enter village name"
+                className="block w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
+              />
+                <label
+                htmlFor="evillage"
+                className="text-left text-gray-700 font-bold block mb-2"
+              >
+                Eng. Village:
+              </label>
+              <input
+                type="text"
+                id="evillage"
+                name="evillage"
+                value={evillage}
+                onChange={(e) => setEvillage(e.target.value)}
                 placeholder="Enter village name"
                 className="block w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500"
               />

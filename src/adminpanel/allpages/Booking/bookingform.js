@@ -24,6 +24,8 @@ function Bookingform() {
   const [toSearch, setToSearch] = useState('');
   const [filteredFromOptions, setFilteredFromOptions] = useState([]);
   const [filteredToOptions, setFilteredToOptions] = useState([]);
+  const [isFromDropdownOpen, setIsFromDropdownOpen] = useState(false);
+  const [isToDropdownOpen, setIsToDropdownOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -68,9 +70,8 @@ function Bookingform() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const id = routeData._id;
-
     const formattedData = { ...data, date: data.date };
-const date=data.date
+    const date = data.date;
     try {
       const response = await fetch(`https://shaktidham-backend.vercel.app/seats/create/${id}`, {
         method: 'POST',
@@ -81,7 +82,7 @@ const date=data.date
       });
 
       if (response.ok) {
-        navigate("/Bookingpage", { state: { routeData,date } });
+        navigate("/Bookingpage", { state: { routeData, date } });
       } else {
         console.error('Submission failed');
       }
@@ -90,6 +91,28 @@ const date=data.date
     } finally {
       setLoading(false);
     }
+  };
+
+  const toggleFromDropdown = () => {
+    setIsFromDropdownOpen(!isFromDropdownOpen);
+  };
+
+  const toggleToDropdown = () => {
+    setIsToDropdownOpen(!isToDropdownOpen);
+  };
+
+  // Handle selection for "From" dropdown
+  const handleFromSelection = (village) => {
+    setFromSearch(village);  // Update search box with selected village
+    setData({ ...data, from: village });  // Update "from" field
+    setIsFromDropdownOpen(false);  // Close dropdown
+  };
+
+  // Handle selection for "To" dropdown
+  const handleToSelection = (village) => {
+    setToSearch(village);  // Update search box with selected village
+    setData({ ...data, to: village });  // Update "to" field
+    setIsToDropdownOpen(false);  // Close dropdown
   };
 
   return (
@@ -165,72 +188,64 @@ const date=data.date
                     />
                   </div>
 
-                  {/* From Village Search (Auto-suggest) */}
+                  {/* From Village Search */}
                   <div>
                     <label htmlFor="from" className="block text-gray-700 font-medium">
                       From
                     </label>
-                    <input
-                      type="text"
-                      id="from"
-                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={fromSearch}
-                      onChange={(e) => setFromSearch(e.target.value)}
-                      placeholder="Search for Village"
-                    />
-                    {fromSearch && filteredFromOptions.length > 0 && (
-                      <ul className="absolute w-1/6  bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto z-10">
-                        {filteredFromOptions.map((fromVillage) => (
-                          <li
-                            key={fromVillage.village}
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-100 border-b border-gray-800"
-                            onClick={() => {
-                              setData((prevData) => ({
-                                ...prevData,
-                                from: fromVillage.village,
-                              }));
-                              setFromSearch(fromVillage.village);
-                            }}
-                          >
-                            {fromVillage.village}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Search for Village"
+                        value={fromSearch}
+                        onChange={(e) => setFromSearch(e.target.value)}
+                        onClick={toggleFromDropdown}
+                        className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      {isFromDropdownOpen && (
+                        <ul className="absolute left-0 right-0 bg-white border border-gray-300 mt-1 max-h-60 overflow-y-auto z-10">
+                          {filteredFromOptions.map((fromVillage) => (
+                            <li
+                              key={fromVillage.village}
+                              onClick={() => handleFromSelection(fromVillage.village)}
+                              className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                            >
+                              {fromVillage.village}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
 
-                  {/* To Village Search (Auto-suggest) */}
+                  {/* To Village Search */}
                   <div>
                     <label htmlFor="to" className="block text-gray-700 font-medium">
                       To
                     </label>
-                    <input
-                      type="text"
-                      id="to"
-                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={toSearch}
-                      onChange={(e) => setToSearch(e.target.value)}
-                      placeholder="Search for Village"
-                    />
-                    {toSearch && filteredToOptions.length > 0 && (
-                      <ul className="absolute w-full bg-white border border-gray-300 rounded-md mt-1 max-h-48 overflow-auto z-10">
-                        {filteredToOptions.map((toVillage) => (
-                          <li
-                            key={toVillage.village}
-                            className="px-4 py-2 cursor-pointer hover:bg-gray-100"
-                            onClick={() => {
-                              setData((prevData) => ({
-                                ...prevData,
-                                to: toVillage.village,
-                              }));
-                              setToSearch(toVillage.village);
-                            }}
-                          >
-                            {toVillage.village}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
+                    <div className="relative">
+                      <input
+                        type="text"
+                        placeholder="Search for Village"
+                        value={toSearch}
+                        onChange={(e) => setToSearch(e.target.value)}
+                        onClick={toggleToDropdown}
+                        className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                      {isToDropdownOpen && (
+                        <ul className="absolute left-0 right-0 bg-white border border-gray-300 mt-1 max-h-60 overflow-y-auto z-10">
+                          {filteredToOptions.map((toVillage) => (
+                            <li
+                              key={toVillage.village}
+                              onClick={() => handleToSelection(toVillage.village)}
+                              className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                            >
+                              {toVillage.village}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
                   </div>
 
                   {/* Pickup and Drop Locations */}
@@ -319,13 +334,12 @@ const date=data.date
                   </div>
                 </div>
 
-                <div className="flex justify-end mt-6">
+                <div className="mt-6 flex justify-end">
                   <button
                     type="submit"
-                    onClick={handleSubmit}
-                    className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="px-6 py-2 bg-blue-500 text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
-                    Save Booking
+                    Submit
                   </button>
                 </div>
               </form>

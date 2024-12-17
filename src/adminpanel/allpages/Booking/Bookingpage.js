@@ -201,11 +201,11 @@ function Bookingpage({ loading }) {
                               {renderCell('')}
                             </>
                           )}
-                          <td className="relative border border-2">
+                          <td className="relative border border-2 cursor-pointer" onClick={() => handleTooltipToggle(rowIndex)}
+                              ref={(el) => (buttonRefs.current[rowIndex] = el)}>
                             <button
                               className="ml-4 hover:text-blue-900"
-                              onClick={() => handleTooltipToggle(rowIndex)}
-                              ref={(el) => (buttonRefs.current[rowIndex] = el)}
+                              
                             >
                               <div className="flex justify-center">
                                 <Action className="w-6 h-6 text-blue-500" />
