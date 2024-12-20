@@ -16,11 +16,12 @@ function Busadd() {
         fromtime: "",
         totime: "",
         date: "",
+        enddate:"",
         price: "",
         first:"",
         last:"",location:"",driver:"",cabinprice:""
     });
- 
+
     const location = useLocation();  // Access location state (itemToEdit)
     const { itemToEdit } = location.state || {}; 
 
@@ -50,7 +51,9 @@ function Busadd() {
         fetchVillages();
         // If we are editing an existing bus, set the form state with itemToEdit
         if (itemToEdit) {
-            const formattedDate = new Date(itemToEdit.date).toLocaleDateString('en-CA'); // 'en-CA' returns yyyy-mm-dd format, which we can modify further if needed
+            const formattedDate = new Date(itemToEdit.date).toLocaleDateString('en-CA'); 
+            const formattedendDate = new Date(itemToEdit.enddate).toLocaleDateString('en-CA'); 
+
 
             setData({
                 Busname: itemToEdit.Busname,
@@ -59,6 +62,7 @@ function Busadd() {
                 fromtime: itemToEdit.fromtime,
                 totime: itemToEdit.totime,
                 date: formattedDate,
+                enddate:formattedendDate,
                 price: itemToEdit.price,
                 from: itemToEdit.from,  // Added from
                 to: itemToEdit.to ,
@@ -336,8 +340,26 @@ function Busadd() {
                         }
                       />
                     </div>
+                    <div>
+                      <label
+                        htmlFor="date"
+                        className="block text-gray-700 font-medium"
+                      >
+                        End  Date
+                      </label>
+                      <input
+                        id="enddate"
+                        type="date"
+                        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter Enddate"
+                        value={data.enddate}
+                        onChange={(e) =>
+                          setData((prev) => ({ ...prev, enddate: e.target.value }))
+                        }
+                      />
+                    </div>
                   </div>
-
+             
                   <div className="flex justify-between">
                     <div>
                       <h1 className="text-center text-red-800 font-bold mb-5">

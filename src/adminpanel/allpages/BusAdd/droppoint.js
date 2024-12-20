@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 function Pickuppoint({ villages, setData, itemToEdit }) {
   const [selectedPoints, setSelectedPoints] = useState({});
-  
+
 
   // Initialize selected points and time values to itemToEdit when it changes
   useEffect(() => {
