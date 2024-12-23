@@ -87,7 +87,7 @@ function Busadd() {
       try {
         const url = itemToEdit
           ? `https://shaktidham-backend.vercel.app/route/update/${itemToEdit._id}` // Use PUT for update
-          : "http://localhost:3002/route/create"; // Use POST for create
+          : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
         const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT for update
 
         const response = await fetch(url, {
