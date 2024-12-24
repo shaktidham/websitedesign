@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 function SuccessMsg() {
   const location = useLocation();
   const { bookeddata } = location.state || {};
-  console.log(bookeddata, "bookeddata");
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />

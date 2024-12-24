@@ -1,6 +1,6 @@
 export const handleSendWhatsApp = (item) => {
     // e.preventDefault();
-  console.log(item,"ol");
+;
     // Format the message content
     // const message = `
     // 🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌

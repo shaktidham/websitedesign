@@ -14,7 +14,7 @@ function CustomerInformation({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(date, "as");
+
   const initialData = {
     name: "",
     from: from,

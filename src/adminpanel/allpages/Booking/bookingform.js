@@ -12,7 +12,7 @@ function Bookingform() {
 
   // Check if item is being edited (when data is passed via location.state.item)
   const itemToEdit = location.state?.item || null;
-  const seatsData=location.state?.seatsData
+  const seatsData = location.state?.seatsData;
 
 
   const [data, setData] = useState({
@@ -29,7 +29,7 @@ function Bookingform() {
     age: itemToEdit ? itemToEdit?.age : "",
     extradetails: itemToEdit ? itemToEdit?.extradetails : "",
   });
- 
+
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [filteredFromOptions, setFilteredFromOptions] = useState([]);
@@ -44,16 +44,14 @@ function Bookingform() {
         seatNumber: String(location.state.label),
         date: location.state.date,
       }));
-      setFromSearch(itemToEdit?.from || "")
-      setToSearch(itemToEdit?.to || "")
+      setFromSearch(itemToEdit?.from || "");
+      setToSearch(itemToEdit?.to || "");
       setRoutedata(location.state.personalroutedata);
     }
   }, [location.state]);
 
   useEffect(() => {
- 
     if (routeData?.from) {
-   
       setFilteredFromOptions(
         routeData.from.filter((fromVillage) =>
           fromVillage.village?.toLowerCase().includes(fromSearch?.toLowerCase())
@@ -61,7 +59,7 @@ function Bookingform() {
       );
     }
   }, [fromSearch, routeData]);
-console.log(routeData,"routeData");
+
   useEffect(() => {
     if (routeData?.to) {
       setFilteredToOptions(
@@ -133,32 +131,33 @@ console.log(routeData,"routeData");
     setData({ ...data, to: village }); // Update "to" field
     setIsToDropdownOpen(false); // Close dropdown
   };
-const handleSeatNumberChange = (e) => {
-  const seat = e.target.value;
+  const handleSeatNumberChange = (e) => {
+    const seat = e.target.value;
 
-  setData((prevData) => {
-    // Ensure seatNumber is always an array
-    let updatedSeats = Array.isArray(prevData.seatNumber) ? [...prevData.seatNumber] : [prevData.seatNumber];
+    setData((prevData) => {
+      // Ensure seatNumber is always an array
+      let updatedSeats = Array.isArray(prevData.seatNumber)
+        ? [...prevData.seatNumber]
+        : [prevData.seatNumber];
 
-    // If checkbox is checked, add the seat number to the array
-    if (e.target.checked) {
-      if (!updatedSeats.includes(seat)) {
-        updatedSeats.push(seat); // Add the seat number (e.g., "1.2" or "A")
+      // If checkbox is checked, add the seat number to the array
+      if (e.target.checked) {
+        if (!updatedSeats.includes(seat)) {
+          updatedSeats.push(seat); // Add the seat number (e.g., "1.2" or "A")
+        }
+      } else {
+        // If checkbox is unchecked, remove the seat number from the array
+        updatedSeats = updatedSeats.filter((seatNumber) => seatNumber !== seat);
       }
-    } else {
-      // If checkbox is unchecked, remove the seat number from the array
-      updatedSeats = updatedSeats.filter((seatNumber) => seatNumber !== seat);
-    }
 
-    return {
-      ...prevData,
-      seatNumber: updatedSeats, // Update seatNumber in the state
-    };
-  });
-};
+      return {
+        ...prevData,
+        seatNumber: updatedSeats, // Update seatNumber in the state
+      };
+    });
+  };
 
-  
-  
+
   return (
     <div>
       {loading ? (
@@ -226,7 +225,6 @@ const handleSeatNumberChange = (e) => {
                       readOnly
                     />
                   </div>
-             
 
                   <div>
                     <label
@@ -264,16 +262,15 @@ const handleSeatNumberChange = (e) => {
                       />
                       {isFromDropdownOpen && (
                         <ul className="absolute left-0 right-0 bg-white font-bold text-black border border-gray-300 mt-1 max-h-60 overflow-y-auto z-10">
-                          {filteredFromOptions.map((fromVillage) => (
+                          {filteredFromOptions?.map((fromVillage) => (
                             <li
                               key={fromVillage.village}
                               onClick={() =>
-                                handleFromSelection(fromVillage.village)
+                                handleFromSelection(fromVillage?.village)
                               }
                               className="px-4 py-2 cursor-pointer border border-bottom border-black hover:bg-blue-400"
-
                             >
-                              {fromVillage.village}
+                              {fromVillage?.village}
                             </li>
                           ))}
                         </ul>
@@ -335,8 +332,11 @@ const handleSeatNumberChange = (e) => {
                         (fromVillage) =>
                           fromVillage.village === data.from &&
                           fromVillage.point?.map((point) => (
-                            <option key={point} value={point}>
-                              {point}
+                            <option
+                              key={point.pointName}
+                              value={point.pointName}
+                            >
+                              {point.pointName}
                             </option>
                           ))
                       )}
@@ -361,8 +361,11 @@ const handleSeatNumberChange = (e) => {
                         (toVillage) =>
                           toVillage.village === data.to &&
                           toVillage.point?.map((point) => (
-                            <option key={point} value={point}>
-                              {point}
+                            <option
+                              key={point.pointName}
+                              value={point.pointName}
+                            >
+                              {point.pointName}
                             </option>
                           ))
                       )}
@@ -435,51 +438,56 @@ const handleSeatNumberChange = (e) => {
                 </div>
                 <div>
                   {!itemToEdit && (
-            <>
-              <label
-                htmlFor="otherseatNumber"
-                className="text-left text-gray-700 font-bold block mt-4"
-              >
-                Other Seat Numbers:
-              </label>
-              <div
-                className="space-y-2 border-2 border-gray-800 p-2"
-                style={{ maxHeight: "200px", overflowY: "auto" }}
-              >
-                {getLabel.map((seat, index) => {
-                  // Check if the seat is already present in the data
-                  const item = seatsData?.find(
-                    (item) => item.seatNumber === seat
-                  );
-
-                  // If item exists and seat number matches, skip rendering this seat
-                  if (item) {
-                    return null; // Skip rendering this seat
-                  }
-
-                  return (
-                    <div
-                      key={index}
-                      className="flex items-center border-b border-gray-800"
-                    >
-                      <input
-                        type="checkbox"
-                        id={`seat-${seat}`}
-                        value={seat}
-                        checked={data.seatNumber.includes(seat)} // Check if the seat is in the array
-                        onChange={handleSeatNumberChange}
-                        className="mr-2"
-                      />
-                      <label htmlFor={`seat-${seat}`} className="text-gray-700">
-                        {seat}
+                    <>
+                      <label
+                        htmlFor="otherseatNumber"
+                        className="text-left text-gray-700 font-bold block mt-4"
+                      >
+                        Other Seat Numbers:
                       </label>
-                    </div>
-                  );
-                })}
-              </div>
-            </>
-          )}
-                  </div>
+                      <div
+                        className="space-y-2 border-2 border-gray-800 p-2"
+                        style={{ maxHeight: "200px", overflowY: "auto" }}
+                      >
+                        {getLabel.map((seat, index) => {
+                          // Check if the seat is already present in any of the seatNumbers in seatsData
+                          const itemExists = seatsData?.some(
+                            (item) => item.seatNumbers?.includes(seat) // Ensure item.seatNumbers exists
+                          );
+
+                          // If item exists and seat number matches, skip rendering this seat
+                          if (itemExists) {
+                            return null; // Skip rendering this seat
+                          }
+
+                          return (
+                            <div
+                              key={index}
+                              className="flex items-center border-b border-gray-800"
+                            >
+                              <input
+                                type="checkbox"
+                                id={`seat-${seat}`}
+                                value={seat}
+                                checked={
+                                  data?.seatNumber?.includes(seat) || false
+                                } // Safe check for data and seatNumbers
+                                onChange={handleSeatNumberChange}
+                                className="mr-2"
+                              />
+                              <label
+                                htmlFor={`seat-${seat}`}
+                                className="text-gray-700"
+                              >
+                                {seat}
+                              </label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
+                </div>
 
                 <div className="mt-6 flex justify-end">
                   <button
@@ -488,7 +496,6 @@ const handleSeatNumberChange = (e) => {
                   >
                     Submit
                   </button>
-                  
                 </div>
               </form>
             </div>

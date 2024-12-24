@@ -32,7 +32,7 @@ const Seating = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRoute = (route, id, date, price) => {
-    console.log(route, "route");
+
     localStorage.setItem("route", route);
     localStorage.setItem("routeId", id);
     setTickitPrice(price);
