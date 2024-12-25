@@ -100,7 +100,7 @@ function Busadd() {
 
         const datas = await response.json();
         if (response.ok) {
-          Navigate("/Bus");
+          Navigate("/Bus", { state: { date:data.date } } );
         } else {
           alert("Error adding village: " + datas.message);
         }
