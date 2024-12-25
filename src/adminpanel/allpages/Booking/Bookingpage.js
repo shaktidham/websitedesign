@@ -119,7 +119,22 @@ function Bookingpage({ loading }) {
     }
   }, [date, fetchRouteData]); // Dependencies to rerun the effect on date change
   
+  const handleDownloadchart = async () => {
+    try {
+      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/getchartprint?route=${selectedBusId}`, {
+   
+      });
+      const result = await response.json();
+      if (response.ok) {
 
+        handleDownload(seatsData,result)
+      } else {
+        console.error("Failed to delete item");
+      }
+    } catch (error) {
+      console.error("Error deleting item:", error);
+    }
+  };
   return (
     <div className="bg-gray-50 min-h-screen">
       {loading ? (
@@ -166,7 +181,7 @@ function Bookingpage({ loading }) {
                   {item.Busname}
                 </button>
               ))}
-              <button className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300" onClick={() => handleDownload(seatsData)}
+              <button className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300" onClick={ handleDownloadchart}
               >
                 Download
               </button>
@@ -174,119 +189,7 @@ function Bookingpage({ loading }) {
 
             {showchart && (
               <div className="overflow-x-auto">
-                {/* <table className="table-auto w-full bg-white shadow-md rounded-lg">
-                  <thead className="bg-indigo-600 text-white">
-                    <tr>
-                      {[
-                        "NUMBER",
-                        "VILLAGE",
-                        "NAME",
-                        "NUMBER",
-                        "EXTRA",
-                        "PICKUP",
-                        "ACTION",
-                      ].map((header) => (
-                        <th
-                          key={header}
-                          className="px-6 py-4 text-left text-sm font-semibold"
-                        >
-                          {header}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {getLabel.map((label, rowIndex) => {
-                      const item = seatsData.find(
-                        (seat) => seat.seatNumber === label
-                      );
-                      const renderCell = (value) => (
-                        <td className="px-6 py-4 text-sm border border-2 text-gray-700">
-                          {value}
-                        </td>
-                      );
-
-                      return (
-                        <tr
-                          key={rowIndex}
-                          className="border-t hover:bg-gray-100"
-                        >
-                          <td className="px-6 py-4 text-xl border border-2 font-bold text-gray-700 text-center">
-                            {label}
-                          </td>
-                          {item ? (
-                            <>
-                              {renderCell(item.to)}
-                              {renderCell(item.name)}
-                              {renderCell(item.mobile)}
-                              {renderCell(item.extradetails)}
-                              {renderCell(item.pickup)}
-                            </>
-                          ) : (
-                            <>
-                              {renderCell("")}
-                              {renderCell("")}
-                              {renderCell("")}
-                              {renderCell("")}
-                              {renderCell("")}
-                            </>
-                          )}
-                          <td
-                            className="relative border border-2 cursor-pointer"
-                            onClick={() => handleTooltipToggle(rowIndex)}
-                            ref={(el) => (buttonRefs.current[rowIndex] = el)}
-                          >
-                            <button className="ml-4 hover:text-blue-900">
-                              <div className="flex justify-center">
-                                <Action className="w-6 h-6 text-blue-500" />
-                              </div>
-                            </button>
-                            {tooltipId === rowIndex && (
-                              <div
-                                role="tooltip"
-                                className="absolute shadow-lg bg-blue-400 z-10 border rounded p-2 w-fit"
-                                style={{
-                                  top: "100%",
-                                  left: "50%",
-                                  transform: "translateX(-50%)",
-                                }}
-                                ref={tooltipRef}
-                              >
-                                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                                  <Uparrow className="w-4 h-4 text-blue-400" />
-                                </div>
-                                <div className="flex flex-col">
-                                  <ul className="space-y-2">
-                                    <li
-                                      className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
-                                      onClick={() =>
-                                        handleSelectSeat(label, item)
-                                      }
-                                    >
-                                      {item?.mobile ? "Edit" : "Add"}
-                                    </li>
-                                    <li
-                                      className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
-                                      onClick={() => handleDelete(item._id)}
-                                    >
-                                      Delete
-                                    </li>
-                                    <li
-                                      className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
-                                      onClick={() => handleSendWhatsApp(item)}
-                                    >
-                                      Send
-                                    </li>
-                                  </ul>
-                                </div>
-                              </div>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table> */}
+              
                 <table className="table-auto w-full bg-white shadow-md rounded-lg">
   <thead className="bg-indigo-600 text-white">
     <tr>

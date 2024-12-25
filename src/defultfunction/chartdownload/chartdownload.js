@@ -1,11 +1,9 @@
+
 import { kabin, kabin2, labels, number } from "../../constvalue/constvalue";
 import html2pdf from "html2pdf.js";
 
-export const handleDownload = (chartData) => {
+export const handleDownload = (chartData,pickupsit) => {
 
-
-  // Function to generate table rows from labels or numbers
-// Assuming you're using 'seatNumbers' as the property for seat numbers in your chart data
 
 const generateTableRows = (dataList) => {
     return dataList
@@ -22,18 +20,18 @@ const generateTableRows = (dataList) => {
             
   
                 return `
-                  <td class="border border-black text-center" style="height: 120px; width: 112px;">
+                  <td class="border border-black text-center" style="height: 90px; width: 112px;">
                     ${
                       item
                         ? `
-                        <div class="font-bold text-lg text-red-500">${seatNumber    }</div>
-                        <div class="font-bold">${item.to || ""}</div>
-                        <div class="font-bold">${item.name || ""}</div>
-                        <div class="font-bold">${item.mobile || ""}</div>
-                        <div class="font-bold">${item.extradetails || ""}</div>
+                        <div class="mt-[-10px] text-red-500">${seatNumber    }</div>
+                        <div class="text-sm">${item.to || ""}</div>
+                        <div class="text-sm">${item.name || ""}</div>
+                        <div class="text-sm">${item.mobile || ""}</div>
+                        <div class="text-sm">${item.extradetails || ""}</div>
                       `
                         : `
-                        <div class="font-bold text-lg text-red-500">${seatNumber}</div>
+                        <div class="mt-[-10px] text-red-500">${seatNumber}</div>
                         <div></div>
                         <div></div>
                         <div></div>
@@ -66,14 +64,14 @@ const generateTableRows = (dataList) => {
   
                 return item
                   ? `
-                    <td class="border border-black p-2 text-center w-1/6">${seatNumber}</td>
-                    <td class="border border-black p-2 text-left font-bold">${item.vilage || ""}--${item.name}</td>
-                    <td class="border border-black p-2 text-left font-bold">${item.mobile || ""}</td>
+                    <td class="border border-black p-1 pt-[-20px] test-sm  text-center w-1/6">${seatNumber}</td>
+                    <td class="border border-black p-1 pt-[-10px] test-sm  text-left">${item.vilage || ""}--${item.name}</td>
+                    <td class="border border-black p-1 pt-[-10px] test-sm text-left">${item.mobile || ""}</td>
                   `
                   : `
-                    <td class="border border-black p-2 text-center w-1/6">${seatNumber}</td>
-                    <td class="border border-black p-2 text-center"></td>
-                    <td class="border border-black p-2 text-center"></td>
+                    <td class="border border-black text-sm p-1 pt-[-10px] text-center w-1/6">${seatNumber}</td>
+                    <td class="border border-black text-sm  text-center"></td>
+                    <td class="border border-black text-sm  text-center"></td>
                   `;
               })
               .join("")}
@@ -82,13 +80,27 @@ const generateTableRows = (dataList) => {
       })
       .join("");
   };
+  const pickuprow = (pickupData) => {
+    return pickupData.map((item) => {
+      return `
+        <tr>
+          <td class="border border-black p-1 text-sm pt-[-20px] text-center w-1/4 p-2 ">${item.pickup}</td>
+          <td class="border border-black p-1 text-sm pt-[-10px] text-left p-2">
+            ${item.seatNumbers.join(', ')}
+          </td>
+        </tr>
+      `;
+    }).join('');
+  };
   
+   
 
   // Generate table rows for both tables
   const firstTableRows = generateTableRows(labels);
   const secondTableRows = generateTableRows(number);
   const thirdTableRows = generatesTableRows(kabin);
   const fourthTableRows = generatesTableRows(kabin2);
+  const fifthTableRows = pickuprow(pickupsit);
 
   // Create the HTML content for the PDF
   const element = document.createElement("div");
@@ -103,27 +115,15 @@ const generateTableRows = (dataList) => {
       </head>
       <body class="font-sans m-0 p-0">
         <div class="container mx-auto max-w-4xl px-4">
-          <div class="text-3xl text-red-500 flex justify-center font-extrabold mb-5">શક્તિધામ ટ્રાવેલ્સ</div>
-          <table class="min-w-full mb-3">
-            <thead>
-              <tr class="flex justify-between">
-                <th class="text-right pr-2">તારીખ:- </th>
-                <th class="text-right pr-2">ડ્રાઇવર:-</th>
-              </tr>
-              <tr class="flex justify-between">
-                <th class="text-right pr-2">ઉપડવાનો સમય:- </th>
-                <th class="text-right pr-2">બસ નંબર:-</th>
-              </tr>
-            </thead>
-          </table>
+          <div class="text-xl text-red-500 flex justify-center font-extrabold mb-3">શક્તિધામ ટ્રાવેલ્સ</div>
 
           <div class="flex justify-between mb-4">
             <div class="w-1/2 pr-2">
               <table class="min-w-full border-collapse border border-black">
                 <thead>
                   <tr>
-                    <th class="bg-red-500 text-white p-2">ઉપર</th>
-                    <th class="bg-red-500 text-white p-2">નીચે</th>
+                    <th class="bg-red-500 text-white p-1">ઉપર</th>
+                    <th class="bg-red-500 text-white p-1">નીચે</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -135,8 +135,8 @@ const generateTableRows = (dataList) => {
               <table class="min-w-full border-collapse border border-black">
                 <thead>
                   <tr>
-                    <th class="bg-red-500 text-white p-2">નીચે</th>
-                    <th class="bg-red-500 text-white p-2">ઉપર</th>
+                    <th class="bg-red-500 text-white p-1">નીચે</th>
+                    <th class="bg-red-500 text-white p-1">ઉપર</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -144,6 +144,13 @@ const generateTableRows = (dataList) => {
                 </tbody>
               </table>
             </div>
+          </div>
+          <div>
+            <table class="border-collapse border border-black w-full mb-2">
+              <tbody>
+                ${fifthTableRows}
+              </tbody>
+            </table>
           </div>
           <div class="flex justify-between">
             <table class="border-collapse border border-black w-full">
