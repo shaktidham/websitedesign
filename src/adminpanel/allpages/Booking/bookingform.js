@@ -89,7 +89,7 @@ function Bookingform() {
       // If editing an existing item, make a PUT request
       const response = await fetch(
         itemToEdit
-          ? `https://shaktidham-backend.vercel.app/seats/update/${itemToEdit._id}`
+          ? `https://shaktidham-backend.vercel.app/seats/update/${itemToEdit.id}`
           : `https://shaktidham-backend.vercel.app/seats/create/${id}`,
         {
           method: itemToEdit ? "PUT" : "POST",
