@@ -11,9 +11,9 @@ function Bookingform() {
   const location = useLocation();
 
   // Check if item is being edited (when data is passed via location.state.item)
-  const itemToEdit = location.state?.item || null;
-  const seatsData = location.state?.seatsData;
-
+  const itemToEdit = location.state?.matchingSeat || null;
+  const seatsData = location.state?.passengers;
+ 
 
   const [data, setData] = useState({
     name: itemToEdit ? itemToEdit?.name : "",
@@ -37,6 +37,28 @@ function Bookingform() {
   const [isFromDropdownOpen, setIsFromDropdownOpen] = useState(false);
   const [isToDropdownOpen, setIsToDropdownOpen] = useState(false);
 
+  const fetchData = async () => {
+    const id = location.state?.id;
+    try {
+      // Use backticks (`) for string interpolation
+      const response = await fetch(`https://shaktidham-backend.vercel.app/route/read?id=${id}`);
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json(); // Parse JSON from the response
+      setRoutedata(result.data); // Set the data to state
+    } catch (error) {
+      // setError(error.message); // Handle error
+    } finally {
+      setLoading(false); // Set loading to false once data is fetched
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   useEffect(() => {
     if (location.state && location.state.label) {
       setData((prevData) => ({
@@ -46,7 +68,6 @@ function Bookingform() {
       }));
       setFromSearch(itemToEdit?.from || "");
       setToSearch(itemToEdit?.to || "");
-      setRoutedata(location.state.personalroutedata);
     }
   }, [location.state]);
 
@@ -101,7 +122,7 @@ function Bookingform() {
       );
 
       if (response.ok) {
-        navigate("/Bookingpage", { state: { id, date: data.date, routeData } });
+        navigate("/Bookingpage", { state: { id, date: data.date } });
       } else {
         console.error("Submission failed");
       }
@@ -156,7 +177,6 @@ function Bookingform() {
       };
     });
   };
-
 
   return (
     <div>
@@ -450,14 +470,14 @@ function Bookingform() {
                         style={{ maxHeight: "200px", overflowY: "auto" }}
                       >
                         {getLabel.map((seat, index) => {
-                          // Check if the seat is already present in any of the seatNumbers in seatsData
+                          // Check if the seat already exists in seatsData
                           const itemExists = seatsData?.some(
-                            (item) => item.seatNumbers?.includes(seat) // Ensure item.seatNumbers exists
+                            (item) => item.seatNumber === seat // Ensure seatNumbers matches
                           );
 
-                          // If item exists and seat number matches, skip rendering this seat
+                          // If the seat exists in seatsData, skip rendering this seat
                           if (itemExists) {
-                            return null; // Skip rendering this seat
+                            return null;
                           }
 
                           return (

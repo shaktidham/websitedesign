@@ -14,7 +14,7 @@ const Sidebar = () => {
         <div
             className={`${
                 isSidebarOpen ? 'w-64' : 'w-20'
-            } bg-gray-800 h-screen shadow-lg transition-all duration-300 ease-in-out`}
+            } bg-gray-800 h-screen fixed shadow-lg transition-all duration-300 ease-in-out`}
         >
             <button
                 onClick={toggleSidebar}

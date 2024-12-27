@@ -1,313 +1,199 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import Loader from "../../../userpages/Loader/Loader";
+import React, { useState, useEffect } from "react";
 import Sidebar from "../sidebar";
-import { ReactComponent as Action } from "./../../../svg/action.svg";
-import { ReactComponent as Uparrow } from "./../../../svg/uparrow.svg";
-import { useLocation, useNavigate } from "react-router-dom";
-import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
-import { getLabel } from "../../../constvalue/constvalue";
+import { labels, number } from "../../../constvalue/constvalue";
+import { generateTableRows } from "../../../defultfunction/bookingpagebox/bookingpagebox";
+import Bookedsitshow from "./bookedsitshow";
+import { Button } from "@mui/material";
+import { useLocation } from "react-router-dom";
 import { handleDownload } from "../../../defultfunction/chartdownload/chartdownload";
+import Loader from "../../../userpages/Loader/Loader";
 
-function Bookingpage({ loading }) {
-  const [showchart, setShowchart] = useState(false);
-  const [tooltipId, setTooltipId] = useState(null);
-  const [seatsData, setSeatsData] = useState([]);
-  const [personalroutedata, setPersonalrouteData] = useState(null);
-
-  const [route, setRoute] = useState([]);
-  const [date, setDate] = useState("");
+function Bookingpage() {
   const location = useLocation();
-  const buttonRefs = useRef([]);
-  const tooltipRef = useRef(null);
-  const navigate = useNavigate();
-  const [selectedBusId, setSelectedBusId] = useState(null);
+  const [date, setDate] = useState("");
+  const [bookedSeats, setBookedSeats] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [popup, setPopup] = useState(false);
+  const [popupData, setPopupData] = useState(false);
 
-
-  const fetchSeatsData = useCallback(
-    async (id,routeDatas) => {
-      // setSelectedBusId(id);
-      // if (!route || route.length === 0) {
-      //   console.error("No route data available.");
-      //   return;
-      // }
-
-      const routeData = route?.find((index) => index._id === id);
-      // if (!routeData) {
-      //   console.error("Route not found.");
-      //   return;
-      // }
-
-      setPersonalrouteData(routeData ? routeData : routeDatas);
-      try {
-        const response = await fetch(
-          `https://shaktidham-backend.vercel.app/seats/searchbymobile?route=${id}`
-        );
-        if (!response.ok) throw new Error("Failed to fetch seats data");
-        const result = await response.json();
-    
-        setSeatsData(result);
-      } catch (error) {
-        console.error("Error fetching seats data:", error.message);
-      } finally {
-        setShowchart(true);
-      }
-    },
-    [route]
-  );
-
-  const fetchRouteData = useCallback(async (selectedDate) => {
-    try {
-      const response = await fetch(
-        `https://shaktidham-backend.vercel.app/route/read?date=${selectedDate}`
-      );
-      if (!response.ok) throw new Error("Failed to fetch route data");
-      const result = await response.json();
-      setRoute(result.data || []);
-    } catch (error) {
-      console.error("Error fetching route data:", error.message);
-    }
+  // Set today's date initially
+  useEffect(() => {
+    const today = new Date().toISOString().split("T")[0];
+    setDate(today);
   }, []);
 
-  const handleDateChange = (e) => {
-    const selectedDate = e.target.value;
-    setDate(selectedDate);
-    setSeatsData([]); // Clear seats data when date changes
-    fetchRouteData(selectedDate);
-  };
-
-  const handleDelete = async (id) => {
+  // Fetch booked seats for the selected date
+  const fetchBookedSeats = async () => {
+    setLoading(true);
     try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/delete/${id}`, {
-        method: "DELETE",
-      });
-      if (response.ok) {
-        fetchSeatsData(selectedBusId); // Refetch seats after deletion
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/seats/searchbymobile?date=${date}`
+      );
+      const data = await response.json();
+      console.log(data); // Log the response to check its structure
+      if (Array.isArray(data)) {
+        setBookedSeats(data);
       } else {
-        console.error("Failed to delete item");
+        setBookedSeats([]); // In case the data is not an array
+        console.error("Expected an array, but got:", data);
       }
     } catch (error) {
-      console.error("Error deleting item:", error);
+      console.error("Error fetching booked seats:", error);
+      setBookedSeats([]); // Fallback to empty array on error
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleSelectSeat = (label, item) => {
-    navigate("/Bookingform", {
-      state: { label, personalroutedata, date, item, seatsData },
-    });
-  };
+  useEffect(() => {
+    if (!date) return;
+    fetchBookedSeats();
+  }, [date]);
 
-  const handleTooltipToggle = (index) => {
-    setTooltipId(tooltipId === index ? null : index);
-  };
+  // If location state is passed, update the date
   useEffect(() => {
     if (location.state) {
-      setDate(location.state.date || "");
-      fetchSeatsData(location.state.id,location.state.routeData);  // Fetch seat data
-      setSelectedBusId(location.state.id);  // Set selected bus
-      setShowchart(true);  // Show chart after data fetch
+      setDate(location.state.date);
     }
   }, [location.state]);
-  
-  useEffect(() => {
-    if (date) {
-      fetchRouteData(date); // Fetch route data when date changes
-    } else {
-      // If no date is selected, default to today's date
-      const today = new Date().toISOString().split('T')[0];
-      setDate(today);  // Set default date as today
-      fetchRouteData(today); // Fetch route data for today's date
-    }
-  }, [date, fetchRouteData]); // Dependencies to rerun the effect on date change
-  
-  const handleDownloadchart = async () => {
-    try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/seats/getchartprint?route=${selectedBusId}`, {
-   
-      });
-      const result = await response.json();
-      if (response.ok) {
 
-        handleDownload(seatsData,result)
+  // Delete a booked seat by its ID
+  const handleDelete = async (id) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/seats/delete/${id}`,
+        { method: "DELETE" }
+      );
+      if (response.ok) {
+        fetchBookedSeats(date);
       } else {
         console.error("Failed to delete item");
       }
     } catch (error) {
       console.error("Error deleting item:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const handleDateChange = (event) => {
+    setDate(event.target.value);
+  };
+
+  const Details = (data) => {
+    setPopup(true);
+    setPopupData(data);
+  };
+
+  const handlechartDownloads = async (Route) => {
+    const id = Route.route;
+    const passengers = Route?.passengers;
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/seats/getchartprint?route=${id}`
+      );
+      const data = await response.json();
+      handleDownload(data, passengers);
+    } catch (error) {
+      console.error("Error fetching booked seats:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <>
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className="flex">
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
-
-          <div className="flex-1 p-4 overflow-auto">
+          <div className="flex-1 p-4 ml-64">
             <div className="flex items-center justify-center mb-4">
               <div className="mx-auto">
-                <label
-                  htmlFor="date"
-                  className="block text-gray-700 font-medium"
-                >
+                <label htmlFor="date" className="block text-gray-700 font-medium">
                   Date
                 </label>
                 <input
-  id="date"
-  type="date"
-  className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-  value={date ? date : new Date().toISOString().split('T')[0]} // Sets today's date if 'date' is not provided
-  onChange={handleDateChange}
-/>
-
+                  id="date"
+                  type="date"
+                  className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={date}
+                  onChange={handleDateChange}
+                />
               </div>
             </div>
 
-            <div className="flex justify-between items-center my-5">
-              <button className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300">
-                Back
-              </button>
-              {route?.map((item) => (
-                <button
-                  key={item._id}
-                  onClick={() => {
-                    fetchSeatsData(item._id);
-                    setSelectedBusId(item._id);
-                  }}
-                  className={`${
-                    selectedBusId === item._id ? "bg-green-800" : "bg-red-600"
-                  } hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300`}
-                >
-                  {item.Busname}
-                </button>
-              ))}
-              <button className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300" onClick={ handleDownloadchart}
-              >
-                Download
-              </button>
-            </div>
-
-            {showchart && (
-              <div className="overflow-x-auto">
-              
-                <table className="table-auto w-full bg-white shadow-md rounded-lg">
-  <thead className="bg-indigo-600 text-white">
-    <tr>
-      {[
-        "NUMBER",
-        "VILLAGE",
-        "NAME",
-        "NUMBER",
-        "EXTRA",
-        "PICKUP",
-        "ACTION",
-      ].map((header) => (
-        <th
-          key={header}
-          className="px-6 py-4 text-left text-sm font-semibold"
-        >
-          {header}
-        </th>
-      ))}
-    </tr>
-  </thead>
-  <tbody>
-    {getLabel.map((label, rowIndex) => {
-      // Find the seat data by matching seat number
-      const item = seatsData.find(seat => seat.seatNumbers.includes(label));
-      
-      const renderCell = (value) => (
-        <td className="px-6 py-4 text-sm border border-2 text-gray-700">
-          {value}
-        </td>
-      );
-
-      return (
-        <tr
-          key={rowIndex}
-          className="border-t hover:bg-gray-100"
-        >
-          <td className="px-6 py-4 text-xl border border-2 font-bold text-gray-700 text-center">
-            {label}
-          </td>
-          {item ? (
-            <>
-              {renderCell(item.to)}
-              {renderCell(item.name || '')}
-              {renderCell(item.mobile || '')}
-              {renderCell(item.extradetails || '')}
-              {renderCell(item.pickup || '')}
-            </>
-          ) : (
-            <>
-              {renderCell("")}
-              {renderCell("")}
-              {renderCell("")}
-              {renderCell("")}
-              {renderCell("")}
-            </>
-          )}
-          <td
-            className="relative border border-2 cursor-pointer"
-            onClick={() => handleTooltipToggle(rowIndex)}
-            ref={(el) => (buttonRefs.current[rowIndex] = el)}
-          >
-            <button className="ml-4 hover:text-blue-900">
-              <div className="flex justify-center">
-                <Action className="w-6 h-6 text-blue-500" />
+            {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
+              <div>
+                {bookedSeats.map((Route, index) => (
+                  <div key={index}>
+                    <div className="flex justify-between mb-2">
+                      <div className="text-xl font-bold text-blue-800">
+                        Bus Number : {index + 1}
+                      </div>
+                      <button
+                        className="bg-blue-600 p-2 text-white font-bold rounded"
+                        onClick={() => handlechartDownloads(Route)}
+                      >
+                        Download
+                      </button>
+                    </div>
+                    <div className="flex justify-between mb-4">
+                      <div className="w-1/2 pr-2">
+                        <table className="min-w-full border-collapse border border-black">
+                          <thead>
+                            <tr>
+                              <th className="bg-red-500 text-white p-1">ઉપર</th>
+                              <th className="bg-red-500 text-white p-1">નીચે</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {generateTableRows(
+                              labels,
+                              Route.passengers,
+                              handleDelete,
+                              Details,
+                              date,
+                              Route.route
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                      <div className="w-1/2 pl-2">
+                        <table className="min-w-full border-collapse border border-black">
+                          <thead>
+                            <tr>
+                              <th className="bg-red-500 text-white p-1">નીચે</th>
+                              <th className="bg-red-500 text-white p-1">ઉપર</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {generateTableRows(
+                              number,
+                              Route.passengers,
+                              handleDelete,
+                              Details,
+                              date,
+                              Route.route
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
-            </button>
-            {tooltipId === rowIndex && (
-              <div
-                role="tooltip"
-                className="absolute shadow-lg bg-blue-400 z-10 border rounded p-2 w-fit"
-                style={{
-                  top: "100%",
-                  left: "50%",
-                  transform: "translateX(-50%)",
-                }}
-                ref={tooltipRef}
-              >
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <Uparrow className="w-4 h-4 text-blue-400" />
-                </div>
-                <div className="flex flex-col">
-                  <ul className="space-y-2">
-                    <li
-                      className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
-                      onClick={() => handleSelectSeat(label, item)}
-                    >
-                      {item?.mobile ? "Edit" : "Add"}
-                    </li>
-                    <li
-                      className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
-                      onClick={() => handleDelete(item._id)}
-                    >
-                      Delete
-                    </li>
-                    <li
-                      className="cursor-pointer hover:bg-blue-300 p-1 rounded text-black font-bold border-2 border-white"
-                      onClick={() => handleSendWhatsApp(item)}
-                    >
-                      Send
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            )}
-          </td>
-        </tr>
-      );
-    })}
-  </tbody>
-</table>
-
-              </div>
+            ) : (
+              <div>No booked seats available for this date.</div>
             )}
           </div>
+          <Bookedsitshow popup={popup} setPopup={setPopup} data={popupData} />
         </div>
       )}
-    </div>
+    </>
   );
 }
 

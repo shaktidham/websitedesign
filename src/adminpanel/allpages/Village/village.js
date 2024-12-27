@@ -31,6 +31,7 @@ function Village() {
   // Fetch villages with filters
   const fetchVillages = async () => {
     const { search, limit, page, order } = filter;
+    setLoading(true);
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`

@@ -11,7 +11,7 @@ import Pointshow from "./pointshow";
 function Busshow() {
    
     const [route, setRoute] = useState([]); // State to store the village data
-    const [loading, setLoading] = useState(true); // State to track loading state
+    const [loading, setLoading] = useState(false); // State to track loading state
     const [error, setError] = useState(null); // State to store any errors
     const[popup,setPopup]=useState(false)
     const Navigate=useNavigate()
@@ -35,7 +35,7 @@ function Busshow() {
 
     // Fetch route with filters
     const fetchroute = async () => {
-
+        setLoading(true);
     
         try {
             const response = await fetch(

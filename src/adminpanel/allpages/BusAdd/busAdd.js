@@ -6,7 +6,7 @@ import Droppoint from "./droppoint";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function Busadd() {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [villages, setVillages] = useState([]);
   const Navigate = useNavigate();
   const [data, setData] = useState({
@@ -30,6 +30,7 @@ function Busadd() {
 
   // Fetch villages data
   const fetchVillages = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/village/read`
@@ -83,7 +84,7 @@ function Busadd() {
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
-
+      setLoading(true);
       try {
         const url = itemToEdit
           ? `https://shaktidham-backend.vercel.app/route/update/${itemToEdit._id}` // Use PUT for update

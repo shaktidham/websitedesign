@@ -200,7 +200,8 @@ import html2pdf from "html2pdf.js";
 //       pdf.save(`શક્તિધામ ટ્રાવેલ્સ.pdf`); // Save the PDF
 //     });
 // };
-export const handleDownload = (chartData, pickupsit) => {
+export const handleDownload = ( pickupsit,chartData,) => {
+  console.log("object",chartData);
   const generateTableRows = (dataList) => {
     const isLargeList = dataList.length > 4; // Changed from pickupsit to dataList
 
@@ -218,10 +219,10 @@ export const handleDownload = (chartData, pickupsit) => {
                 // Ensure you are checking 'seatNumbers' instead of 'seatNumber'
                 const item = chartData.find(
                   (item) =>
-                    Array.isArray(item.seatNumbers) &&
-                    item.seatNumbers.includes(seatNumber)
+               
+                    item.seatNumber === seatNumber
                 );
-
+console.log(item,"item");
                 return `
                   <td class="border border-black text-center" style="${cellStyle}">
                     ${
@@ -254,7 +255,7 @@ export const handleDownload = (chartData, pickupsit) => {
     const isLargeList = dataList.length > 4;
 
     // Define dynamic padding based on the condition
-    const cellStyle = isLargeList ? "p-1" : "p-1";
+    const cellStyle = isLargeList ? "p-2" : "p-2";
 
     return dataList
       .map((number) => {
@@ -265,10 +266,9 @@ export const handleDownload = (chartData, pickupsit) => {
                 // Find the item matching the seatNumber from chartData
                 const item = chartData.find(
                   (item) =>
-                    Array.isArray(item.seatNumbers) &&
-                    item.seatNumbers.includes(seatNumber)
+               
+                    item.seatNumber === seatNumber
                 );
-
                 return item
                   ? `
                       <td class="border border-black ${cellStyle} pt-[-20px] text-sm text-center w-1/6">${seatNumber}</td>
@@ -299,7 +299,7 @@ export const handleDownload = (chartData, pickupsit) => {
     // Calculate height dynamically based on the list size
     // For example, if more than 4 items, increase height, otherwise keep it smaller.
 
-    const rowHeight = isLargeList ? "p-1" : "p-1";
+    const rowHeight = isLargeList ? "p-2" : "p-2";
     return pickupData
       .map((item) => {
         return `
