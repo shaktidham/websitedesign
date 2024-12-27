@@ -1,11 +1,15 @@
-
 import { kabin, kabin2, labels, number } from "../../constvalue/constvalue";
 import html2pdf from "html2pdf.js";
 
-export const handleDownload = (chartData,pickupsit) => {
+export const handleDownload = (chartData, pickupsit) => {
+  const generateTableRows = (dataList) => {
+    const isLargeList = dataList.length > 4; // Changed from pickupsit to dataList
 
+    // Define dynamic padding based on the condition
+    const cellStyle = isLargeList
+      ? "height: 85px; width: 112px;"
+      : "height: 90px; width: 112px;";
 
-const generateTableRows = (dataList) => {
     return dataList
       .map((pair) => {
         return `
@@ -13,29 +17,29 @@ const generateTableRows = (dataList) => {
             ${pair
               .map((seatNumber) => {
                 // Ensure you are checking 'seatNumbers' instead of 'seatNumber'
-                const item = chartData.find(item => 
-                  Array.isArray(item.seatNumbers) && item.seatNumbers.includes(seatNumber)
+                const item = chartData.find(
+                  (item) =>
+                    Array.isArray(item.seatNumbers) &&
+                    item.seatNumbers.includes(seatNumber)
                 );
-                
-            
-  
+
                 return `
-                  <td class="border border-black text-center" style="height: 90px; width: 112px;">
+                  <td class="border border-black text-center" style="${cellStyle}">
                     ${
                       item
                         ? `
-                        <div class="mt-[-10px] text-red-500">${seatNumber    }</div>
-                        <div class="text-sm">${item.to || ""}</div>
-                        <div class="text-sm">${item.name || ""}</div>
-                        <div class="text-sm">${item.mobile || ""}</div>
-                        <div class="text-sm">${item.extradetails || ""}</div>
-                      `
+                          <div class="mt-[-10px] text-red-500">${seatNumber}</div>
+                          <div class="text-sm">${item.to || ""}</div>
+                          <div class="text-sm">${item.name || ""}</div>
+                          <div class="text-sm">${item.mobile || ""}</div>
+                          <div class="text-sm">${item.extradetails || ""}</div>
+                        `
                         : `
-                        <div class="mt-[-10px] text-red-500">${seatNumber}</div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                      `
+                          <div class="mt-[-10px] text-red-500">${seatNumber}</div>
+                          <div></div>
+                          <div></div>
+                          <div></div>
+                        `
                     }
                   </td>
                 `;
@@ -46,9 +50,13 @@ const generateTableRows = (dataList) => {
       })
       .join("");
   };
-  
 
   const generatesTableRows = (dataList) => {
+    const isLargeList = dataList.length > 4;
+
+    // Define dynamic padding based on the condition
+    const cellStyle = isLargeList ? "p-[0.20rem]" : "p-1";
+
     return dataList
       .map((number) => {
         return `
@@ -56,23 +64,27 @@ const generateTableRows = (dataList) => {
             ${number
               .map((seatNumber) => {
                 // Find the item matching the seatNumber from chartData
-                const item = chartData.find(item => 
-                  Array.isArray(item.seatNumbers) && item.seatNumbers.includes(seatNumber)
+                const item = chartData.find(
+                  (item) =>
+                    Array.isArray(item.seatNumbers) &&
+                    item.seatNumbers.includes(seatNumber)
                 );
-  
-           
-  
+
                 return item
                   ? `
-                    <td class="border border-black p-1 pt-[-20px] test-sm  text-center w-1/6">${seatNumber}</td>
-                    <td class="border border-black p-1 pt-[-10px] test-sm  text-left">${item.vilage || ""}--${item.name}</td>
-                    <td class="border border-black p-1 pt-[-10px] test-sm text-left">${item.mobile || ""}</td>
-                  `
+                      <td class="border border-black ${cellStyle} pt-[-20px] text-sm text-center w-1/6">${seatNumber}</td>
+                      <td class="border border-black ${cellStyle} pt-[-10px] text-sm text-left">${
+                      item.vilage || ""
+                    } -- ${item.name}</td>
+                      <td class="border border-black ${cellStyle} pt-[-10px] text-sm text-left">${
+                      item.mobile || ""
+                    }</td>
+                    `
                   : `
-                    <td class="border border-black text-sm p-1 pt-[-10px] text-center w-1/6">${seatNumber}</td>
-                    <td class="border border-black text-sm  text-center"></td>
-                    <td class="border border-black text-sm  text-center"></td>
-                  `;
+                      <td class="border border-black ${cellStyle} text-sm text-center w-1/6">${seatNumber}</td>
+                      <td class="border border-black ${cellStyle} text-sm text-center"></td>
+                      <td class="border border-black ${cellStyle} text-sm text-center"></td>
+                    `;
               })
               .join("")}
           </tr>
@@ -80,20 +92,29 @@ const generateTableRows = (dataList) => {
       })
       .join("");
   };
+
   const pickuprow = (pickupData) => {
-    return pickupData.map((item) => {
-      return `
-        <tr>
-          <td class="border border-black p-1 text-sm pt-[-20px] text-center w-1/4 p-2 ">${item.pickup}</td>
-          <td class="border border-black p-1 text-sm pt-[-10px] text-left p-2">
-            ${item.seatNumbers.join(', ')}
-          </td>
-        </tr>
-      `;
-    }).join('');
+    // Check if pickupsit.length is greater than 4
+    const isLargeList = pickupData.length > 4;
+
+    // Calculate height dynamically based on the list size
+    // For example, if more than 4 items, increase height, otherwise keep it smaller.
+
+    const rowHeight = isLargeList ? "h-[10px] p-[0.20rem]" : "p-1";
+    return pickupData
+      .map((item) => {
+        return `
+            <tr>
+                <td class="border border-black ${rowHeight} text-sm text-center w-1/4">
+                    ${item.pickup}
+                </td>
+                <td class="border border-black ${rowHeight} pl-5 text-sm text-left">
+                    ${item.seatNumbers.join(", ")}
+                </td>
+            </tr>`;
+      })
+      .join("");
   };
-  
-   
 
   // Generate table rows for both tables
   const firstTableRows = generateTableRows(labels);
@@ -146,7 +167,7 @@ const generateTableRows = (dataList) => {
             </div>
           </div>
           <div>
-            <table class="border-collapse border border-black w-full mb-2">
+            <table class="border-collapse border border-black w-full mb-2" >
               <tbody>
                 ${fifthTableRows}
               </tbody>
