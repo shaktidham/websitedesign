@@ -141,7 +141,7 @@ export const handleDownload = (pickupsit, chartData) => {
                   </table>
               </div>
 
-              <div class="flex justify-between">
+              <div class="flex justify-between mt-12">
                   <table class="border-collapse border border-black w-full">
                       <tbody>
                           ${thirdTableRows}
@@ -176,11 +176,11 @@ export const handleDownload = (pickupsit, chartData) => {
         .toPdf()
         .get("pdf")
         .then((pdf) => {
-            pdf.autoPrint(); // Automatically trigger the print dialog
-            printWindow.document.body.appendChild(pdf); // Add PDF content to the new window
-            printWindow.print(); // Manually open the print dialog
+            pdf.autoPrint();
+            printWindow.document.body.appendChild(pdf); 
+            printWindow.print(); 
         });
-}, 500); // Delay to ensure the content has fully loaded
+}, 500); 
 
   
 };
