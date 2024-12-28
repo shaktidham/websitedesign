@@ -30,7 +30,7 @@ function Bookingpage() {
         `https://shaktidham-backend.vercel.app/seats/searchbymobile?date=${date}`
       );
       const data = await response.json();
-      console.log(data); // Log the response to check its structure
+    
       if (Array.isArray(data)) {
         setBookedSeats(data);
       } else {
@@ -132,7 +132,7 @@ function Bookingpage() {
                   <div key={index}>
                     <div className="flex justify-between mb-2">
                       <div className="text-xl font-bold text-blue-800">
-                        Bus Number : {index + 1}
+                        Bus Name : {Route.busName}
                       </div>
                       <button
                         className="bg-blue-600 p-2 text-white font-bold rounded"

@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 // Modular component for the seat cell
 const SeatCell = ({ seat, matchingSeat, handleDelete,passengers, Details,date,route }) => {
     const navigate=useNavigate()
-console.log(route,"route");
+
   return (
     <td
       className="border border-black text-sm text-center h-24 w-24 md:h-16 md:w-16 lg:h-20 lg:w-20 xl:h-24 xl:w-24"
@@ -47,6 +47,7 @@ console.log(route,"route");
               <div className="text-lg font-bold">{matchingSeat.name}</div>
               <div className="text-lg font-bold">{matchingSeat.mobile}</div>
               <div className="text-lg font-bold">{matchingSeat.to}</div>
+              <div className="text-lg font-bold">{matchingSeat.extradetails}</div>
             </>
           )}
         </div>

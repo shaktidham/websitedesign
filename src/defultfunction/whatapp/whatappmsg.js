@@ -1,6 +1,6 @@
 export const handleSendWhatsApp = (item) => {
 
-;console.log(item,"item");
+// ;console.log(item,"item");
 
     
   };
