@@ -129,7 +129,7 @@ function Bookingpage() {
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
               <div>
                 {bookedSeats.map((Route, index) => (
-                  <div key={index}>
+                  <div key={index} className="w-1/2">
                     <div className="flex justify-between mb-2">
                       <div className="text-xl font-bold text-blue-800">
                         Bus Name : {Route.busName}

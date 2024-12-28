@@ -347,7 +347,7 @@ function Bookingform() {
                       value={data.pickup}
                       onChange={handleInputChange}
                     >
-                      <option value="">Select Pickup Location</option>
+                      <option value="--">Select Pickup Location</option>
                       {routeData?.from?.map(
                         (fromVillage) =>
                           fromVillage.village === data.from &&

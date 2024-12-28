@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactComponent as CloseButton } from "./../../../svg/close.svg";
 
 function Bookedsitshow({ popup, setPopup, data }) {
+
   return (
     popup && (
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-50">
