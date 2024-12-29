@@ -39,7 +39,7 @@ const price =(filterData[0].seatCount * filterRoute[0].price) +   (filterData[0]
   ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup)}
   બસ નંબર        : ${getValueOrDefault(filterRoute[0].busName)}
   સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))}
-  રકમ             :${price}
+  રકમ              : ${price}
   
   પેસેન્જર મોબાઈલ નંબર : ${mobile}
   
@@ -55,8 +55,7 @@ const price =(filterData[0].seatCount * filterRoute[0].price) +   (filterData[0]
   ☎ 9825864672 
   ☎ 9586653535
   હેલ્પલાઇન નંબર: ☎ 8141814190
-  બસનું લોકેશન જોવા માટે આ WhatsApp નંબર સેવ
-કરો.
+  બસનું લોકેશન જોવા માટે આ WhatsApp નંબર સેવ કરો.
   `;
 
   // Check for message length
