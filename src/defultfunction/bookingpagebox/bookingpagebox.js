@@ -7,7 +7,7 @@ import { ReactComponent as Delete } from "./../../svg/delete.svg";
 import { useNavigate } from "react-router-dom";
 
 // Modular component for the seat cell
-const SeatCell = ({ seat, matchingSeat, handleDelete, passengers, Details, date, route }) => {
+const SeatCell = ({ seat, matchingSeat, handleDelete, passengers, Details, date, route,handlewhatapp }) => {
   const navigate = useNavigate();
   
   return (
@@ -47,7 +47,7 @@ const SeatCell = ({ seat, matchingSeat, handleDelete, passengers, Details, date,
               {/* Bottom section: WhatsApp and Delete icons */}
               {matchingSeat?.mobile ? (
                   <div className="flex justify-between m-2">
-                      <div className="cursor-pointer">
+                      <div className="cursor-pointer" onClick={ ()=>handlewhatapp(matchingSeat)}>
                           <Whatapp fill="green" height="15px" width="15px" />
                       </div>
                       <div
@@ -64,7 +64,7 @@ const SeatCell = ({ seat, matchingSeat, handleDelete, passengers, Details, date,
 };
 
 
-export const generateTableRows = (data, passengers, handleDelete, Details, date, route) => {
+export const generateTableRows = (data, passengers, handleDelete, Details, date, route,handlewhatapp) => {
   return data.map((row, index) => (
       <tr className="border border-black" key={index}>
           {row.map((cell, idx) => {
@@ -81,6 +81,7 @@ export const generateTableRows = (data, passengers, handleDelete, Details, date,
                       date={date}
                       passengers={passengers}
                       route={route}
+                      handlewhatapp={handlewhatapp}
                   />
               );
           })}

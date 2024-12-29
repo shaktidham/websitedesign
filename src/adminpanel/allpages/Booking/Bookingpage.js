@@ -7,30 +7,37 @@ import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { handleDownload } from "../../../defultfunction/chartdownload/chartdownload";
 import Loader from "../../../userpages/Loader/Loader";
-
+import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
+// import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
 function Bookingpage() {
   const location = useLocation();
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState("");  // Initialize date
   const [bookedSeats, setBookedSeats] = useState([]);
   const [loading, setLoading] = useState(false);
   const [popup, setPopup] = useState(false);
   const [popupData, setPopupData] = useState(false);
+  const [mobilewisedata, setMobilewisedata] = useState([]);
 
-  // Set today's date initially
+  // Set today's date initially or handle state changes
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     setDate(today);
-  }, []);
+    handlemobilewiseSeats(today);  // Fetch mobile-wise seats for today
+  }, []);  // Empty dependency array to run only once on component mount
 
   // Fetch booked seats for the selected date
   const fetchBookedSeats = async () => {
+    if (!date) {
+      console.error("Date is missing");
+      return; // Avoid making API call if date is not set
+    }
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/seats/searchbymobile?date=${date}`
+        `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}`
       );
       const data = await response.json();
-    
+
       if (Array.isArray(data)) {
         setBookedSeats(data);
       } else {
@@ -46,16 +53,17 @@ function Bookingpage() {
   };
 
   useEffect(() => {
-    if (!date) return;
-    fetchBookedSeats();
-  }, [date]);
+    if (date) {
+      fetchBookedSeats();  // Fetch booked seats if date is available
+    }
+  }, [date]);  // Dependency array will trigger fetch on date change
 
   // If location state is passed, update the date
   useEffect(() => {
-    if (location.state) {
-      setDate(location.state.date);
+    if (location.state && location.state.date) {
+      setDate(location.state.date); // Set date from location state if present
     }
-  }, [location.state]);
+  }, [location.state]); // This runs if location state changes
 
   // Delete a booked seat by its ID
   const handleDelete = async (id) => {
@@ -66,7 +74,7 @@ function Bookingpage() {
         { method: "DELETE" }
       );
       if (response.ok) {
-        fetchBookedSeats(date);
+        fetchBookedSeats(date);  // Re-fetch booked seats after deletion
       } else {
         console.error("Failed to delete item");
       }
@@ -78,7 +86,7 @@ function Bookingpage() {
   };
 
   const handleDateChange = (event) => {
-    setDate(event.target.value);
+    setDate(event.target.value); // Update date on user change
   };
 
   const Details = (data) => {
@@ -88,19 +96,44 @@ function Bookingpage() {
 
   const handlechartDownloads = async (Route) => {
     const id = Route.route;
-    const passengers = Route?.passengers;
+    const passengers = Route;
     setLoading(true);
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getchartprint?route=${id}`
       );
       const data = await response.json();
-      handleDownload(data, passengers);
+      handleDownload(data, passengers); // Handle chart download
     } catch (error) {
       console.error("Error fetching booked seats:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handlemobilewiseSeats = async (date) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`
+      );
+      const data = await response.json();
+      setMobilewisedata(data); // Store mobile-wise data
+    } catch (error) {
+      console.error("Error fetching booked seats:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlewhatapp = (data) => {
+    const filterData = mobilewisedata.filter(
+      (item) => item.mobile === data.mobile && item.route === data.route
+    );
+    const filterRoute = bookedSeats.filter(
+      (item) => item.route === data.route
+    );
+    handleSendWhatsApp(filterData,filterRoute)
   };
 
   return (
@@ -113,7 +146,10 @@ function Bookingpage() {
           <div className="flex-1 p-4 ml-64">
             <div className="flex items-center justify-center mb-4">
               <div className="mx-auto">
-                <label htmlFor="date" className="block text-gray-700 font-medium">
+                <label
+                  htmlFor="date"
+                  className="block text-gray-700 font-medium"
+                >
                   Date
                 </label>
                 <input
@@ -125,11 +161,11 @@ function Bookingpage() {
                 />
               </div>
             </div>
-
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
-              <div>
+              <div className="flex flex-wrap justify-between gap-4">
+                {/* Added gap-4 for spacing */}
                 {bookedSeats.map((Route, index) => (
-                  <div key={index} className="w-1/2">
+                  <div key={index} className="w-[48%]">
                     <div className="flex justify-between mb-2">
                       <div className="text-xl font-bold text-blue-800">
                         Bus Name : {Route.busName}
@@ -157,7 +193,8 @@ function Bookingpage() {
                               handleDelete,
                               Details,
                               date,
-                              Route.route
+                              Route.route,
+                              handlewhatapp
                             )}
                           </tbody>
                         </table>
@@ -177,7 +214,8 @@ function Bookingpage() {
                               handleDelete,
                               Details,
                               date,
-                              Route.route
+                              Route.route,
+                              handlewhatapp
                             )}
                           </tbody>
                         </table>

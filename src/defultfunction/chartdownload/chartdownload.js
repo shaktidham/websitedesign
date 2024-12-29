@@ -6,24 +6,24 @@ export const handleDownload = (pickupsit, chartData) => {
   const generateTableRows = (dataList) => {
       const isLargeList = dataList.length > 4;
       const cellStyle = isLargeList ? "height: 85px; width: 112px;" : "height: 90px; width: 112px;";
-      
+  
       return dataList
           .map((pair) => {
               return `
                   <tr>
                       ${pair
                           .map((seatNumber) => {
-                              const item = chartData.find((item) => item.seatNumber === seatNumber);
+                              const item = chartData.passengers.find((item) => item.seatNumber === seatNumber);
                               return `
                                   <td class="border border-black text-center" style="${cellStyle}">
                                       ${
                                           item
                                               ? `
                                                   <div class="mt-[-10px] text-xl font-bold text-red-500">${seatNumber}</div>
-                                                  <div class="text-sm">${item.to || ""}</div>
-                                                  <div class="text-sm">${item.name || ""}</div>
-                                                  <div class="text-sm">${item.mobile || ""}</div>
-                                                  <div class="text-sm">${item.extradetails || ""}</div>`
+                                                  <div class="text-sm font-bold">${item.name || ""}</div>
+                                                  <div class="text-sm font-bold">${item.mobile || ""}</div>
+                                                    <div class="text-sm font-bold">${item.to || ""}</div>
+                                                  <div class="text-sm font-bold">${item.extradetails || ""}</div>`
                                               : `
                                                   <div class="mt-[-10px]  text-xl font-bold text-red-500">${seatNumber}</div>
                                                   <div></div>
@@ -50,12 +50,12 @@ export const handleDownload = (pickupsit, chartData) => {
                   <tr class="border border-black">
                       ${number
                           .map((seatNumber) => {
-                              const item = chartData.find((item) => item.seatNumber === seatNumber);
+                              const item = chartData.passengers.find((item) => item.seatNumber === seatNumber);
                               return item
                                   ? `
-                                      <td class="border border-black ${cellStyle} pt-[-20px] text-sm text-center w-1/6">${seatNumber}</td>
-                                      <td class="border border-black ${cellStyle} pt-[-10px] text-sm text-left">${item.vilage || ""} -- ${item.name}</td>
-                                      <td class="border border-black ${cellStyle} pt-[-10px] text-sm text-left">${item.mobile || ""}</td>
+                                      <td class="border border-black ${cellStyle} pt-[-20px] font-bold text-sm text-center w-1/6">${seatNumber}</td>
+                                      <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.vilage || ""} -- ${item.name}</td>
+                                      <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.mobile || ""}</td>
                                   `
                                   : `
                                       <td class="border border-black ${cellStyle} text-sm text-center w-1/6">${seatNumber}</td>
@@ -77,8 +77,8 @@ export const handleDownload = (pickupsit, chartData) => {
           .map((item) => {
               return `
                   <tr>
-                      <td class="border border-black ${rowHeight} text-sm text-center w-1/4">${item.pickup}</td>
-                      <td class="border border-black ${rowHeight} pl-5 text-sm text-left">${item.seatNumbers.join(", ")}</td>
+                      <td class="border border-black font-bold ${rowHeight} text-sm text-center w-1/4">${item.pickup}</td>
+                      <td class="border border-black font-bold ${rowHeight} pl-5 text-sm text-left">${item.seatNumbers.join(", ")}</td>
                   </tr>`;
           })
           .join("");
@@ -103,7 +103,12 @@ export const handleDownload = (pickupsit, chartData) => {
       </head>
       <body class="font-sans m-0 p-0">
           <div class="container mx-auto max-w-4xl px-4">
-              <div class="text-xl text-red-500 flex justify-center font-extrabold mb-3">શક્તિધામ ટ્રાવેલ્સ</div>
+              <div class="text-xl text-red-500 flex justify-center font-extrabold mb-2">શક્તિધામ ટ્રાવેલ્સ</div>
+              <div class="flex justify-between">
+              <div class="font-bold"><span class="text-red-800">બસ નંબર:</span> ${chartData.busName}</div>
+              <div class="font-bold"><span class="text-red-800">ડ્રાઈવર:</span> ${chartData.driver}</div>
+              <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${chartData.date}</div>
+              </div>
               <div class="flex justify-between mb-4">
                   <div class="w-1/2 pr-2">
                       <table class="min-w-full border-collapse border border-black">
