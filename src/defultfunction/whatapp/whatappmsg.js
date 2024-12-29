@@ -1,26 +1,49 @@
-export const handleSendWhatsApp = ( filterData, filterRoute) => {
-
+export const handleSendWhatsApp = (filterData, filterRoute) => {
+  // Utility function to safely get values with fallback
+  const getValueOrDefault = (value, defaultValue = "") => (value ? value : defaultValue);
 
   // Ensure mobile number exists
-  if (!filterData[0]?.mobile) {
+  const mobile = filterData[0]?.mobile;
+  if (!mobile) {
     alert("Mobile number is not available.");
     return;
   }
 
-  // Construct message
+  // Utility to format dates safely
+  const formatDate = (date) => {
+    if (isNaN(date)) {
+      console.error("Invalid date:", date);
+      return "Invalid date"; // Fallback for invalid date
+    }
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
+  // Manually create the Date object from the ISO string and check for validity
+  const parsedDate = new Date(filterRoute[0].date);
+  if (isNaN(parsedDate)) {
+    console.error("Invalid date format for filterRoute[0].date:", filterRoute[0].date);
+    alert("Invalid date format. Please check the date input.");
+    return;
+  }
+const price =(filterData[0].seatCount * filterRoute[0].price) +   (filterData[0].cabinCount * filterRoute[0].cabinprice)
+  // Construct the message
   const message = `
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
 
-  બુકિંગ તારીખ    : ${filterRoute[0].date}
-  ટાઇમ              : ${filterData.pickuptime ? filterData.pickuptime : ""}
-  ક્યા થી ક્યા       : ${filterData?.from} થી ${filterData?.to} 
-  ક્યાંથી બેસવાનું  : ${filterData?.pickup ? filterData?.pickup : " "}
-  બસ નંબર        : ${filterRoute[0].busname}
-  સીટ નંબર        : ${filterData?.sitnumber ? filterData.sitnumber.join(", ") : " "}
+  બુકિંગ તારીખ    : ${formatDate(parsedDate)}
+  ટાઇમ              : ${getValueOrDefault(filterData[0].pickuptime)}
+  ક્યા થી ક્યા       : ${getValueOrDefault(filterData[0].from)} થી ${getValueOrDefault(filterData[0].to)}
+  ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup)}
+  બસ નંબર        : ${getValueOrDefault(filterRoute[0].busName)}
+  સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))}
+  રકમ             :${price}
   
-  પેસેન્જર મોબાઈલ નંબર : ${filterData?.mobile}
+  પેસેન્જર મોબાઈલ નંબર : ${mobile}
   
-  લોકેશન : ${filterRoute[0].location}
+  લોકેશન : ${getValueOrDefault(filterRoute[0].location)}
   
   સુરત ઓફિસ મોબાઇલ નંબર :
   ☎ 9825450700  
@@ -32,7 +55,7 @@ export const handleSendWhatsApp = ( filterData, filterRoute) => {
   ☎ 9825864672 
   ☎ 9586653535
   હેલ્પલાઇન નંબર: ☎ 8141814190
-  બસનું લોકેશન જોવા માટે આ Whatapp નંબર સેવ
+  બસનું લોકેશન જોવા માટે આ WhatsApp નંબર સેવ
 કરો.
   `;
 
@@ -42,12 +65,7 @@ export const handleSendWhatsApp = ( filterData, filterRoute) => {
     return;
   }
 
-  // List of mobile numbers
-  const mobileNumbers = [filterData?.mobile];
-
-  // Open WhatsApp for each mobile number
-  mobileNumbers.forEach((number) => {
-    const url = `https://wa.me/+91${number}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank");
-  });
+  // Open WhatsApp with the constructed message
+  const url = `https://wa.me/+91${mobile}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
 };
