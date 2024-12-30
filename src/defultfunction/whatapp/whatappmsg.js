@@ -34,9 +34,9 @@ const price =(filterData[0].seatCount * filterRoute[0].price) +   (filterData[0]
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
 
   બુકિંગ તારીખ    : ${formatDate(parsedDate)}
-  ટાઇમ              : ${getValueOrDefault(filterData[0].pickuptime)}
+  ટાઇમ              : ${getValueOrDefault(filterData[0].pickuptime?.join(", "))}
   ક્યા થી ક્યા       : ${getValueOrDefault(filterData[0].from)} થી ${getValueOrDefault(filterData[0].to)}
-  ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup)}
+  ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup?.join(", "))}
   બસ નંબર        : ${getValueOrDefault(filterRoute[0].busName)}
   સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))}
   રકમ              : ${price}

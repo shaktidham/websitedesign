@@ -67,6 +67,13 @@ function Bookingpage() {
 
   // Delete a booked seat by its ID
   const handleDelete = async (id) => {
+    // Show confirmation dialog
+    const isConfirmed = window.confirm("Are you sure you want to delete this item?");
+  
+    if (!isConfirmed) {
+      return; // Exit the function if the user cancels
+    }
+  
     setLoading(true);
     try {
       const response = await fetch(
@@ -84,6 +91,7 @@ function Bookingpage() {
       setLoading(false);
     }
   };
+  
 
   const handleDateChange = (event) => {
     setDate(event.target.value); // Update date on user change
@@ -130,6 +138,7 @@ function Bookingpage() {
     const filterData = mobilewisedata.filter(
       (item) => item.mobile === data.mobile && item.route === data.route
     );
+ 
     const filterRoute = bookedSeats.filter(
       (item) => item.route === data.route
     );

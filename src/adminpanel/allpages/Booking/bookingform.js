@@ -110,7 +110,7 @@ function Bookingform() {
       // If editing an existing item, make a PUT request
       const response = await fetch(
         itemToEdit
-          ? `https://shaktidham-backend.vercel.app/seats/update/${itemToEdit.id}`
+          ? `https://shaktidham-backend.vercel.app/seats/update/${itemToEdit.id}?id=${itemToEdit.route}`
           : `https://shaktidham-backend.vercel.app/seats/create/${id}`,
         {
           method: itemToEdit ? "PUT" : "POST",
@@ -185,12 +185,12 @@ function Bookingform() {
       ) : (
         <div className="flex flex-col md:flex-row h-screen bg-[#ECF0F5]">
           {/* Sidebar */}
-          <div className="w-full md:w-1/6 bg-gray-100">
-            <Sidebar />
-          </div>
+    
+            <Sidebar  className="w-full md:w-1/6 bg-white shadow-lg" />
+        
 
           {/* Main Content */}
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-4 ml-64">
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
               <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Inputs Row */}

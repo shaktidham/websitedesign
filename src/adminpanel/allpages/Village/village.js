@@ -100,9 +100,9 @@ function Village() {
       ) : (
         <div className="flex flex-col md:flex-row h-screen bg-[#ECF0F5]">
           {/* Sidebar */}
-          <div className="w-full md:w-1/6 bg-gray-100">
-            <Sidebar />
-          </div>
+        
+            <Sidebar   className="w-full md:w-1/6 bg-white shadow-lg" />
+        
   
           {/* Main Content */}
           <div className="flex-1 p-4">
