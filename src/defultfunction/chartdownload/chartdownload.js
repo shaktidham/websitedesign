@@ -3,10 +3,26 @@ import html2pdf from "html2pdf.js";
 
 
 export const handleDownload = (pickupsit, chartData) => {
+    const formatDate = (date) => {
+        if (isNaN(date)) {
+          console.error("Invalid date:", date);
+          return "Invalid date"; // Fallback for invalid date
+        }
+        
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+      };
+    
+      // Manually create the Date object from the ISO string and check for validity
+      const parsedDate = new Date(chartData.date);
   const generateTableRows = (dataList) => {
       const isLargeList = dataList.length > 4;
       const cellStyle = isLargeList ? "height: 85px; width: 112px;" : "height: 90px; width: 112px;";
-  
+
+
+     
       return dataList
           .map((pair) => {
               return `
@@ -107,7 +123,7 @@ export const handleDownload = (pickupsit, chartData) => {
               <div class="flex justify-between">
               <div class="font-bold"><span class="text-red-800">બસ નંબર:</span> ${chartData.busName}</div>
               <div class="font-bold"><span class="text-red-800">ડ્રાઈવર:</span> ${chartData.driver}</div>
-              <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${chartData.date}</div>
+              <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${formatDate(parsedDate)}</div>
               </div>
               <div class="flex justify-between mb-4">
                   <div class="w-1/2 pr-2">

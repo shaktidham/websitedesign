@@ -1,3 +1,11 @@
+// Utility function to convert 24-hour time format to 12-hour AM/PM format
+const convertTo12HourFormat = (time) => {
+  let [hour, minute] = time.split(":").map(Number);
+  let period = hour >= 12 ? "PM" : "AM";
+  hour = hour % 12 || 12; // Convert 24-hour format to 12-hour format
+  return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
+};
+
 export const handleSendWhatsApp = (filterData, filterRoute) => {
   // Utility function to safely get values with fallback
   const getValueOrDefault = (value, defaultValue = "") => (value ? value : defaultValue);
@@ -28,17 +36,23 @@ export const handleSendWhatsApp = (filterData, filterRoute) => {
     alert("Invalid date format. Please check the date input.");
     return;
   }
-const price =(filterData[0].seatCount * filterRoute[0].price) +   (filterData[0].cabinCount * filterRoute[0].cabinprice)
+
+  // Calculate the price
+  const price = (filterData[0].seatCount * filterRoute[0].price) + (filterData[0].cabinCount * filterRoute[0].cabinprice);
+
+  // Convert pickuptime from 24-hour to 12-hour format
+  const pickuptimeFormatted = filterData[0].pickuptime?.map(convertTo12HourFormat).join(", ");
+
   // Construct the message
   const message = `
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
 
   બુકિંગ તારીખ    : ${formatDate(parsedDate)}
-  ટાઇમ              : ${getValueOrDefault(filterData[0].pickuptime?.join(", "))}
+  ટાઇમ              : ${getValueOrDefault(pickuptimeFormatted)}
   ક્યા થી ક્યા       : ${getValueOrDefault(filterData[0].from)} થી ${getValueOrDefault(filterData[0].to)}
-  ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup?.join(", "))}
+  ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup?.join(", "))} 
   બસ નંબર        : ${getValueOrDefault(filterRoute[0].busName)}
-  સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))}
+  સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))} 
   રકમ              : ${price}
   
   પેસેન્જર મોબાઈલ નંબર : ${mobile}
