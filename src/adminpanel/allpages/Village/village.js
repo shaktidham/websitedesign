@@ -105,7 +105,7 @@ function Village() {
         
   
           {/* Main Content */}
-          <div className="flex-1 p-4">
+          <div className="flex-1 p-4 ml-64">
             <div className="flex flex-col md:flex-row justify-between items-center">
               {/* Top Filters */}
               <div className="flex items-center mb-4">

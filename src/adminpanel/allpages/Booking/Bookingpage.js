@@ -171,7 +171,8 @@ function Bookingpage() {
               </div>
             </div>
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
-              <div className="flex flex-wrap justify-between gap-4">
+          <div className="lg:flex  lg:flex-wrap justify-between gap-4">
+
                 {/* Added gap-4 for spacing */}
                 {bookedSeats.map((Route, index) => (
                   <div key={index} className="w-[48%]">
