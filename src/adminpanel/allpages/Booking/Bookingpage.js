@@ -175,7 +175,7 @@ function Bookingpage() {
 
                 {/* Added gap-4 for spacing */}
                 {bookedSeats.map((Route, index) => (
-                  <div key={index} className="w-[48%]">
+                  <div key={index} className="lg:w-[48%]">
                     <div className="flex justify-between mb-2">
                       <div className="text-xl font-bold text-blue-800">
                         Bus Name : {Route.busName}
