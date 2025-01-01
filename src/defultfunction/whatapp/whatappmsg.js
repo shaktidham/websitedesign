@@ -1,5 +1,11 @@
 // Utility function to convert 24-hour time format to 12-hour AM/PM format
 const convertTo12HourFormat = (time) => {
+  // Check if time is a valid string before attempting to split
+  if (!time || typeof time !== 'string') {
+    console.error("Invalid time format:", time);
+    return ""; // Fallback value
+  }
+
   let [hour, minute] = time.split(":").map(Number);
   let period = hour >= 12 ? "PM" : "AM";
   hour = hour % 12 || 12; // Convert 24-hour format to 12-hour format
@@ -40,8 +46,10 @@ export const handleSendWhatsApp = (filterData, filterRoute) => {
   // Calculate the price
   const price = (filterData[0].seatCount * filterRoute[0].price) + (filterData[0].cabinCount * filterRoute[0].cabinprice);
 
-  // Convert pickuptime from 24-hour to 12-hour format
-  const pickuptimeFormatted = filterData[0].pickuptime?.map(convertTo12HourFormat).join(", ");
+  // Convert pickuptime from 24-hour to 12-hour format (add null/undefined check)
+  const pickuptimeFormatted = filterData[0].pickuptime && Array.isArray(filterData[0].pickuptime)
+    ? filterData[0].pickuptime.map(convertTo12HourFormat).join(", ")
+    : "N/A"; // Default to "N/A" if pickuptime is invalid
 
   // Construct the message
   const message = `
@@ -49,7 +57,7 @@ export const handleSendWhatsApp = (filterData, filterRoute) => {
 
   બુકિંગ તારીખ    : ${formatDate(parsedDate)}
   ટાઇમ              : ${getValueOrDefault(pickuptimeFormatted)}
-  ક્યા થી ક્યા       : ${getValueOrDefault(filterData[0].from)} થી ${getValueOrDefault(filterData[0].to)}
+  ક્યા થી ક્યા       : ${getValueOrDefault(filterData[0].from)} ${filterData[0].to && "થી"} ${getValueOrDefault(filterData[0].to)}
   ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup?.join(", "))} 
   બસ નંબર        : ${getValueOrDefault(filterRoute[0].busName)}
   સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))} 

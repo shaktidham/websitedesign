@@ -8,6 +8,9 @@ import { useLocation } from "react-router-dom";
 import { handleDownload } from "../../../defultfunction/chartdownload/chartdownload";
 import Loader from "../../../userpages/Loader/Loader";
 import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+
 // import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
 function Bookingpage() {
   const location = useLocation();
@@ -93,8 +96,8 @@ function Bookingpage() {
   };
   
 
-  const handleDateChange = (event) => {
-    setDate(event.target.value); // Update date on user change
+  const handleDateChange = (date) => {
+    setDate(date);
   };
 
   const Details = (data) => {
@@ -161,13 +164,12 @@ function Bookingpage() {
                 >
                   Date
                 </label>
-                <input
-                  id="date"
-                  type="date"
-                  className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  value={date}
-                  onChange={handleDateChange}
-                />
+                <DatePicker
+        selected={date}
+        onChange={handleDateChange}
+        dateFormat="dd/MM/yyyy" // Custom date format
+        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
               </div>
             </div>
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
@@ -178,7 +180,7 @@ function Bookingpage() {
                   <div key={index} className="lg:w-[48%]">
                     <div className="flex justify-between mb-2">
                       <div className="text-xl font-bold text-blue-800">
-                        Bus Name : {Route.busName}
+                        Bus Name : {Route.busName}--{Route.last}
                       </div>
                       <button
                         className="bg-blue-600 p-2 text-white font-bold rounded"

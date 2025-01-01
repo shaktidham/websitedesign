@@ -126,7 +126,7 @@ export const handleDownload = (pickupsit, chartData) => {
               <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${formatDate(parsedDate)}</div>
               </div>
               <div class="flex justify-between mb-4">
-                  <div class="w-1/2 pr-2">
+                  <div class="w-1/2 pr-2 flex flex-stretch">
                       <table class="min-w-full border-collapse border border-black">
                           <thead>
                               <tr>
@@ -139,7 +139,7 @@ export const handleDownload = (pickupsit, chartData) => {
                           </tbody>
                       </table>
                   </div>
-                  <div class="w-1/2 pl-2">
+                  <div class="w-1/2 pl-2 flex flex-stretch">
                       <table class="min-w-full border-collapse border border-black">
                           <thead>
                               <tr>

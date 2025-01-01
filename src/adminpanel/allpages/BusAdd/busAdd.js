@@ -24,7 +24,7 @@ function Busadd() {
     driver: "",
     cabinprice: "",
   });
-
+  const [selectedCode,setSelectedCode]=useState("")
   const location = useLocation(); // Access location state (itemToEdit)
   const { itemToEdit } = location.state || {};
 
@@ -77,6 +77,7 @@ function Busadd() {
         location: itemToEdit.location,
         driver: itemToEdit.driver,
         cabinprice: itemToEdit.cabinprice,
+        code:itemToEdit.code
       });
     }
   }, [itemToEdit]);
@@ -85,11 +86,15 @@ function Busadd() {
     async (e) => {
       e.preventDefault();
       setLoading(true);
+   
       try {
-        const url = itemToEdit
-          ? `https://shaktidham-backend.vercel.app/route/update/${itemToEdit._id}` // Use PUT for update
-          : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
-        const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT for update
+        const url = (itemToEdit && selectedCode)
+        ? `https://shaktidham-backend.vercel.app/route/update?codes=${itemToEdit.code}` 
+        : itemToEdit
+        ? `https://shaktidham-backend.vercel.app/route/update?id=${itemToEdit._id}`
+        : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
+      
+        const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT forpdate
 
         const response = await fetch(url, {
           method,
@@ -101,7 +106,7 @@ function Busadd() {
 
         const datas = await response.json();
         if (response.ok) {
-          Navigate("/Bus", { state: { date:data.date } } );
+          Navigate("/Bus", { state: { date: data.date } });
         } else {
           alert("Error adding village: " + datas.message);
         }
@@ -112,7 +117,7 @@ function Busadd() {
         setLoading(false);
       }
     },
-    [data, itemToEdit, Navigate]
+    [data, itemToEdit, Navigate,selectedCode]
   );
 
   return (
@@ -374,6 +379,27 @@ function Busadd() {
                         }))
                       }
                     />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="Edit"
+                      className="block text-gray-700 font-medium"
+                    >
+                      Edit
+                    </label>
+                    <select
+                      id="edit"
+                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={selectedCode}
+                      onChange={(e) =>
+                        setSelectedCode(e.target.value)
+                      }
+                     
+                    >
+                      <option value="">Select Value</option>
+                      <option value="">Only this</option>
+                      <option value="all">All</option>
+                    </select>
                   </div>
                 </div>
 
