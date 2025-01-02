@@ -22,7 +22,7 @@ const SeatCell = ({
   return (
     <td
       className={`border border-black text-sm text-center h-[150px] ${
-        matchingSeat?.to ? "bg-gray-300 font-bold" : ""
+        matchingSeat?.to ? "bg-red-100 font-bold" : ""
       }`}
     >
       <div className="flex flex-col justify-between h-full">
