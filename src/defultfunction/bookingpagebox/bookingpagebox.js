@@ -70,7 +70,7 @@ const SeatCell = ({
         </div>
 
         {/* Bottom section: WhatsApp and Delete icons */}
-        {matchingSeat?.to && (
+        {matchingSeat?.to ? (
           <div className="flex justify-between m-2">
             <div
               className="cursor-pointer"
@@ -85,6 +85,8 @@ const SeatCell = ({
               <Delete height="15px" width="15px" />
             </div>
           </div>
+        ) : (
+          <div></div>
         )}
       </div>
     </td>
