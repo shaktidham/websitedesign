@@ -79,5 +79,14 @@ const Surat = [
       ["કેબિન-8"],
      
     ];
-  export { Surat, village,getLabel,kabin2,kabin,number,labels };
+    const cabin=[ 
+    ["કેબિન-1"],
+    ["કેબિન-2"],
+    ["કેબિન-3"],
+    ["કેબિન-4"],
+    ["કેબિન-5"],
+    ["કેબિન-6"],
+    ["કેબિન-7"],
+    ["કેબિન-8"],]
+  export { Surat, village,getLabel,kabin2,kabin,number,labels,cabin };
   

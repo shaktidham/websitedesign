@@ -278,6 +278,7 @@ function Bookingform() {
                         value={fromSearch} // Use fallback value when no `fromSearch` or `itemToEdit?.from`
                         onChange={(e) => setFromSearch(e.target.value)}
                         onClick={toggleFromDropdown}
+                        required
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {isFromDropdownOpen && (
@@ -313,6 +314,7 @@ function Bookingform() {
                         value={toSearch}
                         onChange={(e) => setToSearch(e.target.value)}
                         onClick={toggleToDropdown}
+                        required
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {isToDropdownOpen && (
@@ -346,8 +348,9 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.pickup}
                       onChange={handleInputChange}
+                      required
                     >
-                      <option value="--">Select Pickup Location</option>
+                      <option value="">Select Pickup Location</option>
                       {routeData?.from?.map(
                         (fromVillage) =>
                           fromVillage.village === data.from &&
@@ -375,6 +378,7 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.drop}
                       onChange={handleInputChange}
+                      required
                     >
                       <option value="">Select Drop Location</option>
                       {routeData?.to?.map(

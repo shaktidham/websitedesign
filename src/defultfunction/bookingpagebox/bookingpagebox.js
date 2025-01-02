@@ -20,7 +20,11 @@ const SeatCell = ({
   const navigate = useNavigate();
 
   return (
-    <td className="border border-black text-sm text-center h-[150px]">
+    <td
+      className={`border border-black text-sm text-center h-[150px] ${
+        matchingSeat?.to ? "bg-gray-300 font-bold" : ""
+      }`}
+    >
       <div className="flex flex-col justify-between h-full">
         {/* Top section with Edit or Plush icon */}
         <div className="flex justify-between">
@@ -41,9 +45,9 @@ const SeatCell = ({
             }
           >
             {matchingSeat?.to ? (
-              <Edit height="15px" width="15px" />
+              <Edit className="lg:h-6 lg:w-6 h-8 w-8" />
             ) : (
-              <Plush height="15px" width="15px" />
+              <Plush className="lg:h-6 lg:w-6 h-8 w-8" />
             )}
           </div>
           {matchingSeat?.to && (
@@ -51,14 +55,14 @@ const SeatCell = ({
               className="cursor-pointer"
               onClick={() => Details(matchingSeat)}
             >
-              <Show height="15px" width="15px" />
+              <Show className="lg:h-6 lg:w-6 h-8 w-8" />
             </div>
           )}
         </div>
 
         {/* Middle section: Seat number and matching seat details */}
         <div className="flex flex-col items-center justify-center">
-          <div className="text-sm font-bold text-red-600">{seat}</div>
+          <div className="text-lg font-bold text-red-600">{seat}</div>
           {matchingSeat && (
             <>
               <div className="text-sm">{matchingSeat.name}</div>
@@ -76,13 +80,13 @@ const SeatCell = ({
               className="cursor-pointer"
               onClick={() => handlewhatapp(matchingSeat)}
             >
-              <Whatapp fill="green" height="15px" width="15px" />
+              <Whatapp fill="green" className="lg:h-6 lg:w-6 h-8 w-8" />
             </div>
             <div
               className="cursor-pointer"
               onClick={() => handleDelete(matchingSeat.id)}
             >
-              <Delete height="15px" width="15px" />
+              <Delete className="lg:h-6 lg:w-6 h-8 w-8" />
             </div>
           </div>
         ) : (
@@ -124,4 +128,116 @@ export const generateTableRows = (
       })}
     </tr>
   ));
+};
+
+export const GeneratesTableRows = ({
+  kabin,
+  chartData,
+  route,
+  date,
+  handlewhatapp,
+  handleDelete,
+  Details,
+}) => {
+  const navigate = useNavigate();
+  const cellStyle = "p-1";
+
+  return (
+    <>
+      {kabin?.map((number, index) => {
+        return (
+          <tr key={index} className="border border-black">
+            {number.map((seatNumber) => {
+              const item = chartData?.find(
+                (item) => item.seatNumber === seatNumber
+              );
+
+              return item ? (
+                <>
+                  <td
+                    className={`border border-black ${cellStyle} pt-[-20px] font-bold text-sm text-center w-[20%]`}
+                  >
+                    {seatNumber}
+                  </td>
+                  <td className={` ${cellStyle}  font-bold text-sm text-left`}>
+                    {item.to || ""}
+                  </td>
+                  <td className={` ${cellStyle}  font-bold text-sm text-left`}>
+                    {item.name || ""}
+                  </td>
+                  <td className={` ${cellStyle}  font-bold text-sm text-left`}>
+                    {item.mobile || ""}
+                  </td>
+
+                  <td
+                    className={`border border-black ${cellStyle}  font-bold text-sm text-left w-[5%]`}
+                    onClick={() =>
+                      navigate("/Bookingform", {
+                        state: {
+                          id: route,
+                          date: date,
+                          label: seatNumber,
+                          passengers: chartData,
+                          matchingSeat: item,
+                        },
+                      })
+                    }
+                  >
+                    <Edit className="lg:h-6 lg:w-6 h-8 w-8" />
+                  </td>
+                  <td
+                    className={`border border-black ${cellStyle} cursor-pointer font-bold text-sm text-left w-[5%]`}
+                    onClick={() => Details(item)}
+                  >
+                    <Show className="lg:h-6 lg:w-6 h-8 w-8" />
+                  </td>
+                  <td
+                    className={`border border-black ${cellStyle} cursor-pointer  font-bold text-sm text-left w-[5%]`}
+                    onClick={() => handlewhatapp(item)}
+                  >
+                    <Whatapp fill="green" className="lg:h-6 lg:w-6 h-8 w-8" />
+                  </td>
+                  <td
+                    className={`border border-black ${cellStyle} cursor-pointer  font-bold text-sm text-left w-[5%]`}
+                    onClick={() => handleDelete(item.id)}
+                  >
+                    <Delete className="lg:h-6 lg:w-6 h-8 w-8" />
+                  </td>
+                </>
+              ) : (
+                <>
+                  <td
+                    className={`border border-black ${cellStyle} text-sm text-center w-[20%]`}
+                  >
+                    {seatNumber}
+                  </td>
+                  <td></td>
+                  <td></td>
+
+                  <td></td>
+
+                  <td
+                    className={`border border-black ${cellStyle} text-center cursor-pointer font-bold text-sm text-left w-[5%]`}
+                    onClick={() =>
+                      navigate("/Bookingform", {
+                        state: {
+                          id: route,
+                          date: date,
+                          label: seatNumber,
+                          passengers: chartData,
+                          matchingSeat: item,
+                        },
+                      })
+                    }
+                  >
+                    <Plush className="lg:h-6 lg:w-6 h-8 w-8" />
+                  </td>
+                </>
+              );
+            })}
+          </tr>
+        );
+      })}
+    </>
+  );
 };

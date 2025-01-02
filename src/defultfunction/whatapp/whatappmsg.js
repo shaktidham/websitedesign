@@ -55,13 +55,13 @@ export const handleSendWhatsApp = (filterData, filterRoute) => {
   const message = `
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
 
-  બુકિંગ તારીખ    : ${formatDate(parsedDate)}
-  ટાઇમ              : ${getValueOrDefault(pickuptimeFormatted)}
-  ક્યા થી ક્યા       : ${getValueOrDefault(filterData[0].from)} ${filterData[0].to && "થી"} ${getValueOrDefault(filterData[0].to)}
-  ક્યાંથી બેસવાનું  : ${getValueOrDefault(filterData[0].pickup?.join(", "))} 
-  બસ નંબર        : ${getValueOrDefault(filterRoute[0].busName)}
-  સીટ નંબર        : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))} 
-  રકમ              : ${price}
+  બુકિંગ તારીખ     : ${formatDate(parsedDate)}
+  ટાઇમ                : [ ${getValueOrDefault(pickuptimeFormatted)} ]
+  ક્યા થી ક્યા        : ${getValueOrDefault(filterData[0].from)} ${filterData[0].to && "થી"} ${getValueOrDefault(filterData[0].to)}
+  ક્યાંથી બેસવાનું  : [ ${getValueOrDefault(filterData[0].pickup?.join(", "))} ]
+  બસ નંબર          : ${getValueOrDefault(filterRoute[0].busName)}
+  સીટ નંબર         : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))} 
+  રકમ                 : ${price}
   
   પેસેન્જર મોબાઈલ નંબર : ${mobile}
   

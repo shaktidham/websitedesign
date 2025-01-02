@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../sidebar";
-import { labels, number } from "../../../constvalue/constvalue";
-import { generateTableRows } from "../../../defultfunction/bookingpagebox/bookingpagebox";
+import { cabin, kabin, labels, number } from "../../../constvalue/constvalue";
+import { GeneratesTableRows, generateTableRows } from "../../../defultfunction/bookingpagebox/bookingpagebox";
 import Bookedsitshow from "./bookedsitshow";
 import { Button } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -189,8 +189,8 @@ function Bookingpage() {
                         Download
                       </button>
                     </div>
-                    <div className="flex justify-between mb-4">
-                      <div className="w-1/2 pr-2">
+                    <div className="flex justify-between   mb-4">
+                      <div className="w-1/2 flex flex-stretch pr-2">
                         <table className="min-w-full border-collapse border border-black">
                           <thead>
                             <tr>
@@ -211,7 +211,7 @@ function Bookingpage() {
                           </tbody>
                         </table>
                       </div>
-                      <div className="w-1/2 pl-2">
+                      <div className="w-1/2 flex flex-stretch pl-2">
                         <table className="min-w-full border-collapse border border-black">
                           <thead>
                             <tr>
@@ -232,6 +232,11 @@ function Bookingpage() {
                           </tbody>
                         </table>
                       </div>
+                    </div>
+                    <div className="w-full">
+                      <table className="w-full">
+                    <GeneratesTableRows kabin={cabin} chartData={Route.passengers} route={Route.route} date={date} handlewhatapp={handlewhatapp} Details={Details}  handleDelete={ handleDelete}/>
+                    </table>
                     </div>
                   </div>
                 ))}

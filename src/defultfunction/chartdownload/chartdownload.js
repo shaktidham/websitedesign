@@ -70,11 +70,12 @@ export const handleDownload = (pickupsit, chartData) => {
                               return item
                                   ? `
                                       <td class="border border-black ${cellStyle} pt-[-20px] font-bold text-sm text-center w-1/6">${seatNumber}</td>
-                                      <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.vilage || ""} -- ${item.name}</td>
+                                      <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.to || ""} -- ${item.name}</td>
                                       <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.mobile || ""}</td>
+                                
                                   `
                                   : `
-                                      <td class="border border-black ${cellStyle} text-sm text-center w-1/6">${seatNumber}</td>
+                                      <td class="border border-black ${cellStyle} text-sm text-center  w-1/6">${seatNumber}</td>
                                       <td class="border border-black ${cellStyle} text-sm text-center"></td>
                                       <td class="border border-black ${cellStyle} text-sm text-center"></td>
                                   `;
@@ -116,6 +117,14 @@ export const handleDownload = (pickupsit, chartData) => {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Bus Seating Plan</title>
           <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+             <style>
+        @media print {
+          body {
+            -webkit-print-color-adjust: exact; /* For Safari */
+            print-color-adjust: exact; /* For Chrome and other browsers */
+          }
+        }
+      </style>
       </head>
       <body class="font-sans m-0 p-0">
           <div class="container mx-auto max-w-4xl px-4">
@@ -130,8 +139,8 @@ export const handleDownload = (pickupsit, chartData) => {
                       <table class="min-w-full border-collapse border border-black">
                           <thead>
                               <tr>
-                                  <th class="bg-red-500  text-black p-1">ઉપર</th>
-                                  <th class="bg-red-500 text-black  p-1">નીચે</th>
+                                  <th class="bg-red-500  text-white p-1">ઉપર</th>
+                                  <th class="bg-red-500 text-white p-1">નીચે</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -143,8 +152,8 @@ export const handleDownload = (pickupsit, chartData) => {
                       <table class="min-w-full border-collapse border border-black">
                           <thead>
                               <tr>
-                                  <th class="bg-red-500 text-black p-1">નીચે</th>
-                                  <th class="bg-red-500 text-black p-1">ઉપર</th>
+                                  <th class="bg-red-500 text-white p-1">નીચે</th>
+                                  <th class="bg-red-500 text-white p-1">ઉપર</th>
                               </tr>
                           </thead>
                           <tbody>
@@ -184,26 +193,13 @@ export const handleDownload = (pickupsit, chartData) => {
   // Append the HTML content to the new tab
   printWindow.document.body.innerHTML = element.innerHTML;
 
+  printWindow.onload = () => {
+    setTimeout(() => {
+        console.log("object");
+        printWindow.print();
+    }, 1000);  // Add a small delay (100ms) to ensure proper loading
+};
 
-  setTimeout(() => {
-    html2pdf()
-        .from(printWindow.document.body)
-        .set({
-            margin: 0,
-            filename: "શક્તિધામ ટ્રાવેલ્સ.pdf",  // File name
-            jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },  // A4 size and portrait orientation
-            html2canvas: { scale: 2 },  // Set scale for better rendering quality
-        })
-        .toPdf()
-        .get("pdf")
-        .then((pdf) => {
-            pdf.autoPrint();
-            printWindow.document.body.appendChild(pdf); 
-            printWindow.print(); 
-        });
-}, 500); 
-
-  
 };
 
 
