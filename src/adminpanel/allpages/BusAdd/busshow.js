@@ -7,6 +7,7 @@ import { ReactComponent as Delete } from "./../../../svg/delete.svg";
 import { ReactComponent as Show } from "./../../../svg/eyes.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Pointshow from "./pointshow";
+import Password from "./password";
 
 function Busshow() {
    
@@ -14,8 +15,11 @@ function Busshow() {
     const [loading, setLoading] = useState(false); // State to track loading state
     const [error, setError] = useState(null); // State to store any errors
     const[popup,setPopup]=useState(false)
+    const[popuppassword,setPopuppassword]=useState(true)
+    const[password,setPassword]=useState('')
     const Navigate=useNavigate()
     const [itemToEdit, setItemToEdit] = useState(null); // State to store the village being edited
+    const right ="1681"
 
     // Combined filter state
     const [filter, setFilter] = useState({
@@ -84,7 +88,7 @@ function Busshow() {
      
         const item = route.find((item) => item._id === id);
        
-        Navigate('/BusAdd', { state: { itemToEdit: item } });
+        Navigate('/BusAdd', { state: { itemToEdit: item, password:password } });
        
     };
         // Function to handle edit click
@@ -136,7 +140,7 @@ function Busshow() {
 
 
                             </div>
-
+{right === password &&(<>
                             {/* Add Button */}
                             <div>
                             
@@ -147,7 +151,8 @@ function Busshow() {
                                     Add
                                 </button>
                                 
-                            </div>
+                            </div></>
+                        )}
                         </div>
 
                         {/* Table */}
@@ -192,12 +197,13 @@ function Busshow() {
                                             >
                                                 <Edit fill="red" className="h-6 w-6 mx-auto" />
                                             </td>
+                                            {right === password &&(
                                             <td
                                                 className="px-4 py-2 border border-gray-400 text-center cursor-pointer"
                                                 onClick={() => handleDelete(village._id)}
                                             >
                                                 <Delete fill="red" className="h-6 w-6 mx-auto" />
-                                            </td>
+                                            </td>)}
                                         </tr>
                                     ))}
                                 </tbody>
@@ -241,6 +247,7 @@ function Busshow() {
                 </div>
             )}
             <Pointshow popup={popup} setPopup={setPopup} itemToEdit={itemToEdit}/>
+            <Password setPassword={setPassword} setPopuppassword={setPopuppassword} popuppassword={popuppassword}/>
 
         </div>
     );

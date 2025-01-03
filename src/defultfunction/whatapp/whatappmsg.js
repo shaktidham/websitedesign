@@ -7,7 +7,7 @@ const convertTo12HourFormat = (time) => {
   }
 
   let [hour, minute] = time.split(":").map(Number);
-  let period = hour >= 12 ? "PM" : "AM";
+  let period = hour >= 12 ? "AM" : "PM";
   hour = hour % 12 || 12; // Convert 24-hour format to 12-hour format
   return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
 };

@@ -27,6 +27,7 @@ function Busadd() {
   const [selectedCode,setSelectedCode]=useState("")
   const location = useLocation(); // Access location state (itemToEdit)
   const { itemToEdit } = location.state || {};
+  const { password } = location.state || {};
 
   // Fetch villages data
   const fetchVillages = async () => {
@@ -358,6 +359,7 @@ function Busadd() {
                       }
                     />
                   </div>
+                  {!itemToEdit &&
                   <div>
                     <label
                       htmlFor="date"
@@ -379,7 +381,8 @@ function Busadd() {
                         }))
                       }
                     />
-                  </div>
+                  </div>}
+                  {password === "1681" &&
                   <div>
                     <label
                       htmlFor="Edit"
@@ -400,9 +403,9 @@ function Busadd() {
                       <option value="">Only this</option>
                       <option value="all">All</option>
                     </select>
-                  </div>
+                  </div>}
                 </div>
-
+{password === "1681" &&
                 <div className="flex justify-between">
                   <div>
                     <h1 className="text-center text-red-800 font-bold mb-5">
@@ -424,7 +427,7 @@ function Busadd() {
                       itemToEdit={itemToEdit}
                     />
                   </div>
-                </div>
+                </div>}
 
                 <div className="flex justify-end mt-6">
                   <button
