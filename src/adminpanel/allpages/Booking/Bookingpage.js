@@ -178,9 +178,13 @@ function Bookingpage() {
                 {/* Added gap-4 for spacing */}
                 {bookedSeats.map((Route, index) => (
                   <div key={index} className="lg:w-[48%] mt-3">
-                    <div className="flex justify-between mb-2">
-                      <div className="text-xl font-bold text-blue-800">
-                        Bus Name : {Route.busName}--{Route.last}
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="text-sm font-bold text-blue-800">
+                        Bus Name : {Route.busName}--{Route.last} 
+                      </div>
+                      <div className="text-sm font-bold text-red-800">
+                      ભરેલી સિટ : {Route.count}<br></br>
+                      ખાલી સિટ: {36-Route.count}
                       </div>
                       <button
                         className="bg-blue-600 p-2 text-white font-bold rounded"

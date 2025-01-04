@@ -19,6 +19,7 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from "jwt-decode";
 import Bookingpage from './adminpanel/allpages/Booking/Bookingpage';
 import Bookingform from './adminpanel/allpages/Booking/bookingform';
+import Agentshow from './adminpanel/allpages/agentpage/agentshow';
 
 function RedirectIfAuthenticated({ children }) {
   const token = Cookies.get('authToken');
@@ -26,6 +27,16 @@ function RedirectIfAuthenticated({ children }) {
   // If token exists, redirect to /home, else render the children
   if (token) {
     return <Navigate to="/home" />;
+  }
+  
+  return children;
+}
+function RedirectHomepage({ children }) {
+  const token = Cookies.get('authToken');
+  
+  // If token exists, redirect to /home, else render the children
+  if (!token) {
+    return <Navigate to="/" />;
   }
   
   return children;
@@ -75,6 +86,62 @@ function App() {
               <RedirectIfAuthenticated>
                 <Adminlogin />
               </RedirectIfAuthenticated>
+            }
+          />
+             <Route
+            path="/Agent"
+            element={
+              <RedirectHomepage>
+                <Agentshow />
+              </RedirectHomepage>
+            }
+          />
+               <Route
+            path="/home"
+            element={
+              <RedirectHomepage>
+                <Home />
+              </RedirectHomepage>
+            }
+          />
+               <Route
+            path="/Village"
+            element={
+              <RedirectHomepage>
+                <Village />
+              </RedirectHomepage>
+            }
+          />
+               <Route
+            path="/Bus"
+            element={
+              <RedirectHomepage>
+                <Busshow />
+              </RedirectHomepage>
+            }
+          />
+               <Route
+            path="/BusAdd"
+            element={
+              <RedirectHomepage>
+                <Busadd />
+              </RedirectHomepage>
+            }
+          />
+               <Route
+            path="/Bookingpage"
+            element={
+              <RedirectHomepage>
+                <Bookingpage />
+              </RedirectHomepage>
+            }
+          />
+               <Route
+            path="/Bookingform"
+            element={
+              <RedirectHomepage>
+                <Bookingform />
+              </RedirectHomepage>
             }
           />
 

@@ -13,52 +13,70 @@ function Bookingform() {
   // Check if item is being edited (when data is passed via location.state.item)
   const itemToEdit = location.state?.matchingSeat || null;
   const seatsData = location.state?.passengers;
- 
 
   const [data, setData] = useState({
-    name: itemToEdit ? itemToEdit?.name : "",
-    mobile: itemToEdit ? itemToEdit?.mobile : "",
-    seatNumber: itemToEdit ? itemToEdit?.seatNumber : "",
-    date: itemToEdit ? itemToEdit?.date : "",
-    from: itemToEdit ? itemToEdit?.from : "",
-    to: itemToEdit ? itemToEdit?.to : "",
-    pickup: itemToEdit ? itemToEdit?.pickup : "",
-    drop: itemToEdit ? itemToEdit?.drop : "",
-    gender: itemToEdit ? itemToEdit?.gender : "",
-    price: itemToEdit ? itemToEdit?.price : "",
-    age: itemToEdit ? itemToEdit?.age : "",
-    extradetails: itemToEdit ? itemToEdit?.extradetails : "",
+    name: itemToEdit?.name || "",
+    mobile: itemToEdit?.mobile || "",
+    seatNumber: itemToEdit?.seatNumber || "",
+    date: itemToEdit?.date || "",
+    from: itemToEdit?.from || "",
+    to: itemToEdit?.to || "",
+    pickup: itemToEdit?.pickup || "",
+    drop: itemToEdit?.drop || "",
+    gender: itemToEdit?.gender || "",
+    price: itemToEdit?.price || "",
+    age: itemToEdit?.age || "",
+    extradetails: itemToEdit?.extradetails || "",
   });
 
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
+  const [agentSearch, setAgentSearch] = useState("");
   const [filteredFromOptions, setFilteredFromOptions] = useState([]);
   const [filteredToOptions, setFilteredToOptions] = useState([]);
+  const [filteredAgentOptions, setFilteredAgentOptions] = useState([]);
   const [isFromDropdownOpen, setIsFromDropdownOpen] = useState(false);
+  const [isAgentDropdownOpen, setIsAgentDropdownOpen] = useState(false);
   const [isToDropdownOpen, setIsToDropdownOpen] = useState(false);
+  const [agent, setAgent] = useState([]);
+  const [error, setError] = useState(null);
 
   const fetchData = async () => {
     const id = location.state?.id;
     try {
-      // Use backticks (`) for string interpolation
-      const response = await fetch(`https://shaktidham-backend.vercel.app/route/read?id=${id}`);
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-
-      const result = await response.json(); // Parse JSON from the response
-      setRoutedata(result.data); // Set the data to state
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/route/read?id=${id}`
+      );
+      if (!response.ok) throw new Error("Network response was not ok");
+      const result = await response.json();
+      setRoutedata(result.data);
     } catch (error) {
-      // setError(error.message); // Handle error
+      setError(error.message);
     } finally {
-      setLoading(false); // Set loading to false once data is fetched
+      setLoading(false);
+    }
+  };
+
+  const fetchAgent = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`https://shaktidham-backend.vercel.app/agent/agents`);
+      if (!response.ok) throw new Error("Failed to fetch agent");
+      const data = await response.json();
+      setAgent(data.data);
+      setFilteredAgentOptions(data.data); // Initially populate the agent dropdown
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
     fetchData();
+    fetchAgent();
   }, []);
+
   useEffect(() => {
     if (location.state && location.state.label) {
       setData((prevData) => ({
@@ -72,23 +90,19 @@ function Bookingform() {
   }, [location.state]);
 
   useEffect(() => {
-    if (routeData?.from) {
-      setFilteredFromOptions(
-        routeData.from.filter((fromVillage) =>
-          fromVillage.village?.toLowerCase().includes(fromSearch?.toLowerCase())
-        )
-      );
-    }
+    setFilteredFromOptions(
+      routeData?.from?.filter((fromVillage) =>
+        fromVillage.village.toLowerCase().includes(fromSearch.toLowerCase())
+      )
+    );
   }, [fromSearch, routeData]);
 
   useEffect(() => {
-    if (routeData?.to) {
-      setFilteredToOptions(
-        routeData.to.filter((toVillage) =>
-          toVillage.village?.toLowerCase().includes(toSearch?.toLowerCase())
-        )
-      );
-    }
+    setFilteredToOptions(
+      routeData?.to?.filter((toVillage) =>
+        toVillage.village.toLowerCase().includes(toSearch.toLowerCase())
+      )
+    );
   }, [toSearch, routeData]);
 
   const handleInputChange = (e) => {
@@ -107,7 +121,6 @@ function Bookingform() {
     try {
       setLoading(true);
 
-      // If editing an existing item, make a PUT request
       const response = await fetch(
         itemToEdit
           ? `https://shaktidham-backend.vercel.app/seats/update/${itemToEdit.id}?id=${itemToEdit.route}`
@@ -133,47 +146,65 @@ function Bookingform() {
     }
   };
 
-  const toggleFromDropdown = () => {
-    setIsFromDropdownOpen(!isFromDropdownOpen);
-  };
+  const toggleFromDropdown = () => setIsFromDropdownOpen(!isFromDropdownOpen);
+  const toggleToDropdown = () => setIsToDropdownOpen(!isToDropdownOpen);
+  const toggleAgentDropdown = () =>
+    setIsAgentDropdownOpen(!isAgentDropdownOpen);
+// Handle agent name search (both typing and selecting from dropdown)
+const handleAgentSearch = (e) => {
+  const searchTerm = e.target.value;
+  setAgentSearch(searchTerm); // Update the search term
 
-  const toggleToDropdown = () => {
-    setIsToDropdownOpen(!isToDropdownOpen);
-  };
+  // Update the data.name to whatever the user types
+  setData((prevData) => ({ ...prevData, name: searchTerm }));
+
+  // Filter agent list based on search term
+  setFilteredAgentOptions(
+    agent.filter((agent) =>
+      agent.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
+};
+
+// Handle selection of agent from dropdown
+const handleAgentSelection = (agentName) => {
+  setAgentSearch(agentName); // Set the search term to the selected agent name
+  setData((prevData) => ({ ...prevData, name: agentName })); // Update the form data with selected agent
+  setIsAgentDropdownOpen(false); // Close dropdown after selection
+};
+
 
   const handleFromSelection = (village) => {
-    setFromSearch(village); // Update search box with selected village
-    setData({ ...data, from: village }); // Update "from" field
-    setIsFromDropdownOpen(false); // Close dropdown
+    setFromSearch(village);
+    setData((prevData) => ({ ...prevData, from: village }));
+    setIsFromDropdownOpen(false);
   };
 
   const handleToSelection = (village) => {
-    setToSearch(village); // Update search box with selected village
-    setData({ ...data, to: village }); // Update "to" field
-    setIsToDropdownOpen(false); // Close dropdown
+    setToSearch(village);
+    setData((prevData) => ({ ...prevData, to: village }));
+    setIsToDropdownOpen(false);
   };
+
   const handleSeatNumberChange = (e) => {
     const seat = e.target.value;
 
     setData((prevData) => {
-      // Ensure seatNumber is always an array
       let updatedSeats = Array.isArray(prevData.seatNumber)
         ? [...prevData.seatNumber]
         : [prevData.seatNumber];
 
-      // If checkbox is checked, add the seat number to the array
       if (e.target.checked) {
         if (!updatedSeats.includes(seat)) {
-          updatedSeats.push(seat); // Add the seat number (e.g., "1.2" or "A")
+          updatedSeats.push(seat);
         }
       } else {
-        // If checkbox is unchecked, remove the seat number from the array
         updatedSeats = updatedSeats.filter((seatNumber) => seatNumber !== seat);
       }
 
       return {
         ...prevData,
-        seatNumber: updatedSeats, // Update seatNumber in the state
+        seatNumber: updatedSeats,
       };
     });
   };
@@ -184,18 +215,11 @@ function Bookingform() {
         <Loader />
       ) : (
         <div className="flex flex-col md:flex-row h-screen bg-[#ECF0F5]">
-          {/* Sidebar */}
-    
-            <Sidebar  className="w-full md:w-1/6 bg-white shadow-lg" />
-        
-
-          {/* Main Content */}
+          <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
           <div className="flex-1 p-4 ml-64">
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
               <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Inputs Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {/* Form Fields */}
                   <div>
                     <label
                       htmlFor="name"
@@ -203,14 +227,29 @@ function Bookingform() {
                     >
                       Name
                     </label>
+                    <div className="relative">
                     <input
                       id="name"
                       type="text"
-                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={data.name}
-                      onChange={handleInputChange}
+                      className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={agentSearch}
+                      onChange={handleAgentSearch} // Updated to handle search input
+                      onClick={toggleAgentDropdown} // Keep the toggle functionality
                     />
-                  </div>
+                    {isAgentDropdownOpen && filteredAgentOptions.length > 0 && (
+                        <ul className="absolute left-0 right-0 bg-white font-bold text-black border border-gray-300 mt-1 max-h-60 overflow-y-auto z-10">
+                        {filteredAgentOptions.map((agent) => (
+                          <li
+                            key={agent.name}
+                            onClick={() => handleAgentSelection(agent.name)}
+                            className="px-4 py-2 cursor-pointer border border-bottom border-black hover:bg-blue-400"
+                          >
+                            {agent.name}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div></div>
 
                   <div>
                     <label
@@ -241,8 +280,7 @@ function Bookingform() {
                       type="text"
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.seatNumber}
-                      onChange={handleInputChange}
-                      readOnly
+                      onChange={handleSeatNumberChange}
                     />
                   </div>
 
