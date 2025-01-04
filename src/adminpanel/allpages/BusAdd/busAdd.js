@@ -24,11 +24,11 @@ function Busadd() {
     driver: "",
     cabinprice: "",
   });
-  const [selectedCode,setSelectedCode]=useState("")
+  const [selectedCode, setSelectedCode] = useState("");
   const location = useLocation(); // Access location state (itemToEdit)
   const { itemToEdit } = location.state || {};
   const { password } = location.state || {};
-
+  const [isOther, setIsOther] = useState(false);
   // Fetch villages data
   const fetchVillages = async () => {
     setLoading(true);
@@ -78,7 +78,7 @@ function Busadd() {
         location: itemToEdit.location,
         driver: itemToEdit.driver,
         cabinprice: itemToEdit.cabinprice,
-        code:itemToEdit.code
+        code: itemToEdit.code,
       });
     }
   }, [itemToEdit]);
@@ -87,14 +87,15 @@ function Busadd() {
     async (e) => {
       e.preventDefault();
       setLoading(true);
-   
+
       try {
-        const url = (itemToEdit && selectedCode)
-        ? `https://shaktidham-backend.vercel.app/route/update?codes=${itemToEdit.code}` 
-        : itemToEdit
-        ? `https://shaktidham-backend.vercel.app/route/update?id=${itemToEdit._id}`
-        : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
-      
+        const url =
+          itemToEdit && selectedCode
+            ? `https://shaktidham-backend.vercel.app/route/update?codes=${itemToEdit.code}`
+            : itemToEdit
+            ? `https://shaktidham-backend.vercel.app/route/update?id=${itemToEdit._id}`
+            : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
+
         const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT forpdate
 
         const response = await fetch(url, {
@@ -118,9 +119,23 @@ function Busadd() {
         setLoading(false);
       }
     },
-    [data, itemToEdit, Navigate,selectedCode]
+    [data, itemToEdit, Navigate, selectedCode]
   );
 
+  const handleBusNameChange = (e) => {
+    const value = e.target.value;
+    setData((prev) => ({
+      ...prev,
+      Busname: value,
+    }));
+
+    if (value === "OTHER") {
+      setIsOther(true);
+    } else {
+      setIsOther(false);
+    }
+  };
+ 
   return (
     <div className="min-h-screen flex flex-col">
       {loading ? (
@@ -171,7 +186,7 @@ function Busadd() {
                     />
                   </div>
                   {/* Bus Name */}
-                  <div>
+                  {/* <div>
                     <label
                       htmlFor="Busname"
                       className="block text-gray-700 font-medium"
@@ -191,8 +206,42 @@ function Busadd() {
                         }))
                       }
                     />
-                  </div>
+                  </div> */}
+  <div>
+      <label htmlFor="Busname" className="block text-gray-700 font-medium">
+        Bus Name
+      </label>
+      <select
+        id="Busname"
+        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        value={data.Busname}
+        onChange={handleBusNameChange}
+      >
+        <option value="">Select Bus Name</option>
+        <option value="GJ-05-BZ-0999">GJ-05-BZ-0999</option>
+        <option value="GJ-05-BZ-9999">GJ-05-BZ-9999</option>
+        <option value="GJ-05-CW-9027">GJ-05-CW-9027</option>
+        <option value="GJ-05-CW-9927">GJ-05-CW-9927</option>
+        <option value="GJ-14-Z-9090">GJ-14-Z-9090</option>
+        <option value="GJ-14-Z-9009">GJ-14-Z-9009</option>
+        <option value="OTHER">Other</option>
+      </select>
 
+      {isOther && (
+        <input
+          type="text"
+          className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter Bus Name"
+          // value={data.Busname}
+          onChange={(e) =>
+            setData((prev) => ({
+              ...prev,
+              Busname: e.target.value,
+            }))
+          }
+        />
+      )}
+    </div>
                   {/* From */}
 
                   <div>
@@ -359,75 +408,75 @@ function Busadd() {
                       }
                     />
                   </div>
-                  {!itemToEdit &&
-                  <div>
-                    <label
-                      htmlFor="date"
-                      className="block text-gray-700 font-medium"
-                    >
-                      End Date
-                    </label>
-                    <input
-                      id="enddate"
-                      type="date"
-                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter Enddate"
-                      value={data.enddate}
-                      required={!itemToEdit}
-                      onChange={(e) =>
-                        setData((prev) => ({
-                          ...prev,
-                          enddate: e.target.value,
-                        }))
-                      }
-                    />
-                  </div>}
-                  {password === "1681" &&
-                  <div>
-                    <label
-                      htmlFor="Edit"
-                      className="block text-gray-700 font-medium"
-                    >
-                      Edit
-                    </label>
-                    <select
-                      id="edit"
-                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={selectedCode}
-                      onChange={(e) =>
-                        setSelectedCode(e.target.value)
-                      }
-                     
-                    >
-                      <option value="">Select Value</option>
-                      <option value="">Only this</option>
-                      <option value="all">All</option>
-                    </select>
-                  </div>}
+                  {!itemToEdit && (
+                    <div>
+                      <label
+                        htmlFor="date"
+                        className="block text-gray-700 font-medium"
+                      >
+                        End Date
+                      </label>
+                      <input
+                        id="enddate"
+                        type="date"
+                        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter Enddate"
+                        value={data.enddate}
+                        required={!itemToEdit}
+                        onChange={(e) =>
+                          setData((prev) => ({
+                            ...prev,
+                            enddate: e.target.value,
+                          }))
+                        }
+                      />
+                    </div>
+                  )}
+                  {password === "1681" && (
+                    <div>
+                      <label
+                        htmlFor="Edit"
+                        className="block text-gray-700 font-medium"
+                      >
+                        Edit
+                      </label>
+                      <select
+                        id="edit"
+                        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={selectedCode}
+                        onChange={(e) => setSelectedCode(e.target.value)}
+                      >
+                        <option value="">Select Value</option>
+                        <option value="">Only this</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  )}
                 </div>
-{password === "1681" &&
-                <div className="flex justify-between">
-                  <div>
-                    <h1 className="text-center text-red-800 font-bold mb-5">
-                      PICKUP POINT
-                    </h1>
-                    <Pickuppoint
-                      villages={villages}
-                      setData={setData}
-                      itemToEdit={itemToEdit}
-                    />
+                {password === "1681" && (
+                  <div className="flex justify-between">
+                    <div>
+                      <h1 className="text-center text-red-800 font-bold mb-5">
+                        PICKUP POINT
+                      </h1>
+                      <Pickuppoint
+                        villages={villages}
+                        setData={setData}
+                        itemToEdit={itemToEdit}
+                      />
+                    </div>
+                    <div>
+                      <h1 className="text-center text-red-800 font-bold mb-5">
+                        DROP
+                      </h1>
+                      <Droppoint
+                        villages={villages}
+                        setData={setData}
+                        itemToEdit={itemToEdit}
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <h1 className="text-center text-red-800 font-bold mb-5">
-                      DROP
-                    </h1>
-                    <Droppoint
-                      villages={villages}
-                      setData={setData}
-                      itemToEdit={itemToEdit}
-                    />
-                  </div>
-                </div>}
+                )}
 
                 <div className="flex justify-end mt-6">
                   <button
