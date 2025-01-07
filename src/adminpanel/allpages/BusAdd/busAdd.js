@@ -4,6 +4,7 @@ import Sidebar from "../sidebar";
 import Pickuppoint from "./Pickuppoint";
 import Droppoint from "./droppoint";
 import { useLocation, useNavigate } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 function Busadd() {
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ function Busadd() {
     driver: "",
     cabinprice: "",
   });
+  const token = Cookies.get('authToken');
   const [selectedCode, setSelectedCode] = useState("");
   const location = useLocation(); // Access location state (itemToEdit)
   const { itemToEdit } = location.state || {};
@@ -34,7 +36,12 @@ function Busadd() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/village/read`
+        `https://shaktidham-backend.vercel.app/village/read`,   {
+          headers: {
+            "Authorization": `Bearer ${token}`, // Add Authorization header with Bearer token
+            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+          },
+        }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch villages");
@@ -102,6 +109,10 @@ function Busadd() {
           method,
           headers: {
             "Content-Type": "application/json",
+          },
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`, // Add Authorization header with Bearer token
           },
           body: JSON.stringify(data),
         });

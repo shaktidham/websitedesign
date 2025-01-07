@@ -8,6 +8,7 @@ import { ReactComponent as Show } from "./../../../svg/eyes.svg";
 import { Link, useNavigate } from "react-router-dom";
 import Pointshow from "./pointshow";
 import Password from "./password";
+import Cookies from 'js-cookie';
 
 function Busshow() {
    
@@ -20,6 +21,7 @@ function Busshow() {
     const Navigate=useNavigate()
     const [itemToEdit, setItemToEdit] = useState(null); // State to store the village being edited
     const right ="1681"
+    const token = Cookies.get('authToken');
 
     // Combined filter state
     const [filter, setFilter] = useState({
@@ -36,52 +38,67 @@ function Busshow() {
         setLoading(true);
         fetchroute();
     }, [filter]); // Dependency array includes the entire filter object
+// Fetch route with filters
+const fetchroute = async () => {
+    setLoading(true);
+  
+    try {
+        // Ensure filter.search has a valid value, otherwise default to an empty string or relevant default
+        const dateParam = filter.search ? `?date=${filter.search}` : '';
+      
+        const response = await fetch(
+            `https://shaktidham-backend.vercel.app/route/read${dateParam}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`, // Add Authorization header with Bearer token
+                    'Content-Type': 'application/json' // Ensure the request content is interpreted as JSON
+                }
+            }
+        );
 
-    // Fetch route with filters
-    const fetchroute = async () => {
-        setLoading(true);
+        if (!response.ok) {
+            throw new Error("Failed to fetch route");
+        }
+
+        const data = await response.json();
+        setRoute(data.data); // Assuming the data comes in data.data
+        setTotalEntries(data.totalEntries); // Set the total number of entries for pagination
+    } catch (error) {
+        setError(error.message); // Handle the error
+    } finally {
+        setLoading(false);
+    }
+};
+
+// Function to handle village deletion
+const handleDelete = async (id) => {
+    const confirmDelete = window.confirm("Are you sure you want to delete this village?");
+    if (!confirmDelete) return;
     
-        try {
-            const response = await fetch(
-                `https://shaktidham-backend.vercel.app/route/read?date=${filter.search }`
-            );
-            if (!response.ok) {
-                throw new Error("Failed to fetch route");
+    setLoading(true);
+
+    try {
+        // Make the delete API call
+        const response = await fetch(`https://shaktidham-backend.vercel.app/route/delete/${id}`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`, // Add Authorization header with Bearer token
+                'Content-Type': 'application/json' // Ensure the request content is interpreted as JSON
             }
-            const data = await response.json();
-          
-            setRoute(data.data); // Assuming the data comes in data.data
-            setTotalEntries(data.totalEntries); // Set the total number of entries for pagination
-        } catch (error) {
-            setError(error.message);
-        } finally {
-            setLoading(false);
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to delete the route");
         }
-    };
 
-    // Function to handle village deletion
-    const handleDelete = async (id) => {
-        const confirmDelete = window.confirm("Are you sure you want to delete this village?");
-        if (!confirmDelete) return;
-        setLoading(true);
+        // Refresh the route list after deletion
+        fetchroute();
+    } catch (error) {
+        setError(error.message); // Handle error if API call fails
+    } finally {
+        setLoading(false);
+    }
+};
 
-        try {
-            // Make the delete API call
-            const response = await fetch(`https://shaktidham-backend.vercel.app/route/delete/${id}`, {
-                method: "DELETE",
-            });
-
-            if (!response.ok) {
-                throw new Error("Failed to delete the Bus");
-            }
-
-            fetchroute(); // Refresh the village list after deletion
-        } catch (error) {
-            setError(error.message); // Set error message if the API call fails
-        } finally {
-            setLoading(false);
-        }
-    };
 
     // Function to handle edit click
     const handleEditClick = (id) => {
