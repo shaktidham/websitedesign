@@ -23,6 +23,7 @@
     const [popup, setPopup] = useState(false);
     const [popupData, setPopupData] = useState(false);
     const [mobilewisedata, setMobilewisedata] = useState([]);
+    const [allroute, setAllRoute] = useState([]);
     const [route, setRoute] = useState("");
 
     // Set today's date initially or handle state changes
@@ -135,7 +136,12 @@
         const response = await fetch(
           `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`
         );
+        const route = await fetch(
+          `http://localhost:3001/route/readid?date=${date}`
+        );
         const data = await response.json();
+        const routedata=await route.json()
+        setAllRoute(routedata.data)
         setMobilewisedata(data); // Store mobile-wise data
       } catch (error) {
         console.error("Error fetching booked seats:", error);
@@ -198,9 +204,9 @@
                     <option value="" selected>
                       Select Bus
                     </option>
-                    {bookedSeats.map((route, index) => (
-                      <option key={index} value={route.route}>
-                        {route.busName}
+                    {allroute.map((route, index) => (
+                      <option key={index} value={route._id}>
+                        {route.Busname}
                       </option>
                     ))}
                   </select>
