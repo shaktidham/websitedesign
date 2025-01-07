@@ -112,12 +112,13 @@ function Bookingform() {
       [id]: value,
     }));
   };
-
+ 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const id = routeData?._id;
     const formattedData = { ...data, date: data.date };
-
+    const routeid = itemToEdit?.route || routeData._id;
     try {
       setLoading(true);
 
@@ -133,9 +134,9 @@ function Bookingform() {
           body: JSON.stringify(formattedData),
         }
       );
-
+   
       if (response.ok) {
-        navigate("/Bookingpage", { state: { id, date: data.date } });
+        navigate("/Bookingpage", { state: { id, date: data.date,route:routeid } });
       } else {
         console.error("Submission failed");
       }
@@ -218,6 +219,16 @@ const handleAgentSelection = (agentName) => {
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
           <div className="flex-1 p-4 ml-64">
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
+            <div className="flex justify-end w-full">
+              {" "}
+              {/* Use justify-end and set width to full */}
+              <div
+                className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
+                onClick={() => navigate("/Bookingpage")}
+              >
+                Back
+              </div>
+            </div>
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
