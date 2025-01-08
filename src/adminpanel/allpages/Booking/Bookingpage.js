@@ -27,7 +27,8 @@ function Bookingpage() {
   const [allroute, setAllRoute] = useState([]);
   const [routeids, setRoute] = useState("");
   const token = Cookies.get("authToken");
-
+  console.log(allroute, "allroute");
+  console.log(routeids, "routeids");
   // Set today's date initially or handle state changes
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
@@ -65,7 +66,8 @@ function Bookingpage() {
 
   useEffect(() => {
     if (date || routeids) {
-      fetchBookedSeats(); // Fetch booked seats if date is available
+      fetchBookedSeats();
+      handlemobilewiseSeats(date);
     }
   }, [date, routeids]); // Dependency array will trigger fetch on date change
 
@@ -107,6 +109,8 @@ function Bookingpage() {
   };
 
   const handleDateChange = (date) => {
+    setRoute();
+    setAllRoute();
     setDate(date);
   };
 
@@ -135,7 +139,7 @@ function Bookingpage() {
   const handlemobilewiseSeats = async (date) => {
     setLoading(true);
     setAllRoute();
-    setRoute();
+
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`

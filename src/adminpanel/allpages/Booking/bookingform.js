@@ -86,13 +86,36 @@ function Bookingform() {
     fetchData();
     fetchAgent();
   }, []);
-
+  console.log(location.state, "location.state");
+  // useEffect(() => {
+  //   if (location.state && location.state.label) {
+  //     setData((prevData) => ({
+  //       ...prevData,
+  //       seatNumber: String(location.state.label),
+  //       date: location.state.date,
+  //     }));
+  //     setFromSearch(itemToEdit?.from || "");
+  //     setToSearch(itemToEdit?.to || "");
+  //   }
+  // }, [location.state]);
   useEffect(() => {
     if (location.state && location.state.label) {
+      let formattedDate = "";
+
+      if (location.state.date) {
+        // Check if the date is already in string format (YYYY-MM-DD)
+        if (typeof location.state.date === "string") {
+          formattedDate = location.state.date;
+        } else {
+          // If it's a Date object, convert it to YYYY-MM-DD format
+          formattedDate = location.state.date.toISOString().split("T")[0];
+        }
+      }
+
       setData((prevData) => ({
         ...prevData,
         seatNumber: String(location.state.label),
-        date: location.state.date,
+        date: formattedDate, // Setting the formatted date here
       }));
       setFromSearch(itemToEdit?.from || "");
       setToSearch(itemToEdit?.to || "");
@@ -234,7 +257,11 @@ function Bookingform() {
                 {/* Use justify-end and set width to full */}
                 <div
                   className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
-                  onClick={() => navigate("/Bookingpage")}
+                  onClick={() =>
+                    navigate("/Bookingpage", {
+                      state: { date: data.date, route: routeids },
+                    })
+                  }
                 >
                   Back
                 </div>
