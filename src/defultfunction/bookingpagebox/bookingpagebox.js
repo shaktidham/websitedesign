@@ -16,6 +16,7 @@ const SeatCell = ({
   date,
   route,
   handlewhatapp,
+  routeids,
 }) => {
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const SeatCell = ({
                   label: seat,
                   passengers: passengers,
                   matchingSeat: matchingSeat,
+                  routeids: routeids,
                 },
               })
             }
@@ -123,6 +125,7 @@ export const generateTableRows = (
             passengers={passengers}
             route={route}
             handlewhatapp={handlewhatapp}
+            routeids={routeids}
           />
         );
       })}
@@ -138,6 +141,7 @@ export const GeneratesTableRows = ({
   handlewhatapp,
   handleDelete,
   Details,
+  routeids,
 }) => {
   const navigate = useNavigate();
   const cellStyle = "p-1";
@@ -179,6 +183,7 @@ export const GeneratesTableRows = ({
                           label: seatNumber,
                           passengers: chartData,
                           matchingSeat: item,
+                          routeids: routeids,
                         },
                       })
                     }

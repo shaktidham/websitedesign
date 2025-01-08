@@ -25,7 +25,7 @@ function Bookingpage() {
   const [popupData, setPopupData] = useState(false);
   const [mobilewisedata, setMobilewisedata] = useState([]);
   const [allroute, setAllRoute] = useState([]);
-  const [route, setRoute] = useState("");
+  const [routeids, setRoute] = useState("");
   const token = Cookies.get("authToken");
 
   // Set today's date initially or handle state changes
@@ -42,8 +42,8 @@ function Bookingpage() {
       return; // Avoid making API call if date is not set
     }
     setLoading(true);
-    const url = route
-      ? `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}&route=${route}`
+    const url = routeids
+      ? `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}&route=${routeids}`
       : `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}`;
     try {
       const response = await fetch(url);
@@ -64,10 +64,10 @@ function Bookingpage() {
   };
 
   useEffect(() => {
-    if (date || route) {
+    if (date || routeids) {
       fetchBookedSeats(); // Fetch booked seats if date is available
     }
-  }, [date, route]); // Dependency array will trigger fetch on date change
+  }, [date, routeids]); // Dependency array will trigger fetch on date change
 
   // If location state is passed, update the date
   useEffect(() => {
@@ -135,6 +135,7 @@ function Bookingpage() {
   const handlemobilewiseSeats = async (date) => {
     setLoading(true);
     setAllRoute();
+    setRoute();
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`
@@ -151,7 +152,7 @@ function Bookingpage() {
       const data = await response.json();
       const routedata = await route.json();
       setAllRoute(routedata.data);
-      setMobilewisedata(data); // Store mobile-wise data
+      setMobilewisedata(data);
     } catch (error) {
       console.error("Error fetching booked seats:", error);
     } finally {
@@ -205,7 +206,7 @@ function Bookingpage() {
                 <select
                   id="busName"
                   onChange={(e) => setRoute(e.target.value)} // Pass the selected value (e.target.value)
-                  value={route}
+                  value={routeids}
                   className="block px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="" selected>
@@ -260,7 +261,8 @@ function Bookingpage() {
                               Details,
                               date,
                               Route.route,
-                              handlewhatapp
+                              handlewhatapp,
+                              routeids
                             )}
                           </tbody>
                         </table>
@@ -283,7 +285,8 @@ function Bookingpage() {
                               Details,
                               date,
                               Route.route,
-                              handlewhatapp
+                              handlewhatapp,
+                              routeids
                             )}
                           </tbody>
                         </table>
@@ -299,6 +302,7 @@ function Bookingpage() {
                           handlewhatapp={handlewhatapp}
                           Details={Details}
                           handleDelete={handleDelete}
+                          routeids={routeids}
                         />
                       </table>
                     </div>

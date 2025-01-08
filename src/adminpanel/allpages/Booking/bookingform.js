@@ -14,7 +14,7 @@ function Bookingform() {
   // Check if item is being edited (when data is passed via location.state.item)
   const itemToEdit = location.state?.matchingSeat || null;
   const seatsData = location.state?.passengers;
-
+  const routeids = location.state?.routeids || null;
   const [data, setData] = useState({
     name: itemToEdit?.name || "",
     mobile: itemToEdit?.mobile || "",
@@ -146,7 +146,7 @@ function Bookingform() {
 
       if (response.ok) {
         navigate("/Bookingpage", {
-          state: { id, date: data.date, route: routeid },
+          state: { id, date: data.date, route: routeids },
         });
       } else {
         console.error("Submission failed");
