@@ -13,7 +13,7 @@ import Loader from "../../../userpages/Loader/Loader";
 import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 // import { handleSendWhatsApp } from "../../../defultfunction/whatapp/whatappmsg";
 function Bookingpage() {
@@ -26,7 +26,7 @@ function Bookingpage() {
   const [mobilewisedata, setMobilewisedata] = useState([]);
   const [allroute, setAllRoute] = useState([]);
   const [route, setRoute] = useState("");
-  const token = Cookies.get('authToken');
+  const token = Cookies.get("authToken");
 
   // Set today's date initially or handle state changes
   useEffect(() => {
@@ -134,14 +134,16 @@ function Bookingpage() {
 
   const handlemobilewiseSeats = async (date) => {
     setLoading(true);
+    setAllRoute();
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`
       );
       const route = await fetch(
-        `https://shaktidham-backend.vercel.app/route/readid?date=${date}`,   {
+        `https://shaktidham-backend.vercel.app/route/readid?date=${date}`,
+        {
           headers: {
-            "Authorization": `Bearer ${token}`, // Add Authorization header with Bearer token
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
             "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
           },
         }

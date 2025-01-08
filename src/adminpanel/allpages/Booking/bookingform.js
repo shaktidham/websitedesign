@@ -3,6 +3,7 @@ import Loader from "../../../userpages/Loader/Loader";
 import Sidebar from "../sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getLabel } from "../../../constvalue/constvalue";
+import Cookies from "js-cookie";
 
 function Bookingform() {
   const [loading, setLoading] = useState(false);
@@ -40,12 +41,19 @@ function Bookingform() {
   const [isToDropdownOpen, setIsToDropdownOpen] = useState(false);
   const [agent, setAgent] = useState([]);
   const [error, setError] = useState(null);
+  const token = Cookies.get("authToken");
 
   const fetchData = async () => {
     const id = location.state?.id;
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/route/read?id=${id}`
+        `https://shaktidham-backend.vercel.app/route/read?id=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+          },
+        }
       );
       if (!response.ok) throw new Error("Network response was not ok");
       const result = await response.json();
@@ -60,7 +68,9 @@ function Bookingform() {
   const fetchAgent = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/agent/agents`);
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/agent/agents`
+      );
       if (!response.ok) throw new Error("Failed to fetch agent");
       const data = await response.json();
       setAgent(data.data);
@@ -112,8 +122,7 @@ function Bookingform() {
       [id]: value,
     }));
   };
- 
-  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const id = routeData?._id;
@@ -134,9 +143,11 @@ function Bookingform() {
           body: JSON.stringify(formattedData),
         }
       );
-   
+
       if (response.ok) {
-        navigate("/Bookingpage", { state: { id, date: data.date,route:routeid } });
+        navigate("/Bookingpage", {
+          state: { id, date: data.date, route: routeid },
+        });
       } else {
         console.error("Submission failed");
       }
@@ -151,29 +162,28 @@ function Bookingform() {
   const toggleToDropdown = () => setIsToDropdownOpen(!isToDropdownOpen);
   const toggleAgentDropdown = () =>
     setIsAgentDropdownOpen(!isAgentDropdownOpen);
-// Handle agent name search (both typing and selecting from dropdown)
-const handleAgentSearch = (e) => {
-  const searchTerm = e.target.value;
-  setAgentSearch(searchTerm); // Update the search term
+  // Handle agent name search (both typing and selecting from dropdown)
+  const handleAgentSearch = (e) => {
+    const searchTerm = e.target.value;
+    setAgentSearch(searchTerm); // Update the search term
 
-  // Update the data.name to whatever the user types
-  setData((prevData) => ({ ...prevData, name: searchTerm }));
+    // Update the data.name to whatever the user types
+    setData((prevData) => ({ ...prevData, name: searchTerm }));
 
-  // Filter agent list based on search term
-  setFilteredAgentOptions(
-    agent.filter((agent) =>
-      agent.name.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-};
+    // Filter agent list based on search term
+    setFilteredAgentOptions(
+      agent.filter((agent) =>
+        agent.name.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  };
 
-// Handle selection of agent from dropdown
-const handleAgentSelection = (agentName) => {
-  setAgentSearch(agentName); // Set the search term to the selected agent name
-  setData((prevData) => ({ ...prevData, name: agentName })); // Update the form data with selected agent
-  setIsAgentDropdownOpen(false); // Close dropdown after selection
-};
-
+  // Handle selection of agent from dropdown
+  const handleAgentSelection = (agentName) => {
+    setAgentSearch(agentName); // Set the search term to the selected agent name
+    setData((prevData) => ({ ...prevData, name: agentName })); // Update the form data with selected agent
+    setIsAgentDropdownOpen(false); // Close dropdown after selection
+  };
 
   const handleFromSelection = (village) => {
     setFromSearch(village);
@@ -219,16 +229,16 @@ const handleAgentSelection = (agentName) => {
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
           <div className="flex-1 p-4 ml-64">
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
-            <div className="flex justify-end w-full">
-              {" "}
-              {/* Use justify-end and set width to full */}
-              <div
-                className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
-                onClick={() => navigate("/Bookingpage")}
-              >
-                Back
+              <div className="flex justify-end w-full">
+                {" "}
+                {/* Use justify-end and set width to full */}
+                <div
+                  className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
+                  onClick={() => navigate("/Bookingpage")}
+                >
+                  Back
+                </div>
               </div>
-            </div>
               <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div>
@@ -239,28 +249,30 @@ const handleAgentSelection = (agentName) => {
                       Name
                     </label>
                     <div className="relative">
-                    <input
-                      id="name"
-                      type="text"
-                      className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      value={agentSearch}
-                      onChange={handleAgentSearch} // Updated to handle search input
-                      onClick={toggleAgentDropdown} // Keep the toggle functionality
-                    />
-                    {isAgentDropdownOpen && filteredAgentOptions.length > 0 && (
-                        <ul className="absolute left-0 right-0 bg-white font-bold text-black border border-gray-300 mt-1 max-h-60 overflow-y-auto z-10">
-                        {filteredAgentOptions.map((agent) => (
-                          <li
-                            key={agent.name}
-                            onClick={() => handleAgentSelection(agent.name)}
-                            className="px-4 py-2 cursor-pointer border border-bottom border-black hover:bg-blue-400"
-                          >
-                            {agent.name}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div></div>
+                      <input
+                        id="name"
+                        type="text"
+                        className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={agentSearch}
+                        onChange={handleAgentSearch} // Updated to handle search input
+                        onClick={toggleAgentDropdown} // Keep the toggle functionality
+                      />
+                      {isAgentDropdownOpen &&
+                        filteredAgentOptions.length > 0 && (
+                          <ul className="absolute left-0 right-0 bg-white font-bold text-black border border-gray-300 mt-1 max-h-60 overflow-y-auto z-10">
+                            {filteredAgentOptions.map((agent) => (
+                              <li
+                                key={agent.name}
+                                onClick={() => handleAgentSelection(agent.name)}
+                                className="px-4 py-2 cursor-pointer border border-bottom border-black hover:bg-blue-400"
+                              >
+                                {agent.name}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                    </div>
+                  </div>
 
                   <div>
                     <label
