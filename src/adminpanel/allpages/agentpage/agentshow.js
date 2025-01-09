@@ -17,7 +17,9 @@ function Agentshow() {
   const fetchAgent = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/agent/agents`);
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/agent/agents`
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch agent");
       }
@@ -40,9 +42,12 @@ function Agentshow() {
 
     try {
       // Make the delete API call
-      const response = await fetch(`https://shaktidham-backend.vercel.app/agent/agents/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/agent/agents/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete the agent");
@@ -76,7 +81,7 @@ function Agentshow() {
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
 
           {/* Main Content */}
-          <div className="flex-1 p-4 ml-64">
+          <div className="flex-1 p-4 ">
             <div className="flex justify-end w-full">
               {" "}
               {/* Use justify-end and set width to full */}

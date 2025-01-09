@@ -86,7 +86,7 @@ function Bookingform() {
     fetchData();
     fetchAgent();
   }, []);
-  console.log(location.state, "location.state");
+
   // useEffect(() => {
   //   if (location.state && location.state.label) {
   //     setData((prevData) => ({
@@ -250,7 +250,7 @@ function Bookingform() {
       ) : (
         <div className="flex flex-col md:flex-row h-screen bg-[#ECF0F5]">
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
-          <div className="flex-1 p-4 ml-64">
+          <div className="flex-1 p-4 lg:ml-64">
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
               <div className="flex justify-end w-full">
                 {" "}

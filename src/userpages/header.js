@@ -35,9 +35,10 @@ function Header() {
             Help Line Number: 9427555062
           </div>
           <Link to="/adminlogin">
-          <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300 mt-2 md:hidden">
-            Agent Login
-          </button></Link>
+            <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300 mt-2 md:hidden">
+              Agent Login
+            </button>
+          </Link>
         </div>
       </div>
       <div
@@ -58,7 +59,7 @@ function Header() {
                 onClick={toggleSidebar}
                 className="text-black text-xl font-bold hover:text-white transition duration-300 hover:bg-[#FFC107] py-2 cursor-pointer"
               >
-                <a>Home</a>
+                <a>Homesss</a>
               </li>
             </Link>
             <li
@@ -115,11 +116,11 @@ function Header() {
           </li>
         </ul>
         <Link to="/adminlogin">
-        <div className="flex items-center">
-          <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300">
-            Agent Login
-          </button>
-        </div>
+          <div className="flex items-center">
+            <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300">
+              Agent Login
+            </button>
+          </div>
         </Link>
       </div>
     </div>

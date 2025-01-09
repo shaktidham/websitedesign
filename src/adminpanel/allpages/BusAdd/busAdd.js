@@ -4,7 +4,7 @@ import Sidebar from "../sidebar";
 import Pickuppoint from "./Pickuppoint";
 import Droppoint from "./droppoint";
 import { useLocation, useNavigate } from "react-router-dom";
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 
 function Busadd() {
   const [loading, setLoading] = useState(false);
@@ -25,7 +25,7 @@ function Busadd() {
     driver: "",
     cabinprice: "",
   });
-  const token = Cookies.get('authToken');
+  const token = Cookies.get("authToken");
   const [selectedCode, setSelectedCode] = useState("");
   const location = useLocation(); // Access location state (itemToEdit)
   const { itemToEdit } = location.state || {};
@@ -36,9 +36,10 @@ function Busadd() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/village/read`,   {
+        `https://shaktidham-backend.vercel.app/village/read`,
+        {
           headers: {
-            "Authorization": `Bearer ${token}`, // Add Authorization header with Bearer token
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
             "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
           },
         }
@@ -112,7 +113,7 @@ function Busadd() {
           },
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`, // Add Authorization header with Bearer token
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
           },
           body: JSON.stringify(data),
         });
@@ -146,7 +147,367 @@ function Busadd() {
       setIsOther(false);
     }
   };
- 
+
+  // return (
+  //   <div className="min-h-screen flex flex-col">
+  //     {loading ? (
+  //       <Loader />
+  //     ) : (
+  //       <div className="flex flex-1 bg-[#ECF0F5]">
+  //         {/* Sidebar */}
+  //         <div className="w-full md:w-1/6 bg-gray-100 fixed">
+  //           <Sidebar />
+  //         </div>
+
+  //         {/* Main Content */}
+  //         <div className="flex-1 p-6 sm:p-8 bg-white rounded-lg shadow-lg lg:ml-64">
+  //           <div className="flex justify-between mb-5">
+  //             <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+  //               Add Bus
+  //             </h2>
+
+  //             <button
+  //               className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
+  //               onClick={() => Navigate("/Bus")}
+  //             >
+  //               Back
+  //             </button>
+  //           </div>
+  //           <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
+  //             <form className="space-y-6" onSubmit={handleSubmit}>
+  //               {/* Inputs Row */}
+  //               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+  //                 {/* Bus Name */}
+  //                 <div>
+  //                   <label
+  //                     htmlFor="date"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Date
+  //                   </label>
+  //                   <input
+  //                     id="date"
+  //                     type="date"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     placeholder="Enter Date"
+  //                     value={data.date}
+  //                     required
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({ ...prev, date: e.target.value }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 {/* Bus Name */}
+  //                 {/* <div>
+  //                   <label
+  //                     htmlFor="Busname"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Bus Name
+  //                   </label>
+  //                   <input
+  //                     id="Busname"
+  //                     type="text"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     placeholder="Enter Bus Name"
+  //                     value={data.Busname}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         Busname: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div> */}
+  //                 <div>
+  //                   <label
+  //                     htmlFor="Busname"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Bus Name
+  //                   </label>
+  //                   <select
+  //                     id="Busname"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     value={data.Busname}
+  //                     onChange={handleBusNameChange}
+  //                   >
+  //                     <option value="">Select Bus Name</option>
+  //                     <option value="GJ-05-BZ-0999">GJ-05-BZ-0999</option>
+  //                     <option value="GJ-05-BZ-9999">GJ-05-BZ-9999</option>
+  //                     <option value="GJ-05-CW-9027">GJ-05-CW-9027</option>
+  //                     <option value="GJ-05-CW-9927">GJ-05-CW-9927</option>
+  //                     <option value="GJ-14-Z-9090">GJ-14-Z-9090</option>
+  //                     <option value="GJ-14-Z-9009">GJ-14-Z-9009</option>
+  //                     <option value="OTHER">Other</option>
+  //                   </select>
+
+  //                   {isOther && (
+  //                     <input
+  //                       type="text"
+  //                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                       placeholder="Enter Bus Name"
+  //                       // value={data.Busname}
+  //                       onChange={(e) =>
+  //                         setData((prev) => ({
+  //                           ...prev,
+  //                           Busname: e.target.value,
+  //                         }))
+  //                       }
+  //                     />
+  //                   )}
+  //                 </div>
+  //                 {/* From */}
+
+  //                 <div>
+  //                   <label
+  //                     htmlFor="from"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     From
+  //                   </label>
+  //                   <input
+  //                     id="from"
+  //                     type="text"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     placeholder="Starting Locations"
+  //                     value={data.first}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         first: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 <div>
+  //                   <label
+  //                     htmlFor="fromtime"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     From Time
+  //                   </label>
+  //                   <input
+  //                     id="fromtime"
+  //                     type="time"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     placeholder="Starting Locations time"
+  //                     value={data.fromtime}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         fromtime: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+
+  //                 {/* To */}
+  //                 <div>
+  //                   <label
+  //                     htmlFor="to"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     To
+  //                   </label>
+  //                   <input
+  //                     id="to"
+  //                     type="text"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     placeholder="Destination"
+  //                     value={data.last}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({ ...prev, last: e.target.value }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 <div>
+  //                   <label
+  //                     htmlFor="totime"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     To Time
+  //                   </label>
+  //                   <input
+  //                     id="totime"
+  //                     type="time"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     placeholder="Destination Time"
+  //                     value={data.totime}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         totime: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+
+  //                 <div>
+  //                   <label
+  //                     htmlFor="price"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Price
+  //                   </label>
+  //                   <input
+  //                     id="price"
+  //                     type="number"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     value={data.price}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         price: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 <div>
+  //                   <label
+  //                     htmlFor="cabinprice"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Cabin Price
+  //                   </label>
+  //                   <input
+  //                     id="cabinprice"
+  //                     type="number"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     value={data.cabinprice}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         cabinprice: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 <div>
+  //                   <label
+  //                     htmlFor="driver"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Driver
+  //                   </label>
+  //                   <input
+  //                     id="driver"
+  //                     type="text"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     value={data.driver}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         driver: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 <div>
+  //                   <label
+  //                     htmlFor="location"
+  //                     className="block text-gray-700 font-medium"
+  //                   >
+  //                     Location
+  //                   </label>
+  //                   <input
+  //                     id="location"
+  //                     type="text"
+  //                     className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                     value={data.location}
+  //                     onChange={(e) =>
+  //                       setData((prev) => ({
+  //                         ...prev,
+  //                         location: e.target.value,
+  //                       }))
+  //                     }
+  //                   />
+  //                 </div>
+  //                 {!itemToEdit && (
+  //                   <div>
+  //                     <label
+  //                       htmlFor="date"
+  //                       className="block text-gray-700 font-medium"
+  //                     >
+  //                       End Date
+  //                     </label>
+  //                     <input
+  //                       id="enddate"
+  //                       type="date"
+  //                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                       placeholder="Enter Enddate"
+  //                       value={data.enddate}
+  //                       required={!itemToEdit}
+  //                       onChange={(e) =>
+  //                         setData((prev) => ({
+  //                           ...prev,
+  //                           enddate: e.target.value,
+  //                         }))
+  //                       }
+  //                     />
+  //                   </div>
+  //                 )}
+  //                 {password === "1681" && (
+  //                   <div>
+  //                     <label
+  //                       htmlFor="Edit"
+  //                       className="block text-gray-700 font-medium"
+  //                     >
+  //                       Edit
+  //                     </label>
+  //                     <select
+  //                       id="edit"
+  //                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                       value={selectedCode}
+  //                       onChange={(e) => setSelectedCode(e.target.value)}
+  //                     >
+  //                       <option value="">Select Value</option>
+  //                       <option value="">Only this</option>
+  //                       <option value="all">All</option>
+  //                     </select>
+  //                   </div>
+  //                 )}
+  //               </div>
+  //               {password === "1681" && (
+  //                 <div className="flex justify-between">
+  //                   <div>
+  //                     <h1 className="text-center text-red-800 font-bold mb-5">
+  //                       PICKUP POINT
+  //                     </h1>
+  //                     <Pickuppoint
+  //                       villages={villages}
+  //                       setData={setData}
+  //                       itemToEdit={itemToEdit}
+  //                     />
+  //                   </div>
+  //                   <div>
+  //                     <h1 className="text-center text-red-800 font-bold mb-5">
+  //                       DROP
+  //                     </h1>
+  //                     <Droppoint
+  //                       villages={villages}
+  //                       setData={setData}
+  //                       itemToEdit={itemToEdit}
+  //                     />
+  //                   </div>
+  //                 </div>
+  //               )}
+
+  //               <div className="flex justify-end mt-6">
+  //                 <button
+  //                   type="submit"
+  //                   className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //                 >
+  //                   Save Bus
+  //                 </button>
+  //               </div>
+  //             </form>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     )}
+  //   </div>
+  // );
   return (
     <div className="min-h-screen flex flex-col">
       {loading ? (
@@ -159,12 +520,11 @@ function Busadd() {
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 p-6 sm:p-8 bg-white rounded-lg shadow-lg ml-64">
+          <div className="flex-1 p-6 sm:p-8 bg-white rounded-lg shadow-lg lg:ml-64">
             <div className="flex justify-between mb-5">
               <h2 className="text-2xl font-semibold text-gray-800 mb-6">
                 Add Bus
               </h2>
-
               <button
                 className="bg-red-600 hover:bg-red-300 text-white px-4 py-2 rounded shadow-md transition-all duration-300"
                 onClick={() => Navigate("/Bus")}
@@ -176,7 +536,7 @@ function Busadd() {
               <form className="space-y-6" onSubmit={handleSubmit}>
                 {/* Inputs Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {/* Bus Name */}
+                  {/* Date */}
                   <div>
                     <label
                       htmlFor="date"
@@ -196,65 +556,46 @@ function Busadd() {
                       }
                     />
                   </div>
+
                   {/* Bus Name */}
-                  {/* <div>
+                  <div>
                     <label
                       htmlFor="Busname"
                       className="block text-gray-700 font-medium"
                     >
                       Bus Name
                     </label>
-                    <input
+                    <select
                       id="Busname"
-                      type="text"
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter Bus Name"
                       value={data.Busname}
-                      onChange={(e) =>
-                        setData((prev) => ({
-                          ...prev,
-                          Busname: e.target.value,
-                        }))
-                      }
-                    />
-                  </div> */}
-  <div>
-      <label htmlFor="Busname" className="block text-gray-700 font-medium">
-        Bus Name
-      </label>
-      <select
-        id="Busname"
-        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        value={data.Busname}
-        onChange={handleBusNameChange}
-      >
-        <option value="">Select Bus Name</option>
-        <option value="GJ-05-BZ-0999">GJ-05-BZ-0999</option>
-        <option value="GJ-05-BZ-9999">GJ-05-BZ-9999</option>
-        <option value="GJ-05-CW-9027">GJ-05-CW-9027</option>
-        <option value="GJ-05-CW-9927">GJ-05-CW-9927</option>
-        <option value="GJ-14-Z-9090">GJ-14-Z-9090</option>
-        <option value="GJ-14-Z-9009">GJ-14-Z-9009</option>
-        <option value="OTHER">Other</option>
-      </select>
+                      onChange={handleBusNameChange}
+                    >
+                      <option value="">Select Bus Name</option>
+                      <option value="GJ-05-BZ-0999">GJ-05-BZ-0999</option>
+                      <option value="GJ-05-BZ-9999">GJ-05-BZ-9999</option>
+                      <option value="GJ-05-CW-9027">GJ-05-CW-9027</option>
+                      <option value="GJ-05-CW-9927">GJ-05-CW-9927</option>
+                      <option value="GJ-14-Z-9090">GJ-14-Z-9090</option>
+                      <option value="GJ-14-Z-9009">GJ-14-Z-9009</option>
+                      <option value="OTHER">Other</option>
+                    </select>
+                    {isOther && (
+                      <input
+                        type="text"
+                        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="Enter Bus Name"
+                        onChange={(e) =>
+                          setData((prev) => ({
+                            ...prev,
+                            Busname: e.target.value,
+                          }))
+                        }
+                      />
+                    )}
+                  </div>
 
-      {isOther && (
-        <input
-          type="text"
-          className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter Bus Name"
-          // value={data.Busname}
-          onChange={(e) =>
-            setData((prev) => ({
-              ...prev,
-              Busname: e.target.value,
-            }))
-          }
-        />
-      )}
-    </div>
-                  {/* From */}
-
+                  {/* From Location */}
                   <div>
                     <label
                       htmlFor="from"
@@ -269,13 +610,12 @@ function Busadd() {
                       placeholder="Starting Locations"
                       value={data.first}
                       onChange={(e) =>
-                        setData((prev) => ({
-                          ...prev,
-                          first: e.target.value,
-                        }))
+                        setData((prev) => ({ ...prev, first: e.target.value }))
                       }
                     />
                   </div>
+
+                  {/* From Time */}
                   <div>
                     <label
                       htmlFor="fromtime"
@@ -298,7 +638,7 @@ function Busadd() {
                     />
                   </div>
 
-                  {/* To */}
+                  {/* To Location */}
                   <div>
                     <label
                       htmlFor="to"
@@ -317,6 +657,8 @@ function Busadd() {
                       }
                     />
                   </div>
+
+                  {/* To Time */}
                   <div>
                     <label
                       htmlFor="totime"
@@ -331,14 +673,12 @@ function Busadd() {
                       placeholder="Destination Time"
                       value={data.totime}
                       onChange={(e) =>
-                        setData((prev) => ({
-                          ...prev,
-                          totime: e.target.value,
-                        }))
+                        setData((prev) => ({ ...prev, totime: e.target.value }))
                       }
                     />
                   </div>
 
+                  {/* Price */}
                   <div>
                     <label
                       htmlFor="price"
@@ -352,13 +692,12 @@ function Busadd() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.price}
                       onChange={(e) =>
-                        setData((prev) => ({
-                          ...prev,
-                          price: e.target.value,
-                        }))
+                        setData((prev) => ({ ...prev, price: e.target.value }))
                       }
                     />
                   </div>
+
+                  {/* Cabin Price */}
                   <div>
                     <label
                       htmlFor="cabinprice"
@@ -379,6 +718,8 @@ function Busadd() {
                       }
                     />
                   </div>
+
+                  {/* Driver */}
                   <div>
                     <label
                       htmlFor="driver"
@@ -392,13 +733,12 @@ function Busadd() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.driver}
                       onChange={(e) =>
-                        setData((prev) => ({
-                          ...prev,
-                          driver: e.target.value,
-                        }))
+                        setData((prev) => ({ ...prev, driver: e.target.value }))
                       }
                     />
                   </div>
+
+                  {/* Location */}
                   <div>
                     <label
                       htmlFor="location"
@@ -419,10 +759,12 @@ function Busadd() {
                       }
                     />
                   </div>
+
+                  {/* End Date */}
                   {!itemToEdit && (
                     <div>
                       <label
-                        htmlFor="date"
+                        htmlFor="enddate"
                         className="block text-gray-700 font-medium"
                       >
                         End Date
@@ -444,58 +786,39 @@ function Busadd() {
                     </div>
                   )}
                   {password === "1681" && (
-                    <div>
-                      <label
-                        htmlFor="Edit"
-                        className="block text-gray-700 font-medium"
-                      >
-                        Edit
-                      </label>
-                      <select
-                        id="edit"
-                        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={selectedCode}
-                        onChange={(e) => setSelectedCode(e.target.value)}
-                      >
-                        <option value="">Select Value</option>
-                        <option value="">Only this</option>
-                        <option value="all">All</option>
-                      </select>
+                    <div className="flex flex-col sm:flex-row sm:space-x-6 mt-6">
+                      <div className="flex-1">
+                        <h1 className="text-center text-red-800 font-bold mb-5">
+                          PICKUP POINT
+                        </h1>
+                        <Pickuppoint
+                          villages={villages}
+                          setData={setData}
+                          itemToEdit={itemToEdit}
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h1 className="text-center text-red-800 font-bold mb-5">
+                          DROP POINT
+                        </h1>
+                        <Droppoint
+                          villages={villages}
+                          setData={setData}
+                          itemToEdit={itemToEdit}
+                        />
+                      </div>
                     </div>
                   )}
-                </div>
-                {password === "1681" && (
-                  <div className="flex justify-between">
-                    <div>
-                      <h1 className="text-center text-red-800 font-bold mb-5">
-                        PICKUP POINT
-                      </h1>
-                      <Pickuppoint
-                        villages={villages}
-                        setData={setData}
-                        itemToEdit={itemToEdit}
-                      />
-                    </div>
-                    <div>
-                      <h1 className="text-center text-red-800 font-bold mb-5">
-                        DROP
-                      </h1>
-                      <Droppoint
-                        villages={villages}
-                        setData={setData}
-                        itemToEdit={itemToEdit}
-                      />
-                    </div>
-                  </div>
-                )}
 
-                <div className="flex justify-end mt-6">
-                  <button
-                    type="submit"
-                    className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    Save Bus
-                  </button>
+                  {/* Submit Button */}
+                  <div className="flex justify-end mt-6">
+                    <button
+                      type="submit"
+                      className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      Save Bus
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

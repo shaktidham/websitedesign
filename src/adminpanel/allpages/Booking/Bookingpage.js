@@ -27,8 +27,7 @@ function Bookingpage() {
   const [allroute, setAllRoute] = useState([]);
   const [routeids, setRoute] = useState("");
   const token = Cookies.get("authToken");
-  console.log(allroute, "allroute");
-  console.log(routeids, "routeids");
+
   // Set today's date initially or handle state changes
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
@@ -173,18 +172,169 @@ function Bookingpage() {
     handleSendWhatsApp(filterData, filterRoute);
   };
 
+  // return (
+  //   <>
+  //     {loading ? (
+  //       <Loader />
+  //     ) : (
+  //       <div className="flex">
+  //         <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
+  //         <div className="flex-1 p-4 lg:ml-64">
+  //           <div className="flex items-center justify-center mb-4 space-x-8">
+  //             {/* Centered content */}
+  //             <div className="w-full max-w-xs sm:w-full">
+  //               {/* Limit width for date picker */}
+  //               <label
+  //                 htmlFor="date"
+  //                 className="block text-gray-700 font-medium"
+  //               >
+  //                 Date
+  //               </label>
+  //               <DatePicker
+  //                 selected={date}
+  //                 onChange={handleDateChange}
+  //                 dateFormat="dd/MM/yyyy" // Custom date format
+  //                 className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //               />
+  //             </div>
+
+  //             <div className="w-full max-w-xs sm:w-full">
+  //               {/* Limit width for select dropdown */}
+  //               <label
+  //                 htmlFor="busName"
+  //                 className="block text-gray-700 font-medium mt-4"
+  //               >
+  //                 Bus Name
+  //               </label>
+  //               <select
+  //                 id="busName"
+  //                 onChange={(e) => setRoute(e.target.value)} // Pass the selected value (e.target.value)
+  //                 value={routeids}
+  //                 className="block px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+  //               >
+  //                 <option value="" selected>
+  //                   Select Bus
+  //                 </option>
+  //                 {allroute?.map((route, index) => (
+  //                   <option key={index} value={route._id} className="w-1/2">
+  //                     {route.Busname}
+  //                   </option>
+  //                 ))}
+  //               </select>
+  //             </div>
+  //           </div>
+
+  //           {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
+  //             <div className="lg:flex  lg:flex-wrap justify-between gap-4">
+  //               {/* Added gap-4 for spacing */}
+  //               {bookedSeats.map((Route, index) => (
+  //                 <div key={index} className="lg:w-[48%] mt-3">
+  //                   <div className="flex justify-between items-center mb-2">
+  //                     <div className="text-sm font-bold text-blue-800">
+  //                       Bus Name : {Route.busName}--{Route.last}
+  //                     </div>
+  //                     <div className="text-sm font-bold text-red-800">
+  //                       ભરેલી સિટ : {Route.count}
+  //                       <br></br>
+  //                       ખાલી સિટ: {36 - Route.count}
+  //                     </div>
+  //                     <button
+  //                       className="bg-blue-600 p-2 text-white font-bold rounded"
+  //                       onClick={() => handlechartDownloads(Route)}
+  //                     >
+  //                       Download
+  //                     </button>
+  //                   </div>
+  //                   <div className="flex justify-between   mb-4">
+  //                     <div className="w-1/2 flex flex-stretch pr-2">
+  //                       <table className="min-w-full border-collapse border border-black">
+  //                         <thead>
+  //                           <tr>
+  //                             <th className="bg-red-500 text-white p-1">ઉપર</th>
+  //                             <th className="bg-red-500 text-white p-1">
+  //                               નીચે
+  //                             </th>
+  //                           </tr>
+  //                         </thead>
+  //                         <tbody>
+  //                           {generateTableRows(
+  //                             labels,
+  //                             Route.passengers,
+  //                             handleDelete,
+  //                             Details,
+  //                             date,
+  //                             Route.route,
+  //                             handlewhatapp,
+  //                             routeids
+  //                           )}
+  //                         </tbody>
+  //                       </table>
+  //                     </div>
+  //                     <div className="w-1/2 flex flex-stretch pl-2">
+  //                       <table className="min-w-full border-collapse border border-black">
+  //                         <thead>
+  //                           <tr>
+  //                             <th className="bg-red-500 text-white p-1">
+  //                               નીચે
+  //                             </th>
+  //                             <th className="bg-red-500 text-white p-1">ઉપર</th>
+  //                           </tr>
+  //                         </thead>
+  //                         <tbody>
+  //                           {generateTableRows(
+  //                             number,
+  //                             Route.passengers,
+  //                             handleDelete,
+  //                             Details,
+  //                             date,
+  //                             Route.route,
+  //                             handlewhatapp,
+  //                             routeids
+  //                           )}
+  //                         </tbody>
+  //                       </table>
+  //                     </div>
+  //                   </div>
+  //                   <div className="w-full">
+  //                     <table className="w-full">
+  //                       <GeneratesTableRows
+  //                         kabin={cabin}
+  //                         chartData={Route.passengers}
+  //                         route={Route.route}
+  //                         date={date}
+  //                         handlewhatapp={handlewhatapp}
+  //                         Details={Details}
+  //                         handleDelete={handleDelete}
+  //                         routeids={routeids}
+  //                       />
+  //                     </table>
+  //                   </div>
+  //                 </div>
+  //               ))}
+  //             </div>
+  //           ) : (
+  //             <div>No booked seats available for this date.</div>
+  //           )}
+  //         </div>
+  //         <Bookedsitshow popup={popup} setPopup={setPopup} data={popupData} />
+  //       </div>
+  //     )}
+  //   </>
+  // );
   return (
     <>
       {loading ? (
         <Loader />
       ) : (
-        <div className="flex">
+        <div className="flex flex-col md:flex-row">
+          {/* Sidebar */}
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
-          <div className="flex-1 p-4 ml-64">
-            <div className="flex items-center justify-center mb-4 space-x-8">
-              {/* Centered content */}
-              <div className="w-full max-w-xs sm:w-full">
-                {/* Limit width for date picker */}
+
+          <div className="flex-1 p-4 lg:ml-64">
+            {/* Centered content */}
+            <div className="flex flex-col md:flex-row items-center justify-center mb-4 space-x-0 md:space-x-8">
+              {/* Date Picker */}
+              <div className="w-full max-w-xs sm:w-full mb-4 md:mb-0">
                 <label
                   htmlFor="date"
                   className="block text-gray-700 font-medium"
@@ -194,22 +344,22 @@ function Bookingpage() {
                 <DatePicker
                   selected={date}
                   onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy" // Custom date format
+                  dateFormat="dd/MM/yyyy"
                   className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
+              {/* Bus Name Dropdown */}
               <div className="w-full max-w-xs sm:w-full">
-                {/* Limit width for select dropdown */}
                 <label
                   htmlFor="busName"
-                  className="block text-gray-700 font-medium mt-4"
+                  className="block text-gray-700 font-medium mt-4 md:mt-0"
                 >
                   Bus Name
                 </label>
                 <select
                   id="busName"
-                  onChange={(e) => setRoute(e.target.value)} // Pass the selected value (e.target.value)
+                  onChange={(e) => setRoute(e.target.value)}
                   value={routeids}
                   className="block px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
@@ -225,9 +375,9 @@ function Bookingpage() {
               </div>
             </div>
 
+            {/* Booked Seats Table */}
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
-              <div className="lg:flex  lg:flex-wrap justify-between gap-4">
-                {/* Added gap-4 for spacing */}
+              <div className="lg:flex lg:flex-wrap justify-between gap-4">
                 {bookedSeats.map((Route, index) => (
                   <div key={index} className="lg:w-[48%] mt-3">
                     <div className="flex justify-between items-center mb-2">
@@ -236,7 +386,7 @@ function Bookingpage() {
                       </div>
                       <div className="text-sm font-bold text-red-800">
                         ભરેલી સિટ : {Route.count}
-                        <br></br>
+                        <br />
                         ખાલી સિટ: {36 - Route.count}
                       </div>
                       <button
@@ -246,8 +396,11 @@ function Bookingpage() {
                         Download
                       </button>
                     </div>
-                    <div className="flex justify-between   mb-4">
-                      <div className="w-1/2 flex flex-stretch pr-2">
+
+                    {/* Table Layout */}
+                    <div className="flex flex-col lg:flex-row justify-between mb-4 gap-4">
+                      {/* Upper and Lower Seat Tables */}
+                      <div className="w-full lg:w-1/2 flex flex-col">
                         <table className="min-w-full border-collapse border border-black">
                           <thead>
                             <tr>
@@ -271,7 +424,8 @@ function Bookingpage() {
                           </tbody>
                         </table>
                       </div>
-                      <div className="w-1/2 flex flex-stretch pl-2">
+
+                      <div className="w-full lg:w-1/2 flex flex-col">
                         <table className="min-w-full border-collapse border border-black">
                           <thead>
                             <tr>
@@ -296,19 +450,19 @@ function Bookingpage() {
                         </table>
                       </div>
                     </div>
+
+                    {/* Additional table */}
                     <div className="w-full">
-                      <table className="w-full">
-                        <GeneratesTableRows
-                          kabin={cabin}
-                          chartData={Route.passengers}
-                          route={Route.route}
-                          date={date}
-                          handlewhatapp={handlewhatapp}
-                          Details={Details}
-                          handleDelete={handleDelete}
-                          routeids={routeids}
-                        />
-                      </table>
+                      <GeneratesTableRows
+                        kabin={cabin}
+                        chartData={Route.passengers}
+                        route={Route.route}
+                        date={date}
+                        handlewhatapp={handlewhatapp}
+                        Details={Details}
+                        handleDelete={handleDelete}
+                        routeids={routeids}
+                      />
                     </div>
                   </div>
                 ))}
@@ -317,6 +471,7 @@ function Bookingpage() {
               <div>No booked seats available for this date.</div>
             )}
           </div>
+          {/* Modal for Booked Seat Details */}
           <Bookedsitshow popup={popup} setPopup={setPopup} data={popupData} />
         </div>
       )}

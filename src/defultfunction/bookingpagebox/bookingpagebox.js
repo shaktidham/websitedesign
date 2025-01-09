@@ -164,13 +164,19 @@ export const GeneratesTableRows = ({
                   >
                     {seatNumber}
                   </td>
-                  <td className={` ${cellStyle}  font-bold text-sm text-left`}>
+                  <td
+                    className={` ${cellStyle}  border border-black  font-bold text-sm text-left`}
+                  >
                     {item.to || ""}
                   </td>
-                  <td className={` ${cellStyle}  font-bold text-sm text-left`}>
+                  <td
+                    className={` ${cellStyle}  border border-black  font-bold text-sm text-left`}
+                  >
                     {item.name || ""}
                   </td>
-                  <td className={` ${cellStyle}  font-bold text-sm text-left`}>
+                  <td
+                    className={` ${cellStyle}  border border-black  font-bold text-sm text-left`}
+                  >
                     {item.mobile || ""}
                   </td>
 
@@ -217,10 +223,10 @@ export const GeneratesTableRows = ({
                   >
                     {seatNumber}
                   </td>
-                  <td></td>
-                  <td></td>
+                  <td className="border border-black "></td>
+                  <td className="border border-black "></td>
 
-                  <td></td>
+                  <td className="border border-black "></td>
 
                   <td
                     className={`border border-black ${cellStyle} text-center cursor-pointer font-bold text-sm text-left w-[5%]`}
