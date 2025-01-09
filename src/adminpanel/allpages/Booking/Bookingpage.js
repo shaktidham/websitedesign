@@ -398,7 +398,7 @@ function Bookingpage() {
                     </div>
 
                     {/* Table Layout */}
-                    <div className="flex flex-col lg:flex-row md:lg:flex-row justify-between mb-4 gap-4">
+                    <div className="flex flex-col lg:flex-row md:flex-row justify-between mb-4 gap-4">
                       {/* Upper and Lower Seat Tables */}
                       <div className="w-full lg:w-1/2 md:w-1/2 flex flex-col">
                         <table className="min-w-full border-collapse border border-black">
