@@ -439,18 +439,22 @@ function Village() {
               </table>
             </div>
             {/* Pagination Controls */}
-            <div className="flex justify-between items-center mt-4 hidden md:flex">
+            <div className="flex justify-between items-center mt-4">
               {/* Previous Button */}
               <button
                 onClick={() => handlePagination(filter.page - 1)}
                 disabled={filter.page === 1}
-                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded text-sm md:text-base"
+                className={`${
+                  filter.page === 1
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-red-600 hover:bg-red-700 text-white"
+                } px-4 py-2 rounded text-sm md:text-base`}
               >
                 Previous
               </button>
 
               {/* Page Number Buttons */}
-              <div className="flex items-center space-x-2 mx-4">
+              <div className="flex items-center space-x-2 mx-4 hidden md:flex">
                 {Array.from({ length: totalPages }, (_, index) => {
                   // Display only pages within the range (1 to 20)
                   if (index + 1 >= 1 && index + 1 <= 20) {
@@ -476,7 +480,11 @@ function Village() {
               <button
                 onClick={() => handlePagination(filter.page + 1)}
                 disabled={filter.page === totalPages}
-                className="bg-gray-300 hover:bg-gray-400 px-4 py-2 rounded text-sm md:text-base"
+                className={`${
+                  filter.page === totalPages
+                    ? "bg-gray-300 text-gray-500"
+                    : "bg-red-600 hover:bg-red-700 text-white"
+                } px-4 py-2 rounded text-sm md:text-base`}
               >
                 Next
               </button>
