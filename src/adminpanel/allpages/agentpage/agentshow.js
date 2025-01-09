@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../sidebar";
-
+import Cookies from "js-cookie";
 import Loader from "../../../userpages/Loader/Loader";
 import { ReactComponent as Edit } from "./../../../svg/edit.svg";
 import { ReactComponent as Delete } from "./../../../svg/delete.svg";
@@ -12,13 +12,19 @@ function Agentshow() {
   const [loading, setLoading] = useState(true); // State to track loading state
   const [error, setError] = useState(null); // State to store any errors
   const [itemToEdit, setItemToEdit] = useState(null); // State to store the agent being edited
-
+  const token = Cookies.get("authToken");
   // Fetch agent data
   const fetchAgent = async () => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/agent/agents`
+        `https://shaktidham-backend.vercel.app/agent/agents`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+          },
+        }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch agent");
@@ -46,6 +52,10 @@ function Agentshow() {
         `https://shaktidham-backend.vercel.app/agent/agents/${id}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
         }
       );
 

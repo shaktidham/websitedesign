@@ -19,11 +19,10 @@ const SeatCell = ({
   routeids,
 }) => {
   const navigate = useNavigate();
-
   return (
     <td
       className={`border border-black text-sm text-center h-[150px] ${
-        matchingSeat?.to ? "bg-red-100 font-bold" : ""
+        matchingSeat?.to ? "bg-red-100 font-bold" :matchingSeat?.date?"bg-blue-300": ""
       }`}
     >
       <div className="flex flex-col justify-between h-full">
@@ -31,7 +30,7 @@ const SeatCell = ({
         <div className="flex justify-between">
           <div
             className={`cursor-pointer ${
-              matchingSeat?.mobile ? "" : "flex justify-end"
+              matchingSeat?.date ? "" : "flex justify-end"
             }`}
             onClick={() =>
               navigate("/Bookingform", {
@@ -46,13 +45,13 @@ const SeatCell = ({
               })
             }
           >
-            {matchingSeat?.to ? (
+            {matchingSeat?.date ? (
               <Edit className="lg:h-6 lg:w-6 h-8 w-8" />
             ) : (
               <Plush className="lg:h-6 lg:w-6 h-8 w-8" />
             )}
           </div>
-          {matchingSeat?.to && (
+          {matchingSeat?.date && (
             <div
               className="cursor-pointer"
               onClick={() => Details(matchingSeat)}
@@ -76,7 +75,7 @@ const SeatCell = ({
         </div>
 
         {/* Bottom section: WhatsApp and Delete icons */}
-        {matchingSeat?.to ? (
+        {matchingSeat?.date ? (
           <div className="flex justify-between m-2">
             <div
               className="cursor-pointer"
@@ -225,7 +224,9 @@ export const GeneratesTableRows = ({
                   </td>
                   <td className="border border-black "></td>
                   <td className="border border-black "></td>
-
+                  <td className="border border-black "></td>
+                  <td className="border border-black "></td>
+                  <td className="border border-black "></td>
                   <td className="border border-black "></td>
 
                   <td

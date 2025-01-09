@@ -70,7 +70,7 @@ export const handleDownload = (pickupsit, chartData) => {
                               return item
                                   ? `
                                       <td class="border border-black ${cellStyle} pt-[-20px] font-bold text-sm text-center w-1/6">${seatNumber}</td>
-                                      <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.to || ""} -- ${item.name}</td>
+                                      <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.to || ""}  ${item.name ? `-- ${item.name}` : ""}</td>
                                       <td class="border border-black ${cellStyle} pt-[-10px] font-bold text-sm text-left">${item.mobile || ""}</td>
                                 
                                   `
@@ -195,7 +195,6 @@ export const handleDownload = (pickupsit, chartData) => {
 
   printWindow.onload = () => {
     setTimeout(() => {
-        console.log("object");
         printWindow.print();
     }, 1000);  // Add a small delay (100ms) to ensure proper loading
 };

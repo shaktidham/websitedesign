@@ -50,8 +50,8 @@ function Bookingform() {
         `https://shaktidham-backend.vercel.app/route/read?id=${id}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -69,7 +69,12 @@ function Bookingform() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/agent/agents`
+        `https://shaktidham-backend.vercel.app/agent/agents`,
+        {  
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+        }},
       );
       if (!response.ok) throw new Error("Failed to fetch agent");
       const data = await response.json();
@@ -162,7 +167,8 @@ function Bookingform() {
           method: itemToEdit ? "PUT" : "POST",
           headers: {
             "Content-Type": "application/json",
-          },
+            Authorization: `Bearer ${token}`
+          }, 
           body: JSON.stringify(formattedData),
         }
       );
@@ -250,7 +256,7 @@ function Bookingform() {
       ) : (
         <div className="flex flex-col md:flex-row h-screen bg-[#ECF0F5]">
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
-          <div className="flex-1 p-4 lg:ml-64">
+          <div className="flex-1 p-4 ">
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
               <div className="flex justify-end w-full">
                 {" "}
@@ -314,7 +320,7 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.mobile}
                       onChange={handleInputChange}
-                      required
+                    
                     />
                   </div>
 
@@ -366,7 +372,7 @@ function Bookingform() {
                         value={fromSearch} // Use fallback value when no `fromSearch` or `itemToEdit?.from`
                         onChange={(e) => setFromSearch(e.target.value)}
                         onClick={toggleFromDropdown}
-                        required
+                    
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {isFromDropdownOpen && (
@@ -402,7 +408,7 @@ function Bookingform() {
                         value={toSearch}
                         onChange={(e) => setToSearch(e.target.value)}
                         onClick={toggleToDropdown}
-                        required
+                    
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {isToDropdownOpen && (
@@ -436,7 +442,7 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.pickup}
                       onChange={handleInputChange}
-                      required
+              
                     >
                       <option value="">Select Pickup Location</option>
                       {routeData?.from?.map(
@@ -466,7 +472,7 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.drop}
                       onChange={handleInputChange}
-                      required
+                  
                     >
                       <option value="">Select Drop Location</option>
                       {routeData?.to?.map(

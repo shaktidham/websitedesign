@@ -110,9 +110,6 @@ function Busadd() {
           method,
           headers: {
             "Content-Type": "application/json",
-          },
-          headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
           },
           body: JSON.stringify(data),
@@ -533,7 +530,7 @@ function Busadd() {
               </button>
             </div>
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
-              <form className="space-y-6" onSubmit={handleSubmit}>
+              <form className="space-y-6" >
                 {/* Inputs Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Date */}
@@ -785,6 +782,8 @@ function Busadd() {
                       />
                     </div>
                   )}
+                    </div>
+                    </form>
                   {password === "1681" && (
                     <div className="flex flex-col sm:flex-row sm:space-x-6 mt-6">
                       <div className="flex-1">
@@ -814,13 +813,13 @@ function Busadd() {
                   <div className="flex justify-end mt-6">
                     <button
                       type="submit"
+                      onClick={handleSubmit}
                       className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                       Save Bus
                     </button>
                   </div>
-                </div>
-              </form>
+              
             </div>
           </div>
         </div>

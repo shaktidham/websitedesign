@@ -38,7 +38,7 @@ export const handleSendWhatsApp = (filterData, filterRoute) => {
   // Manually create the Date object from the ISO string and check for validity
   const parsedDate = new Date(filterRoute[0].date);
   if (isNaN(parsedDate)) {
-    console.error("Invalid date format for filterRoute[0].date:", filterRoute[0].date);
+   
     alert("Invalid date format. Please check the date input.");
     return;
   }
@@ -48,17 +48,25 @@ export const handleSendWhatsApp = (filterData, filterRoute) => {
 
   // Convert pickuptime from 24-hour to 12-hour format (add null/undefined check)
   const pickuptimeFormatted = filterData[0].pickuptime && Array.isArray(filterData[0].pickuptime)
-    ? filterData[0].pickuptime.map(convertTo12HourFormat).join(", ")
-    : "N/A"; // Default to "N/A" if pickuptime is invalid
+  ? filterData[0].pickuptime.map(convertTo12HourFormat) // Ensure this converts times correctly
+  : [];
+
+const pickupNames = filterData[0].pickup && Array.isArray(filterData[0].pickup)
+  ? filterData[0].pickup
+  : [];
+
+const pickupWithTime = pickupNames.map((name, index) => {
+  const time = pickuptimeFormatted[index] || 'N/A'; // Ensure there's a corresponding time for each pickup
+  return `${name} ${time}`;
+}).join(", ");
 
   // Construct the message
   const message = `
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
 
   બુકિંગ તારીખ     : ${formatDate(parsedDate)}
-  ટાઇમ                : [ ${getValueOrDefault(pickuptimeFormatted)} ]
   ક્યા થી ક્યા        : ${getValueOrDefault(filterData[0].from)} ${filterData[0].to && "થી"} ${getValueOrDefault(filterData[0].to)}
-  ક્યાંથી બેસવાનું  : [ ${getValueOrDefault(filterData[0].pickup?.join(", "))} ]
+  ક્યાંથી બેસવાનું  : [ ${pickupWithTime} ]
   બસ નંબર          : ${getValueOrDefault(filterRoute[0].busName)}
   સીટ નંબર         : ${getValueOrDefault(filterData[0]?.seatNumbers?.join(", "))} 
   રકમ                 : ${price}

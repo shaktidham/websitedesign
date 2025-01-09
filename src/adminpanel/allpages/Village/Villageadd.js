@@ -210,14 +210,14 @@ import { ReactComponent as PlushButton } from "./../../../svg/plush.svg";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../../../Redux/userside"; // Assuming you have a global loading state here
 import Loader from "./../../../userpages/Loader/Loader"; // Assuming Loader is a component that shows a loading spinner
-
+import Cookies from "js-cookie";
 function Villageadd({ popup, setPopup, itemToEdit, onSuccess }) {
   const dispatch = useDispatch();
   const [village, setVillage] = useState(""); // State for the village name
   const [evillage, setEvillage] = useState(""); // State for the village name
   const [points, setPoints] = useState([""]); // Array to store point values
   const [loading, setLoadingState] = useState(false); // Local loading state
-
+  const token = Cookies.get("authToken");
   // Handle adding new input field for points
   const addPoint = () => {
     setPoints([...points, ""]); // Add a new empty string to the points array
@@ -263,6 +263,7 @@ function Villageadd({ popup, setPopup, itemToEdit, onSuccess }) {
           method,
           headers: {
             "Content-Type": "application/json",
+             Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({ village, point: points, evillage }),
         });

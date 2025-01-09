@@ -42,26 +42,38 @@ function Bookingpage() {
       return; // Avoid making API call if date is not set
     }
     setLoading(true);
+  
+    // Define the URL conditionally based on routeids
     const url = routeids
       ? `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}&route=${routeids}`
       : `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}`;
+  
     try {
-      const response = await fetch(url);
+      // Make the API call with the proper headers
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+        },
+      });
+  
       const data = await response.json();
-
+  
       if (Array.isArray(data)) {
-        setBookedSeats(data);
+        setBookedSeats(data); // If data is an array, set the booked seats
       } else {
-        setBookedSeats([]); // In case the data is not an array
+        setBookedSeats([]); // If data is not an array, reset to empty array
         console.error("Expected an array, but got:", data);
       }
     } catch (error) {
       console.error("Error fetching booked seats:", error);
       setBookedSeats([]); // Fallback to empty array on error
     } finally {
-      setLoading(false);
+      setLoading(false); // Stop loading state
     }
   };
+  
 
   useEffect(() => {
     if (date || routeids) {
@@ -93,7 +105,13 @@ function Bookingpage() {
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/delete/${id}`,
-        { method: "DELETE" }
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
+        }
       );
       if (response.ok) {
         fetchBookedSeats(date); // Re-fetch booked seats after deletion
@@ -124,8 +142,14 @@ function Bookingpage() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/seats/getchartprint?route=${id}`
-      );
+        `https://shaktidham-backend.vercel.app/seats/getchartprint?route=${id}`,
+         {
+        method: "GET", // Ensure the correct method is used
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+        },
+      })
       const data = await response.json();
       handleDownload(data, passengers); // Handle chart download
     } catch (error) {
@@ -138,22 +162,37 @@ function Bookingpage() {
   const handlemobilewiseSeats = async (date) => {
     setLoading(true);
     setAllRoute();
-
+  
+    if (!token) {
+      console.error("Token is missing or invalid.");
+      setLoading(false);
+      return;
+    }
+  
     try {
+      console.log("Fetching booked seats with token:", token); // Debugging token value
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`
+        `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
       );
       const route = await fetch(
         `https://shaktidham-backend.vercel.app/route/readid?date=${date}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
         }
       );
+  
       const data = await response.json();
       const routedata = await route.json();
+  
       setAllRoute(routedata.data);
       setMobilewisedata(data);
     } catch (error) {
@@ -162,6 +201,7 @@ function Bookingpage() {
       setLoading(false);
     }
   };
+  
 
   const handlewhatapp = (data) => {
     const filterData = mobilewisedata.filter(
@@ -330,7 +370,7 @@ function Bookingpage() {
           {/* Sidebar */}
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
 
-          <div className="flex-1 p-4 lg:ml-64">
+          <div className="flex-1 p-4 ">
             {/* Centered content */}
             <div className="flex flex-col md:flex-row items-center justify-center mb-4 space-x-0 md:space-x-8">
               {/* Date Picker */}

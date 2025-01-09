@@ -259,7 +259,7 @@ import Villageadd from "./Villageadd";
 import Loader from "../../../userpages/Loader/Loader";
 import { ReactComponent as Edit } from "./../../../svg/edit.svg";
 import { ReactComponent as Delete } from "./../../../svg/delete.svg";
-
+import Cookies from "js-cookie";
 function Village() {
   const [popup, setPopup] = useState(false);
   const [villages, setVillages] = useState([]);
@@ -272,7 +272,7 @@ function Village() {
     page: 1,
     order: "asc",
   });
-
+  const token = Cookies.get("authToken");
   const [totalEntries, setTotalEntries] = useState(0);
 
   useEffect(() => {
@@ -285,7 +285,12 @@ function Village() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://shaktidham-backend.vercel.app/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`
+        `https://shaktidham-backend.vercel.app/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`,
+        {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+        }},
       );
       if (!response.ok) {
         throw new Error("Failed to fetch villages");
@@ -311,6 +316,10 @@ function Village() {
         `https://shaktidham-backend.vercel.app/village/delete/${id}`,
         {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
         }
       );
       if (!response.ok) {
@@ -350,7 +359,7 @@ function Village() {
           {/* Sidebar */}
           <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
           {/* Main Content */}
-          <div className="flex-1 p-4 lg:ml-64">
+          <div className="flex-1 p-4 ">
             <div className="flex flex-col md:flex-row justify-between items-center mb-4">
               {/* Top Filters */}
               <div className="flex flex-col md:flex-row items-center mb-4">

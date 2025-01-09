@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { ReactComponent as CloseButton } from "./../../../svg/close.svg";
-
+import Cookies from "js-cookie";
 function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
   // State for the name input
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false); // To manage loading state
   const [error, setError] = useState(null); // To manage error state
-
+  const token = Cookies.get("authToken");
   // Set the name if editing an agent
   useEffect(() => {
     if (itemToEdit) {
@@ -17,22 +17,27 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
   }, [itemToEdit]);
 
   // Helper function to make the API request
-  const handleApiRequest = async (method, url, body) => {
+  const handleApiRequest = async (method, url, body, headers = {}) => {
     try {
+      // Merge provided headers with the default 'Content-Type' header
+      const finalHeaders = {
+        'Content-Type': 'application/json',
+        ...headers,  // This will ensure that Authorization header is included if passed
+      };
+  
       const response = await fetch(url, {
         method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
+        headers: finalHeaders,
+        body: JSON.stringify(body), // Ensure body is only passed if necessary
       });
-
+  
       if (!response.ok) throw new Error('Failed to save agent');
       return await response.json();
     } catch (err) {
       throw new Error(err.message);
     }
   };
+  
 
   // Handle input change for name
   const handleNameChange = (e) => setName(e.target.value);
@@ -42,25 +47,42 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
-      const url = itemToEdit ? `https://shaktidham-backend.vercel.app/agent/agents/${itemToEdit._id}` : 'https://shaktidham-backend.vercel.app/agent/agents';
+      // Ensure token is available
+      if (!token) {
+        throw new Error("Token is missing");
+      }
+  
+
+  
+      const url = itemToEdit 
+        ? `https://shaktidham-backend.vercel.app/agent/agents/${itemToEdit._id}` 
+        : 'https://shaktidham-backend.vercel.app/agent/agents';
       const method = itemToEdit ? 'PUT' : 'POST';
-      const body = { name };
+      const body = { name };  // Make sure `name` is defined
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, // Ensure the Authorization token is set properly
+      };
+  
 
-      const data = await handleApiRequest(method, url, body);
-      console.log('Agent saved:', data);
-
+  
+      const data = await handleApiRequest(method, url, body, headers);
+  
       setPopup(false); // Close the popup after successful submission
       fetchAgent(); // Refresh the agent list
     } catch (err) {
-      setError(err.message);
+      console.error("Error during submission:", err); // Log the error
+      setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
-      setItemToEdit()
+      setItemToEdit(null);  // Reset the item to edit state
     }
   };
-
+  
+  
+  
   return (
     popup && (
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-50">
