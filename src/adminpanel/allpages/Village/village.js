@@ -287,10 +287,11 @@ function Village() {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`,
         {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-        }},
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
+        }
       );
       if (!response.ok) {
         throw new Error("Failed to fetch villages");

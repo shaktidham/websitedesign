@@ -42,24 +42,24 @@ function Bookingpage() {
       return; // Avoid making API call if date is not set
     }
     setLoading(true);
-  
+
     // Define the URL conditionally based on routeids
     const url = routeids
       ? `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}&route=${routeids}`
       : `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}`;
-  
+
     try {
       // Make the API call with the proper headers
       const response = await fetch(url, {
-        method: 'GET',
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
         },
       });
-  
+
       const data = await response.json();
-  
+
       if (Array.isArray(data)) {
         setBookedSeats(data); // If data is an array, set the booked seats
       } else {
@@ -73,7 +73,6 @@ function Bookingpage() {
       setLoading(false); // Stop loading state
     }
   };
-  
 
   useEffect(() => {
     if (date || routeids) {
@@ -143,13 +142,14 @@ function Bookingpage() {
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getchartprint?route=${id}`,
-         {
-        method: "GET", // Ensure the correct method is used
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-        },
-      })
+        {
+          method: "GET", // Ensure the correct method is used
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
+        }
+      );
       const data = await response.json();
       handleDownload(data, passengers); // Handle chart download
     } catch (error) {
@@ -162,15 +162,14 @@ function Bookingpage() {
   const handlemobilewiseSeats = async (date) => {
     setLoading(true);
     setAllRoute();
-  
+
     if (!token) {
       console.error("Token is missing or invalid.");
       setLoading(false);
       return;
     }
-  
+
     try {
-   
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`,
         {
@@ -189,10 +188,10 @@ function Bookingpage() {
           },
         }
       );
-  
+
       const data = await response.json();
       const routedata = await route.json();
-  
+
       setAllRoute(routedata.data);
       setMobilewisedata(data);
     } catch (error) {
@@ -201,8 +200,8 @@ function Bookingpage() {
       setLoading(false);
     }
   };
-  
-  console.log(bookedSeats,"bookedSeats")
+
+  console.log(bookedSeats, "bookedSeats");
   const handlewhatapp = (data) => {
     const filterData = mobilewisedata.filter(
       (item) => item.mobile === data.mobile && item.route === data.route

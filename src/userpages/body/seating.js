@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setPassengerDetails } from "../../Redux/userside";
 import ConformBookingDetails from "./conformBooking/conformBookingDetails";
-import {Surat} from "./../../constvalue/constvalue";
+import { Surat } from "./../../constvalue/constvalue";
 import Header from "../header";
 import Footer from "./footer";
 import { useLocation } from "react-router-dom";
@@ -32,12 +32,11 @@ const Seating = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleRoute = (route, id, date, price) => {
-
     localStorage.setItem("route", route);
     localStorage.setItem("routeId", id);
     setTickitPrice(price);
     setShow(true);
-    handleShowSeats(route, date);
+    handleShowSeats(id, date);
   };
 
   const handleSeatSelect = (seatNumber, selected) => {
@@ -66,12 +65,10 @@ const Seating = () => {
   };
 
   const handleShowSeats = useCallback(
-    async (route, date) => {
+    async (id, date) => {
       try {
         setIsLoading(true);
-        const response = await fetch(
-          `${searchapi}?Date=${date}&route=${route}`
-        );
+        const response = await fetch(`${searchapi}?date=${date}&_id=${id}`);
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }

@@ -530,7 +530,7 @@ function Busadd() {
               </button>
             </div>
             <div className="bg-white border border-gray-300 p-6 rounded-lg shadow-md">
-              <form className="space-y-6" >
+              <form className="space-y-6">
                 {/* Inputs Row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   {/* Date */}
@@ -782,44 +782,43 @@ function Busadd() {
                       />
                     </div>
                   )}
-                    </div>
-                    </form>
-                  {password === "1681" && (
-                    <div className="flex flex-col sm:flex-row sm:space-x-6 mt-6">
-                      <div className="flex-1">
-                        <h1 className="text-center text-red-800 font-bold mb-5">
-                          PICKUP POINT
-                        </h1>
-                        <Pickuppoint
-                          villages={villages}
-                          setData={setData}
-                          itemToEdit={itemToEdit}
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <h1 className="text-center text-red-800 font-bold mb-5">
-                          DROP POINT
-                        </h1>
-                        <Droppoint
-                          villages={villages}
-                          setData={setData}
-                          itemToEdit={itemToEdit}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Submit Button */}
-                  <div className="flex justify-end mt-6">
-                    <button
-                      type="submit"
-                      onClick={handleSubmit}
-                      className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      Save Bus
-                    </button>
+                </div>
+              </form>
+              {password === "1681" && (
+                <div className="flex flex-col sm:flex-row sm:space-x-6 mt-6">
+                  <div className="flex-1">
+                    <h1 className="text-center text-red-800 font-bold mb-5">
+                      PICKUP POINT
+                    </h1>
+                    <Pickuppoint
+                      villages={villages}
+                      setData={setData}
+                      itemToEdit={itemToEdit}
+                    />
                   </div>
-              
+                  <div className="flex-1">
+                    <h1 className="text-center text-red-800 font-bold mb-5">
+                      DROP POINT
+                    </h1>
+                    <Droppoint
+                      villages={villages}
+                      setData={setData}
+                      itemToEdit={itemToEdit}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <div className="flex justify-end mt-6">
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="px-6 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Save Bus
+                </button>
+              </div>
             </div>
           </div>
         </div>

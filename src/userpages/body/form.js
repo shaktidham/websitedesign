@@ -77,7 +77,7 @@ function Form() {
 
       try {
         const response = await fetch(
-          `${api}?Date=${formData.date}&from=${formData.from}&to=${formData.to}`
+          `${api}?date=${formData.date}&from=${formData.from}&to=${formData.to}`
         );
 
         if (!response.ok) {
@@ -88,7 +88,6 @@ function Form() {
 
         // Pass both formData and result to the AvailableRoutes page
         navigate("/AvailableRoutes", { state: { formData, result } });
-
 
         // Clear the form data
         setFormData({

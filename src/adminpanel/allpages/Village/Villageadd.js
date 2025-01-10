@@ -263,7 +263,7 @@ function Villageadd({ popup, setPopup, itemToEdit, onSuccess }) {
           method,
           headers: {
             "Content-Type": "application/json",
-             Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ village, point: points, evillage }),
         });

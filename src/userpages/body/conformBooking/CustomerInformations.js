@@ -22,7 +22,7 @@ function CustomerInformation({
     pickup: pickup,
     drop: drop,
     mobile: "",
-    seatNumbers: seatNumber,
+    seatNumber: String(seatNumber),
     date: date,
     gender: "",
     age: "",

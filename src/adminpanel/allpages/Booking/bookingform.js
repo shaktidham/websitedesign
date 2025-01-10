@@ -70,11 +70,12 @@ function Bookingform() {
     try {
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/agent/agents`,
-        {  
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-        }},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
+        }
       );
       if (!response.ok) throw new Error("Failed to fetch agent");
       const data = await response.json();
@@ -167,8 +168,8 @@ function Bookingform() {
           method: itemToEdit ? "PUT" : "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`
-          }, 
+            Authorization: `Bearer ${token}`,
+          },
           body: JSON.stringify(formattedData),
         }
       );
@@ -320,7 +321,6 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.mobile}
                       onChange={handleInputChange}
-                    
                     />
                   </div>
 
@@ -372,7 +372,6 @@ function Bookingform() {
                         value={fromSearch} // Use fallback value when no `fromSearch` or `itemToEdit?.from`
                         onChange={(e) => setFromSearch(e.target.value)}
                         onClick={toggleFromDropdown}
-                    
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {isFromDropdownOpen && (
@@ -408,7 +407,6 @@ function Bookingform() {
                         value={toSearch}
                         onChange={(e) => setToSearch(e.target.value)}
                         onClick={toggleToDropdown}
-                    
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       />
                       {isToDropdownOpen && (
@@ -442,7 +440,6 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.pickup}
                       onChange={handleInputChange}
-              
                     >
                       <option value="">Select Pickup Location</option>
                       {routeData?.from?.map(
@@ -472,7 +469,6 @@ function Bookingform() {
                       className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       value={data.drop}
                       onChange={handleInputChange}
-                  
                     >
                       <option value="">Select Drop Location</option>
                       {routeData?.to?.map(
