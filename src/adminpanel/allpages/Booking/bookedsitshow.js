@@ -11,19 +11,17 @@ function Bookedsitshow({ popup, setPopup, data }) {
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      hour12: true, // Use AM/PM
+      hour12: true, 
+      timeZone: 'UTC'  // Force UTC time zone
     };
   
     const date = new Date(dateString);
-    
+  
     // Check for invalid date
     if (isNaN(date)) return "Invalid Date";
   
     return date.toLocaleString('en-GB', options);
   };
-  
-  
-  
   return (
     popup && (
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-50">
