@@ -108,6 +108,7 @@ export const generateTableRows = (
   handlewhatapp,
   routeids
 ) => {
+
   return data.map((row, index) => (
     <tr className="border border-black" key={index}>
       {row.map((cell, idx) => {

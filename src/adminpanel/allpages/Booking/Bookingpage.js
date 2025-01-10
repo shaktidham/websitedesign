@@ -170,7 +170,7 @@ function Bookingpage() {
     }
   
     try {
-      console.log("Fetching booked seats with token:", token); // Debugging token value
+   
       const response = await fetch(
         `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`,
         {
@@ -202,7 +202,7 @@ function Bookingpage() {
     }
   };
   
-
+  console.log(bookedSeats,"bookedSeats")
   const handlewhatapp = (data) => {
     const filterData = mobilewisedata.filter(
       (item) => item.mobile === data.mobile && item.route === data.route

@@ -2,7 +2,28 @@ import React from 'react';
 import { ReactComponent as CloseButton } from "./../../../svg/close.svg";
 
 function Bookedsitshow({ popup, setPopup, data }) {
-
+  const formatDate = (dateString) => {
+    if (!dateString) return "Invalid Date";  // Handle cases where the dateString is undefined or null
+  
+    const options = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true, // Use AM/PM
+    };
+  
+    const date = new Date(dateString);
+    
+    // Check for invalid date
+    if (isNaN(date)) return "Invalid Date";
+  
+    return date.toLocaleString('en-GB', options);
+  };
+  
+  
+  
   return (
     popup && (
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-50">
@@ -45,6 +66,13 @@ function Bookedsitshow({ popup, setPopup, data }) {
               <tr className="border-b">
                 <td className="py-2 px-4 text-gray-600 font-medium border-r">Pickup Time</td>
                 <td className="py-2 px-4">{data?.pickuptime}</td>
+              </tr>
+              <tr className="border-b">
+                <td className="py-2 px-4 text-gray-600 font-medium border-r">Seat Book Time</td>
+                <td className="py-2 px-4">
+  {data?.createdAt ? formatDate(data.createdAt) : "N/A"}
+</td>
+
               </tr>
             </tbody>
           </table>
