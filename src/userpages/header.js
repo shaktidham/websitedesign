@@ -11,8 +11,8 @@ function Header() {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-       const decodedToken = jwtDecode(token);
-    console.log(decodedToken?.email);
+      //  const decodedToken = jwtDecode(token);
+    // console.log(decodedToken?.email);
   return (
     <div>
       <div className="bg-[#070E35] flex flex-col md:flex-row justify-between items-center px-5 py-2">
@@ -38,7 +38,8 @@ function Header() {
           </div>
           <Link to="/adminlogin">
             <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300 mt-2 md:hidden">
-            {decodedToken?.email ? decodedToken?.email :"Agent Login"}  
+            {/* {decodedToken?.email ? decodedToken?.email :"Agent Login"}   */}
+            Agent Login
             </button>
           </Link>
         </div>
@@ -120,7 +121,9 @@ function Header() {
         <Link to="/adminlogin">
           <div className="flex items-center">
             <button className="border border-black bg-white rounded-md text-lg font-bold text-black px-4 py-2 hover:bg-gray-200 transition duration-300">
-            {decodedToken?.email ? decodedToken?.email :"Agent Login"}  
+            {/* {decodedToken?.email ? decodedToken?.email :"Agent Login"}  
+             */}
+             Agent Login
             </button>
           </div>
         </Link>
