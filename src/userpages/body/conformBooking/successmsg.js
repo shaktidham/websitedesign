@@ -42,7 +42,7 @@ function SuccessMsg() {
                     <tr>
                       <th className="border border-gray-300">SEAT NUMBER</th>
                       <td className="border border-gray-300 text-left">
-                        {bookeddata.seatNumbers}
+                        {bookeddata.seatNumber}
                       </td>
                     </tr>
                     <tr>
