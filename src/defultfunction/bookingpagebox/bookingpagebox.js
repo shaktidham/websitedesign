@@ -66,7 +66,7 @@ const SeatCell = ({
           <div className="text-lg font-bold text-red-600">{seat}</div>
           {matchingSeat && (
             <>
-              <div className="text-sm">{matchingSeat.name}</div>
+              <div className="text-sm">{matchingSeat.name ||matchingSeat.bookedBy }</div>
               <div className="text-sm">{matchingSeat.mobile}</div>
               <div className="text-sm">{matchingSeat.to}</div>
               <div className="text-sm">{matchingSeat.extradetails}</div>

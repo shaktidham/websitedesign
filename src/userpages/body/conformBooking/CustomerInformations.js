@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setPassengerDetails, setBookDetails } from "../../../Redux/userside";
 import { useNavigate } from "react-router-dom";
-
+import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode";
 function CustomerInformation({
   pickup,
   drop,
@@ -14,7 +15,9 @@ function CustomerInformation({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+ const token = Cookies.get("authToken");
 
+   const decodedToken = jwtDecode(token);
   const initialData = {
     name: "",
     from: from,
@@ -27,6 +30,7 @@ function CustomerInformation({
     gender: "",
     age: "",
     price: price,
+    bookedBy:""
   };
 
   const route = localStorage.getItem("routeId");
@@ -39,7 +43,13 @@ function CustomerInformation({
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
+  useEffect(() => {
+    setBookedData(prevData => ({
+      ...prevData,
+      bookedBy: decodedToken.email, 
+    }));
+   
+  }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -50,6 +60,7 @@ function CustomerInformation({
         method,
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(bookeddata),
       });
