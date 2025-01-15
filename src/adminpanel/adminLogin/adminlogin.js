@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import "./admin.css";
-// import Bus from "./../img/image 4.png";
-// import { ReactComponent as Vector } from "../svg/Vector.svg";
+import { jwtDecode } from "jwt-decode";
 import Cookies from "js-cookie";
 import Footer from "../../userpages/body/footer";
 import Header from "../../userpages/header";
@@ -47,7 +46,15 @@ const Adminlogin = () => {
         Cookies.set("authToken", result.data, { expires: 7 });
 
         setInputlogindata(initialdata); // Reset form fields
-        navigate("/home"); // Redirect to home page
+         const decodedToken = jwtDecode(result.data);
+             
+              if (decodedToken.role === 'superAdmin') {
+                navigate("/home"); 
+              }
+              else{
+                navigate("/"); 
+              }
+    
       } else {
         // Display specific error message based on response
         const errorResult = await response.json();

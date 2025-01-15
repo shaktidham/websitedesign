@@ -46,6 +46,10 @@ function Bookedsitshow({ popup, setPopup, data }) {
                 <td className="py-2 px-4">{data?.name}</td>
               </tr>
               <tr className="border-b">
+                <td className="py-2 px-4 text-gray-600 font-medium border-r">Booked By</td>
+                <td className="py-2 px-4">{data?.bookedBy}</td>
+              </tr>
+              <tr className="border-b">
                 <td className="py-2 px-4 text-gray-600 font-medium border-r">Mobile</td>
                 <td className="py-2 px-4">{data?.mobile}</td>
               </tr>

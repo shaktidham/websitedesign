@@ -4,7 +4,7 @@ import Sidebar from "../sidebar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getLabel } from "../../../constvalue/constvalue";
 import Cookies from "js-cookie";
-
+import { jwtDecode } from "jwt-decode";
 function Bookingform() {
   const [loading, setLoading] = useState(false);
   const [routeData, setRoutedata] = useState([]);
@@ -28,8 +28,9 @@ function Bookingform() {
     price: itemToEdit?.price || "",
     age: itemToEdit?.age || "",
     extradetails: itemToEdit?.extradetails || "",
+    bookedBy:""
   });
-
+console.log(data,"data");
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [agentSearch, setAgentSearch] = useState("");
@@ -42,7 +43,7 @@ function Bookingform() {
   const [agent, setAgent] = useState([]);
   const [error, setError] = useState(null);
   const token = Cookies.get("authToken");
-
+  const decodedToken = jwtDecode(token);
   const fetchData = async () => {
     const id = location.state?.id;
     try {
@@ -89,21 +90,16 @@ function Bookingform() {
   };
 
   useEffect(() => {
+    setData(prevData => ({
+      ...prevData,
+      bookedBy: decodedToken.email, 
+    }));
     fetchData();
     fetchAgent();
   }, []);
+  
 
-  // useEffect(() => {
-  //   if (location.state && location.state.label) {
-  //     setData((prevData) => ({
-  //       ...prevData,
-  //       seatNumber: String(location.state.label),
-  //       date: location.state.date,
-  //     }));
-  //     setFromSearch(itemToEdit?.from || "");
-  //     setToSearch(itemToEdit?.to || "");
-  //   }
-  // }, [location.state]);
+
   useEffect(() => {
     if (location.state && location.state.label) {
       let formattedDate = "";
@@ -287,7 +283,7 @@ function Bookingform() {
                         id="name"
                         type="text"
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={agentSearch}
+                        value={agentSearch || data.name }
                         onChange={handleAgentSearch} // Updated to handle search input
                         onClick={toggleAgentDropdown} // Keep the toggle functionality
                       />
