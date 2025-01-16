@@ -22,7 +22,8 @@ const SeatCell = ({
   return (
     <td
       className={`border border-black text-sm text-center h-[150px] ${
-        matchingSeat?.bookedBy !== "vinay" && matchingSeat?.date
+        matchingSeat?.bookedBy !== "vinay" &&
+        matchingSeat?.date & (matchingSeat?.bookedBy !== "")
           ? "bg-green-100 font-bold"
           : matchingSeat?.to
           ? "bg-red-100 font-bold"
@@ -73,9 +74,10 @@ const SeatCell = ({
           {matchingSeat && (
             <>
               <div className="text-sm">
-                {matchingSeat.name || matchingSeat.bookedBy === "vinay"
-                  ? ""
-                  : matchingSeat.bookedBy}
+                {matchingSeat.name ||
+                  (matchingSeat.bookedBy === "vinay"
+                    ? ""
+                    : matchingSeat.bookedBy)}
               </div>
 
               <div className="text-sm">{matchingSeat.mobile}</div>
