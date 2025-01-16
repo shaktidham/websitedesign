@@ -22,7 +22,13 @@ const SeatCell = ({
   return (
     <td
       className={`border border-black text-sm text-center h-[150px] ${
-        matchingSeat?.to ? "bg-red-100 font-bold" :matchingSeat?.date?"bg-blue-300": ""
+        matchingSeat?.bookedBy !== "vinay"
+          ? "bg-green-100 font-bold"
+          : matchingSeat?.to
+          ? "bg-red-100 font-bold"
+          : matchingSeat?.date
+          ? "bg-blue-300 font-bold"
+          : ""
       }`}
     >
       <div className="flex flex-col justify-between h-full">
@@ -66,7 +72,12 @@ const SeatCell = ({
           <div className="text-lg font-bold text-red-600">{seat}</div>
           {matchingSeat && (
             <>
-              <div className="text-sm">{matchingSeat.name ||matchingSeat.bookedBy }</div>
+              <div className="text-sm">
+                {matchingSeat.name || matchingSeat.bookedBy === "vinay"
+                  ? ""
+                  : matchingSeat.bookedBy}
+              </div>
+
               <div className="text-sm">{matchingSeat.mobile}</div>
               <div className="text-sm">{matchingSeat.to}</div>
               <div className="text-sm">{matchingSeat.extradetails}</div>
@@ -108,7 +119,6 @@ export const generateTableRows = (
   handlewhatapp,
   routeids
 ) => {
-
   return data.map((row, index) => (
     <tr className="border border-black" key={index}>
       {row.map((cell, idx) => {
