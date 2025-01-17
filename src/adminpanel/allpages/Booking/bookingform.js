@@ -28,9 +28,9 @@ function Bookingform() {
     price: itemToEdit?.price || "",
     age: itemToEdit?.age || "",
     extradetails: itemToEdit?.extradetails || "",
-    bookedBy:""
+    bookedBy: "",
   });
-console.log(data,"data");
+  console.log(data, "data");
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [agentSearch, setAgentSearch] = useState("");
@@ -44,6 +44,7 @@ console.log(data,"data");
   const [error, setError] = useState(null);
   const token = Cookies.get("authToken");
   const decodedToken = jwtDecode(token);
+
   const fetchData = async () => {
     const id = location.state?.id;
     try {
@@ -90,15 +91,13 @@ console.log(data,"data");
   };
 
   useEffect(() => {
-    setData(prevData => ({
+    setData((prevData) => ({
       ...prevData,
-      bookedBy: decodedToken.email, 
+      bookedBy: decodedToken.email,
     }));
     fetchData();
     fetchAgent();
   }, []);
-  
-
 
   useEffect(() => {
     if (location.state && location.state.label) {
@@ -283,7 +282,7 @@ console.log(data,"data");
                         id="name"
                         type="text"
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={agentSearch || data.name }
+                        value={agentSearch || data.name}
                         onChange={handleAgentSearch} // Updated to handle search input
                         onClick={toggleAgentDropdown} // Keep the toggle functionality
                       />

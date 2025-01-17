@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading, setPassengerDetails } from "../../Redux/userside";
 import ConformBookingDetails from "./conformBooking/conformBookingDetails";
@@ -19,6 +19,7 @@ const Seating = () => {
     ["1.2", "5.6", "9.10", "13.14", "17.18", "21.22"],
     ["3.4", "7.8", "11.12", "15.16", "19.20", "23.24"],
   ];
+  const [route, setRoute] = useState();
   const up = ["UP", "DOWN", "UP", "DOWN"];
   const [sortdata, setSortdata] = useState([]);
   const dispatch = useDispatch();
@@ -30,6 +31,10 @@ const Seating = () => {
   const [visibleSeatsId, setVisibleSeatsId] = useState(null);
   const [ticketprice, setTickitPrice] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [point, setPoint] = useState({
+    pickuppoint: [],
+    droppoint: [],
+  });
 
   const handleRoute = (route, id, date, price) => {
     localStorage.setItem("route", route);
@@ -66,6 +71,26 @@ const Seating = () => {
 
   const handleShowSeats = useCallback(
     async (id, date) => {
+      const matchingRoute = route?.find(
+        (item) =>
+          item._id === id &&
+          item.from.some((fromItem) => fromItem.village === formData.from)
+      );
+
+      const pickuppoints = matchingRoute.from
+        .filter((fromItem) => fromItem.village === formData.from) // Match village
+        .map((fromItem) => fromItem.point);
+      setPoint((prevState) => ({
+        ...prevState,
+        pickuppoint: pickuppoints, // Store the points in pickuppoint
+      }));
+      const droppoints = matchingRoute.from
+        .filter((fromItem) => fromItem.village === formData.to) // Match village
+        .map((fromItem) => fromItem.point);
+      setPoint((prevState) => ({
+        ...prevState,
+        pickuppoint: droppoints, // Store the points in pickuppoint
+      }));
       try {
         setIsLoading(true);
         const response = await fetch(`${searchapi}?date=${date}&_id=${id}`);
@@ -85,6 +110,39 @@ const Seating = () => {
     [inputs]
   );
 
+  useEffect(() => {
+    setLoading(true);
+    fetchroute();
+  }, []);
+
+  const fetchroute = async () => {
+    setLoading(true);
+
+    try {
+      const dateParam = `?date=${formData.date}`;
+
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/route/read${dateParam}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch route");
+      }
+
+      const data = await response.json();
+      setRoute(data.data);
+    } catch (error) {
+      // setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+  console.log(point, "pointpointpointpoint");
   return (
     <div>
       <Header />
@@ -111,7 +169,7 @@ const Seating = () => {
                         Bus Route
                       </th>
                       <td className="pl-2 py-4 whitespace-nowrap text-lg font-bold text-gray-900 text-left md:w-2/3">
-                        {item.route || "N/A"}
+                        {item.first || "N/A"} થી {item.last || "N/A"}
                       </td>
                     </tr>
                     <tr className="flex flex-col md:flex-row md:items-center">
@@ -119,7 +177,7 @@ const Seating = () => {
                         Departure Time
                       </th>
                       <td className="pl-2 py-4 whitespace-nowrap text-lg font-bold text-gray-900 text-left md:w-2/3">
-                        {item.departureTime || "5:00"}
+                        {item.fromtime || ""}
                       </td>
                     </tr>
                     <tr className="flex flex-col md:flex-row md:items-center">
@@ -127,7 +185,7 @@ const Seating = () => {
                         Price
                       </th>
                       <td className="pl-2 py-4 whitespace-nowrap text-lg font-bold text-gray-900 text-left md:w-2/3">
-                        {item.price || "600"}
+                        {item.price || "60200"}
                       </td>
                     </tr>
                     <tr className="flex flex-col md:flex-row md:items-center">
@@ -216,17 +274,11 @@ const Seating = () => {
                           value={pickup}
                         >
                           <option value="">Select</option>
-                          {formData.from === "Surat" ? (
-                            Surat.map((location, index) => (
-                              <option key={index} value={location}>
-                                {location}
-                              </option>
-                            ))
-                          ) : (
-                            <option value={formData.from}>
-                              {formData.from}
+                          {point.pickuppoint.map((location, index) => (
+                            <option key={index} value={location}>
+                              {location}
                             </option>
-                          )}
+                          ))}
                         </select>
 
                         <label className="block text-lg font-bold mb-2">
@@ -238,15 +290,11 @@ const Seating = () => {
                           value={drop}
                         >
                           <option value="">Select</option>
-                          {formData.to === "Surat" ? (
-                            Surat.map((location, index) => (
-                              <option key={index} value={location}>
-                                {location}
-                              </option>
-                            ))
-                          ) : (
-                            <option value={formData.to}>{formData.to}</option>
-                          )}
+                          {point.droppoint.map((location, index) => (
+                            <option key={index} value={location}>
+                              {location}
+                            </option>
+                          ))}
                         </select>
 
                         <div className="bg-white p-6 rounded-lg shadow-md">

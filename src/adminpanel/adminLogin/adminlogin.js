@@ -32,13 +32,16 @@ const Adminlogin = () => {
     setShowerror(false); // Reset error state
 
     try {
-      const response = await fetch(`https://shaktidham-backend.vercel.app/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputlogindata),
-      });
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/auth/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(inputlogindata),
+        }
+      );
 
       if (response.ok) {
         const result = await response.json();
@@ -46,15 +49,13 @@ const Adminlogin = () => {
         Cookies.set("authToken", result.data, { expires: 7 });
 
         setInputlogindata(initialdata); // Reset form fields
-         const decodedToken = jwtDecode(result.data);
-             
-              if (decodedToken.role === 'superAdmin') {
-                navigate("/home"); 
-              }
-              else{
-                navigate("/"); 
-              }
-    
+        const decodedToken = jwtDecode(result.data);
+
+        if (decodedToken.role === "superAdmin") {
+          navigate("/home");
+        } else {
+          navigate("/");
+        }
       } else {
         // Display specific error message based on response
         const errorResult = await response.json();
@@ -136,7 +137,7 @@ const Adminlogin = () => {
         </div>
       </div>
 
-   <Footer/>
+      <Footer />
     </div>
   );
 };

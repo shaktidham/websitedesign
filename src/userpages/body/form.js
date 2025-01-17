@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Swap } from "./../../svg/swap.svg";
@@ -17,11 +17,11 @@ function Form() {
   });
   const [suggestionsFrom, setSuggestionsFrom] = useState([]);
   const [suggestionsTo, setSuggestionsTo] = useState([]);
+  const [village, setVillages] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const api = "https://shaktidham-backend.vercel.app/route/searchbyvillage";
-  const Village = ["Surat", "Jasdan", "Devaliya", "Dadva", "Chital"];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,17 +32,23 @@ function Form() {
 
     // Filter suggestions based on input
     if (name === "from") {
-      setSuggestionsFrom(
-        Village.filter((village) =>
-          village.toLowerCase().includes(value.toLowerCase())
-        )
-      );
+      // Ensure village is an array
+      const filteredSuggestionsFrom = village
+        .map((item) => item.village) // Access 'village' property from each object
+        .filter((villageItem) =>
+          villageItem.toLowerCase().includes(value.toLowerCase())
+        );
+
+      setSuggestionsFrom(filteredSuggestionsFrom);
     } else if (name === "to") {
-      setSuggestionsTo(
-        Village.filter((village) =>
-          village.toLowerCase().includes(value.toLowerCase())
-        )
-      );
+      // Ensure village is an array
+      const filteredSuggestionsTo = village
+        .map((item) => item.village) // Access 'village' property from each object
+        .filter((villageItem) =>
+          villageItem.toLowerCase().includes(value.toLowerCase())
+        );
+
+      setSuggestionsTo(filteredSuggestionsTo);
     }
   };
 
@@ -103,7 +109,32 @@ function Form() {
     },
     [api, formData, navigate, dispatch]
   );
+  const fetchVillages = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/village/read`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch villages");
+      }
+      const data = await response.json();
+      setVillages(data.data);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
+    setLoading(true);
+    fetchVillages();
+  }, []);
   return (
     <div className="relative w-full max-w-md mx-auto mt-6 md:mt-0 md:w-1/4">
       <form
@@ -122,7 +153,7 @@ function Form() {
             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
           />
           {suggestionsFrom.length > 0 && (
-            <ul className="absolute z-10 w-full bg-gray-800 border border-gray-600 rounded-md mt-1">
+            <ul className="absolute z-10 w-full bg-gray-800 border border-gray-600 rounded-md mt-1 overflow-y-auto max-h-64">
               {suggestionsFrom.map((village) => (
                 <li
                   key={village}

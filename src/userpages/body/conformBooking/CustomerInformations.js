@@ -15,9 +15,9 @@ function CustomerInformation({
 }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
- const token = Cookies.get("authToken");
+  const token = Cookies.get("authToken");
 
-   const decodedToken = jwtDecode(token);
+  const decodedToken = jwtDecode(token);
   const initialData = {
     name: "",
     from: from,
@@ -30,7 +30,7 @@ function CustomerInformation({
     gender: "",
     age: "",
     price: price,
-    bookedBy:""
+    bookedBy: "",
   };
 
   const route = localStorage.getItem("routeId");
@@ -44,11 +44,10 @@ function CustomerInformation({
     }));
   };
   useEffect(() => {
-    setBookedData(prevData => ({
+    setBookedData((prevData) => ({
       ...prevData,
-      bookedBy: decodedToken.email, 
+      bookedBy: decodedToken.email,
     }));
-   
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();

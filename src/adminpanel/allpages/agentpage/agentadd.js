@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import { ReactComponent as CloseButton } from "./../../../svg/close.svg";
 import Cookies from "js-cookie";
-function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
+function Agentadd({ popup, setPopup, itemToEdit, fetchAgent, setItemToEdit }) {
   // State for the name input
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [loading, setLoading] = useState(false); // To manage loading state
   const [error, setError] = useState(null); // To manage error state
   const token = Cookies.get("authToken");
@@ -12,7 +12,7 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
     if (itemToEdit) {
       setName(itemToEdit.name);
     } else {
-      setName('');
+      setName("");
     }
   }, [itemToEdit]);
 
@@ -21,23 +21,22 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
     try {
       // Merge provided headers with the default 'Content-Type' header
       const finalHeaders = {
-        'Content-Type': 'application/json',
-        ...headers,  // This will ensure that Authorization header is included if passed
+        "Content-Type": "application/json",
+        ...headers, // This will ensure that Authorization header is included if passed
       };
-  
+
       const response = await fetch(url, {
         method,
         headers: finalHeaders,
         body: JSON.stringify(body), // Ensure body is only passed if necessary
       });
-  
-      if (!response.ok) throw new Error('Failed to save agent');
+
+      if (!response.ok) throw new Error("Failed to save agent");
       return await response.json();
     } catch (err) {
       throw new Error(err.message);
     }
   };
-  
 
   // Handle input change for name
   const handleNameChange = (e) => setName(e.target.value);
@@ -47,29 +46,25 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
     e.preventDefault();
     setLoading(true);
     setError(null);
-  
+
     try {
       // Ensure token is available
       if (!token) {
         throw new Error("Token is missing");
       }
-  
 
-  
-      const url = itemToEdit 
-        ? `https://shaktidham-backend.vercel.app/agent/agents/${itemToEdit._id}` 
-        : 'https://shaktidham-backend.vercel.app/agent/agents';
-      const method = itemToEdit ? 'PUT' : 'POST';
-      const body = { name };  // Make sure `name` is defined
+      const url = itemToEdit
+        ? `https://shaktidham-backend.vercel.app/agent/agents/${itemToEdit._id}`
+        : "https://shaktidham-backend.vercel.app/agent/agents";
+      const method = itemToEdit ? "PUT" : "POST";
+      const body = { name }; // Make sure `name` is defined
       const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`, // Ensure the Authorization token is set properly
       };
-  
 
-  
       const data = await handleApiRequest(method, url, body, headers);
-  
+
       setPopup(false); // Close the popup after successful submission
       fetchAgent(); // Refresh the agent list
     } catch (err) {
@@ -77,12 +72,10 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
       setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
-      setItemToEdit(null);  // Reset the item to edit state
+      setItemToEdit(null); // Reset the item to edit state
     }
   };
-  
-  
-  
+
   return (
     popup && (
       <div className="fixed top-0 left-0 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-50 z-50">
@@ -91,11 +84,14 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
             <CloseButton fill="black" className="h-8 w-8" />
           </div>
           <h2 className="text-xl font-semibold text-center mb-4">
-            {itemToEdit ? 'Edit Agent' : 'Enter Name'}
+            {itemToEdit ? "Edit Agent" : "Enter Name"}
           </h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label htmlFor="Name" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="Name"
+                className="block text-sm font-medium text-gray-700"
+              >
                 Name
               </label>
               <input
@@ -116,7 +112,7 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent,setItemToEdit }) {
                 className="w-full sm:w-auto px-6 py-2 bg-indigo-600 text-white font-semibold rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 disabled={loading}
               >
-                {loading ? 'Submitting...' : itemToEdit ? 'Update' : 'Submit'}
+                {loading ? "Submitting..." : itemToEdit ? "Update" : "Submit"}
               </button>
             </div>
           </form>
