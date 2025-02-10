@@ -511,13 +511,10 @@ function Busadd() {
         <Loader />
       ) : (
         <div className="flex flex-1 bg-[#ECF0F5]">
-          {/* Sidebar */}
-          <div className="w-full md:w-1/6 bg-gray-100 fixed">
-            <Sidebar />
-          </div>
+          <Sidebar className="w-full md:w-1/6 bg-white shadow-lg" />
 
           {/* Main Content */}
-          <div className="flex-1 p-6 sm:p-8 bg-white rounded-lg shadow-lg lg:ml-64">
+          <div className="flex-1 p-6 sm:p-8 bg-white rounded-lg shadow-lg ">
             <div className="flex justify-between mb-5">
               <h2 className="text-2xl font-semibold text-gray-800 mb-6">
                 Add Bus
@@ -756,6 +753,26 @@ function Busadd() {
                       }
                     />
                   </div>
+                  {password === "1681" && (
+                    <div>
+                      <label
+                        htmlFor="Edit"
+                        className="block text-gray-700 font-medium"
+                      >
+                        Edit
+                      </label>
+                      <select
+                        id="edit"
+                        className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={selectedCode}
+                        onChange={(e) => setSelectedCode(e.target.value)}
+                      >
+                        <option value="">Select Value</option>
+                        <option value="">Only this</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  )}
 
                   {/* End Date */}
                   {!itemToEdit && (
