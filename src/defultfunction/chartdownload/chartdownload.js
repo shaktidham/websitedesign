@@ -176,7 +176,7 @@ export const handleDownload = (pickupsit, chartData) => {
                       </table>
                   </div>
               </div>
-  <div class="flex justify-between">
+  <div class="flex justify-between my-2">
               <div class="font-bold"><span class="text-red-800">બસ નંબર:</span> ${
                 chartData.busName
               }</div>
@@ -184,7 +184,7 @@ export const handleDownload = (pickupsit, chartData) => {
                 chartData.driver
               }</div>
               <div class="font-bold"><span class="text-red-800">મો.નંબર:</span> ${
-                chartData.driver
+                chartData.phonenumber
               }</div>
               <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${formatDate(
                 parsedDate
@@ -209,11 +209,14 @@ export const handleDownload = (pickupsit, chartData) => {
                           ${fourthTableRows}
                       </tbody>
                   </table>
+                 
               </div>
           </div>
       </body>
   </html>`;
-
+  html2pdf()
+    .from(element)
+    .save(`Bus_Seating_Plan_${formatDate(parsedDate)}.pdf`);
   // Open a new tab to generate the PDF
   const printWindow = window.open("", "_blank");
 

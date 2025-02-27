@@ -24,6 +24,7 @@ function Busadd() {
     location: "",
     driver: "",
     cabinprice: "",
+    phonenumber: "",
   });
   const token = Cookies.get("authToken");
   const [selectedCode, setSelectedCode] = useState("");
@@ -35,15 +36,12 @@ function Busadd() {
   const fetchVillages = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://shaktidham-backend.vercel.app/village/read`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:3001/village/read`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch villages");
       }
@@ -85,6 +83,7 @@ function Busadd() {
         to: itemToEdit.to,
         location: itemToEdit.location,
         driver: itemToEdit.driver,
+        phonenumber: itemToEdit.phonenumber,
         cabinprice: itemToEdit.cabinprice,
         code: itemToEdit.code,
       });
@@ -99,10 +98,10 @@ function Busadd() {
       try {
         const url =
           itemToEdit && selectedCode
-            ? `https://shaktidham-backend.vercel.app/route/update?codes=${itemToEdit.code}`
+            ? `http://localhost:3001/route/update?codes=${itemToEdit.code}`
             : itemToEdit
-            ? `https://shaktidham-backend.vercel.app/route/update?id=${itemToEdit._id}`
-            : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
+            ? `http://localhost:3001/route/update?id=${itemToEdit._id}`
+            : "http://localhost:3001/route/create"; // Use POST for create
 
         const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT forpdate
 
@@ -732,6 +731,26 @@ function Busadd() {
                       value={data.driver}
                       onChange={(e) =>
                         setData((prev) => ({ ...prev, driver: e.target.value }))
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label
+                      htmlFor="phone number"
+                      className="block text-gray-700 font-medium"
+                    >
+                      Phone Number
+                    </label>
+                    <input
+                      id="phonenumber"
+                      type="number"
+                      className="w-full px-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      value={data.phonenumber}
+                      onChange={(e) =>
+                        setData((prev) => ({
+                          ...prev,
+                          phonenumber: e.target.value,
+                        }))
                       }
                     />
                   </div>

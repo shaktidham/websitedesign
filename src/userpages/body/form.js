@@ -21,7 +21,7 @@ function Form() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const api = "https://shaktidham-backend.vercel.app/route/searchbyvillage";
+  const api = "http://localhost:3001/route/searchbyvillage";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -112,14 +112,11 @@ function Form() {
   const fetchVillages = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://shaktidham-backend.vercel.app/village/read`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:3001/village/read`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch villages");
       }

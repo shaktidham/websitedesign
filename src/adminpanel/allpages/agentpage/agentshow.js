@@ -17,15 +17,12 @@ function Agentshow() {
   const fetchAgent = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `https://shaktidham-backend.vercel.app/agent/agents`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:3001/agent/agents`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+        },
+      });
       if (!response.ok) {
         throw new Error("Failed to fetch agent");
       }
@@ -48,16 +45,13 @@ function Agentshow() {
 
     try {
       // Make the delete API call
-      const response = await fetch(
-        `https://shaktidham-backend.vercel.app/agent/agents/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-          },
-        }
-      );
+      const response = await fetch(`http://localhost:3001/agent/agents/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+        },
+      });
 
       if (!response.ok) {
         throw new Error("Failed to delete the agent");

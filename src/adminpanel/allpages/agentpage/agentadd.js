@@ -54,8 +54,8 @@ function Agentadd({ popup, setPopup, itemToEdit, fetchAgent, setItemToEdit }) {
       }
 
       const url = itemToEdit
-        ? `https://shaktidham-backend.vercel.app/agent/agents/${itemToEdit._id}`
-        : "https://shaktidham-backend.vercel.app/agent/agents";
+        ? `http://localhost:3001/agent/agents/${itemToEdit._id}`
+        : "http://localhost:3001/agent/agents";
       const method = itemToEdit ? "PUT" : "POST";
       const body = { name }; // Make sure `name` is defined
       const headers = {
