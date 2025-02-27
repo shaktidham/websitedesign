@@ -183,7 +183,7 @@ export const handleDownload = (pickupsit, chartData) => {
               <div class="font-bold"><span class="text-red-800">ડ્રાઈવર:</span> ${
                 chartData.driver
               }</div>
-              <div class="font-bold"><span class="text-red-800">મોબાઇલ નંબર:</span> ${
+              <div class="font-bold"><span class="text-red-800">મો.નંબર:</span> ${
                 chartData.driver
               }</div>
               <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${formatDate(
