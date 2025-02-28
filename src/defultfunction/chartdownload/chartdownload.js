@@ -177,16 +177,16 @@ export const handleDownload = (pickupsit, chartData) => {
                   </div>
               </div>
   <div class="flex justify-between my-2">
-              <div class="font-bold class="text-red-800""><span class="text-blue-800">બસ નંબર:</span> <span class="text-red-800">${
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">બસ નંબર:</span> <span class="text-red-500">${
                 chartData.busName
               }</span></div>
-              <div class="font-bold class="text-red-800""><span class="text-blue-800">ડ્રાઈવર:</span><span class="text-red-800"> ${
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">ડ્રાઈવર:</span><span class="text-red-500"> ${
                 chartData.driver
               }</span></div>
-              <div class="font-bold class="text-red-800""><span class="text-blue-800">મો.નંબર:</span><span class="text-red-800"> ${
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">મો.નંબર:</span><span class="text-red-500"> ${
                 chartData.phonenumber
               }</span></div>
-              <div class="font-bold class="text-red-800""><span class="text-blue-800">તારીખ:</span><span class="text-red-800"> ${formatDate(
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">તારીખ:</span><span class="text-red-500"> ${formatDate(
                 parsedDate
               )}</span></div>
               </div>
