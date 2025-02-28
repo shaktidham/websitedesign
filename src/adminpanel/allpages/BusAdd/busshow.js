@@ -46,7 +46,7 @@
 //       const dateParam = filter.search ? `?date=${filter.search}` : "";
 
 //       const response = await fetch(
-//         `http://localhost:3001/route/read${dateParam}`,
+//         `https://shaktidham-backend.vercel.app/route/read${dateParam}`,
 //         {
 //           headers: {
 //             Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
@@ -81,7 +81,7 @@
 //     try {
 //       // Make the delete API call
 //       const response = await fetch(
-//         `http://localhost:3001/route/delete/${id}`,
+//         `https://shaktidham-backend.vercel.app/route/delete/${id}`,
 //         {
 //           method: "DELETE",
 //           headers: {
@@ -336,7 +336,7 @@ function Busshow() {
       const dateParam = filter.search ? `?date=${filter.search}` : "";
 
       const response = await fetch(
-        `http://localhost:3001/route/read${dateParam}`,
+        `https://shaktidham-backend.vercel.app/route/read${dateParam}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -368,13 +368,16 @@ function Busshow() {
     setLoading(true);
 
     try {
-      const response = await fetch(`http://localhost:3001/route/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/route/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to delete the route");

@@ -36,12 +36,15 @@ function Busadd() {
   const fetchVillages = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/village/read`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-          "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
-        },
-      });
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/village/read`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+            "Content-Type": "application/json", // Ensure the request content is interpreted as JSON
+          },
+        }
+      );
       if (!response.ok) {
         throw new Error("Failed to fetch villages");
       }
@@ -98,10 +101,10 @@ function Busadd() {
       try {
         const url =
           itemToEdit && selectedCode
-            ? `http://localhost:3001/route/update?codes=${itemToEdit.code}`
+            ? `https://shaktidham-backend.vercel.app/route/update?codes=${itemToEdit.code}`
             : itemToEdit
-            ? `http://localhost:3001/route/update?id=${itemToEdit._id}`
-            : "http://localhost:3001/route/create"; // Use POST for create
+            ? `https://shaktidham-backend.vercel.app/route/update?id=${itemToEdit._id}`
+            : "https://shaktidham-backend.vercel.app/route/create"; // Use POST for create
 
         const method = itemToEdit ? "PUT" : "POST"; // POST for create, PUT forpdate
 

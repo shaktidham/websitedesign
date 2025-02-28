@@ -9,7 +9,7 @@ import { useLocation } from "react-router-dom";
 import Loader from "../Loader/Loader";
 
 const Seating = () => {
-  const searchapi = "http://localhost:3001/seats/search";
+  const searchapi = "https://shaktidham-backend.vercel.app/seats/search";
   const location = useLocation();
   const { formData, result } = location.state || {};
 
@@ -122,7 +122,7 @@ const Seating = () => {
       const dateParam = `?date=${formData.date}`;
 
       const response = await fetch(
-        `http://localhost:3001/route/read${dateParam}`,
+        `https://shaktidham-backend.vercel.app/route/read${dateParam}`,
         {
           headers: {
             "Content-Type": "application/json",

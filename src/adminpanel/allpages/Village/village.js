@@ -34,7 +34,7 @@
 //     setLoading(true);
 //     try {
 //       const response = await fetch(
-//         `http://localhost:3001/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`
+//         `https://shaktidham-backend.vercel.app/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`
 //       );
 //       if (!response.ok) {
 //         throw new Error("Failed to fetch villages");
@@ -60,7 +60,7 @@
 //     try {
 //       // Make the delete API call
 //       const response = await fetch(
-//         `http://localhost:3001/village/delete/${id}`,
+//         `https://shaktidham-backend.vercel.app/village/delete/${id}`,
 //         {
 //           method: "DELETE",
 //         }
@@ -285,7 +285,7 @@ function Village() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`,
+        `https://shaktidham-backend.vercel.app/village/read?search=${search}&limit=${limit}&page=${page}&order=${order}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -314,7 +314,7 @@ function Village() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/village/delete/${id}`,
+        `https://shaktidham-backend.vercel.app/village/delete/${id}`,
         {
           method: "DELETE",
           headers: {

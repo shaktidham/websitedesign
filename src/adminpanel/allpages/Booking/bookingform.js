@@ -49,7 +49,7 @@ function Bookingform() {
     const id = location.state?.id;
     try {
       const response = await fetch(
-        `http://localhost:3001/route/read?id=${id}`,
+        `https://shaktidham-backend.vercel.app/route/read?id=${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -70,12 +70,15 @@ function Bookingform() {
   const fetchAgent = async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/agent/agents`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-        },
-      });
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/agent/agents`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
+        }
+      );
       if (!response.ok) throw new Error("Failed to fetch agent");
       const data = await response.json();
       setAgent(data.data);
@@ -154,8 +157,8 @@ function Bookingform() {
 
       const response = await fetch(
         itemToEdit
-          ? `http://localhost:3001/seats/update/${itemToEdit.id}?id=${itemToEdit.route}`
-          : `http://localhost:3001/seats/create/${id}`,
+          ? `https://shaktidham-backend.vercel.app/seats/update/${itemToEdit.id}?id=${itemToEdit.route}`
+          : `https://shaktidham-backend.vercel.app/seats/create/${id}`,
         {
           method: itemToEdit ? "PUT" : "POST",
           headers: {

@@ -45,8 +45,8 @@ function Bookingpage() {
 
     // Define the URL conditionally based on routeids
     const url = routeids
-      ? `http://localhost:3001/seats/searchbyseats?date=${date}&route=${routeids}`
-      : `http://localhost:3001/seats/searchbyseats?date=${date}`;
+      ? `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}&route=${routeids}`
+      : `https://shaktidham-backend.vercel.app/seats/searchbyseats?date=${date}`;
 
     try {
       // Make the API call with the proper headers
@@ -102,13 +102,16 @@ function Bookingpage() {
 
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:3001/seats/delete/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
-        },
-      });
+      const response = await fetch(
+        `https://shaktidham-backend.vercel.app/seats/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Add Authorization header with Bearer token
+          },
+        }
+      );
       if (response.ok) {
         fetchBookedSeats(date); // Re-fetch booked seats after deletion
       } else {
@@ -138,7 +141,7 @@ function Bookingpage() {
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3001/seats/getchartprint?route=${id}`,
+        `https://shaktidham-backend.vercel.app/seats/getchartprint?route=${id}`,
         {
           method: "GET", // Ensure the correct method is used
           headers: {
@@ -168,7 +171,7 @@ function Bookingpage() {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/seats/getseatsByMobile?date=${date}`,
+        `https://shaktidham-backend.vercel.app/seats/getseatsByMobile?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -177,7 +180,7 @@ function Bookingpage() {
         }
       );
       const route = await fetch(
-        `http://localhost:3001/route/readid?date=${date}`,
+        `https://shaktidham-backend.vercel.app/route/readid?date=${date}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
