@@ -177,16 +177,16 @@ export const handleDownload = (pickupsit, chartData) => {
                   </div>
               </div>
   <div class="flex justify-between my-2">
-              <div class="font-bold"><span class="text-red-800">બસ નંબર:</span> ${
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">બસ નંબર:</span> ${
                 chartData.busName
               }</div>
-              <div class="font-bold"><span class="text-red-800">ડ્રાઈવર:</span> ${
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">ડ્રાઈવર:</span> ${
                 chartData.driver
               }</div>
-              <div class="font-bold"><span class="text-red-800">મો.નંબર:</span> ${
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">મો.નંબર:</span> ${
                 chartData.phonenumber
               }</div>
-              <div class="font-bold"><span class="text-red-800">તારીખ:</span> ${formatDate(
+              <div class="font-bold class="text-red-800""><span class="text-blue-800">તારીખ:</span> ${formatDate(
                 parsedDate
               )}</div>
               </div>
@@ -214,9 +214,7 @@ export const handleDownload = (pickupsit, chartData) => {
           </div>
       </body>
   </html>`;
-  html2pdf()
-    .from(element)
-    .save(`Bus_Seating_Plan_${formatDate(parsedDate)}.pdf`);
+
   // Open a new tab to generate the PDF
   const printWindow = window.open("", "_blank");
 
