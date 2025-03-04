@@ -141,6 +141,127 @@ export const generateTableRows = (
   ));
 };
 
+// export const GeneratesTableRows = ({
+//   kabin,
+//   chartData,
+//   route,
+//   date,
+//   handlewhatapp,
+//   handleDelete,
+//   Details,
+//   routeids,
+// }) => {
+//   const navigate = useNavigate();
+//   const cellStyle = "p-1";
+
+//   return (
+//     <>
+//       {kabin?.map((number, index) => {
+//         return (
+//           <tr key={index} className="border border-black">
+//             {number.map((seatNumber) => {
+//               const item = chartData?.find(
+//                 (item) => item.seatNumber === seatNumber
+//               );
+
+//               return item ? (
+//                 <>
+//                   <td
+//                     className={`border border-black ${cellStyle} pt-[-20px] font-bold text-sm text-center w-[20%]`}
+//                   >
+//                     {seatNumber}
+//                   </td>
+//                   <td
+//                     className={` ${cellStyle}  border border-black  font-bold text-sm text-left`}
+//                   >
+//                     {item.to || ""}
+//                   </td>
+//                   <td
+//                     className={` ${cellStyle}  border border-black  font-bold text-sm text-left`}
+//                   >
+//                     {item.name || ""}
+//                   </td>
+//                   <td
+//                     className={` ${cellStyle}  border border-black  font-bold text-sm text-left`}
+//                   >
+//                     {item.mobile || ""}
+//                   </td>
+
+//                   <td
+//                     className={`border border-black ${cellStyle}  font-bold text-sm text-left w-[5%]`}
+//                     onClick={() =>
+//                       navigate("/Bookingform", {
+//                         state: {
+//                           id: route,
+//                           date: date,
+//                           label: seatNumber,
+//                           passengers: chartData,
+//                           matchingSeat: item,
+//                           routeids: routeids,
+//                         },
+//                       })
+//                     }
+//                   >
+//                     <Edit className="lg:h-6 lg:w-6 h-8 w-8" />
+//                   </td>
+//                   <td
+//                     className={`border border-black ${cellStyle} cursor-pointer font-bold text-sm text-left w-[5%]`}
+//                     onClick={() => Details(item)}
+//                   >
+//                     <Show className="lg:h-6 lg:w-6 h-8 w-8" />
+//                   </td>
+//                   <td
+//                     className={`border border-black ${cellStyle} cursor-pointer  font-bold text-sm text-left w-[5%]`}
+//                     onClick={() => handlewhatapp(item)}
+//                   >
+//                     <Whatapp fill="green" className="lg:h-6 lg:w-6 h-8 w-8" />
+//                   </td>
+//                   <td
+//                     className={`border border-black ${cellStyle} cursor-pointer  font-bold text-sm text-left w-[5%]`}
+//                     onClick={() => handleDelete(item.id)}
+//                   >
+//                     <Delete className="lg:h-6 lg:w-6 h-8 w-8" />
+//                   </td>
+//                 </>
+//               ) : (
+//                 <>
+//                   <td
+//                     className={`border border-black ${cellStyle} text-sm text-center w-[20%]`}
+//                   >
+//                     {seatNumber}
+//                   </td>
+//                   <td className="border border-black "></td>
+//                   <td className="border border-black "></td>
+//                   <td className="border border-black "></td>
+//                   <td className="border border-black "></td>
+//                   <td className="border border-black "></td>
+//                   <td className="border border-black "></td>
+
+//                   <td
+//                     className={`border border-black ${cellStyle} text-center cursor-pointer font-bold text-sm text-left w-[5%]`}
+//                     onClick={() =>
+//                       navigate("/Bookingform", {
+//                         state: {
+//                           id: route,
+//                           date: date,
+//                           label: seatNumber,
+//                           passengers: chartData,
+//                           matchingSeat: item,
+//                         },
+//                       })
+//                     }
+//                   >
+//                     <Plush className="lg:h-6 lg:w-6 h-8 w-8" />
+//                   </td>
+//                 </>
+//               );
+//             })}
+//           </tr>
+//         );
+//       })}
+//     </>
+//   );
+// };
 export const GeneratesTableRows = ({
   kabin,
   chartData,
@@ -197,7 +318,7 @@ export const GeneratesTableRows = ({
                           label: seatNumber,
                           passengers: chartData,
                           matchingSeat: item,
-                          routeids: routeids,
+                          routeids: routeids, // Ensure routeids is passed here
                         },
                       })
                     }
@@ -246,7 +367,7 @@ export const GeneratesTableRows = ({
                           date: date,
                           label: seatNumber,
                           passengers: chartData,
-                          matchingSeat: item,
+                          routeids: routeids, // Ensure routeids is passed here
                         },
                       })
                     }

@@ -15,6 +15,7 @@ function Bookingform() {
   const itemToEdit = location.state?.matchingSeat || null;
   const seatsData = location.state?.passengers;
   const routeids = location.state?.routeids || null;
+
   const [data, setData] = useState({
     name: itemToEdit?.name || "",
     mobile: itemToEdit?.mobile || "",
@@ -30,7 +31,7 @@ function Bookingform() {
     extradetails: itemToEdit?.extradetails || "",
     bookedBy: "",
   });
-  console.log(data, "data");
+
   const [fromSearch, setFromSearch] = useState("");
   const [toSearch, setToSearch] = useState("");
   const [agentSearch, setAgentSearch] = useState("");

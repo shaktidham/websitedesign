@@ -142,7 +142,7 @@ const Seating = () => {
       setLoading(false);
     }
   };
-  console.log(point, "pointpointpointpoint");
+
   return (
     <div>
       <Header />
