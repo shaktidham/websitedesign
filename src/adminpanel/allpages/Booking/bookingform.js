@@ -21,7 +21,7 @@ function Bookingform() {
     mobile: itemToEdit?.mobile || "",
     seatNumber: itemToEdit?.seatNumber || "",
     date: itemToEdit?.date || "",
-    from: itemToEdit?.from || "",
+    from: itemToEdit?.from || "સુરત",
     to: itemToEdit?.to || "",
     pickup: itemToEdit?.pickup || "",
     drop: itemToEdit?.drop || "",
@@ -365,7 +365,7 @@ function Bookingform() {
                       <input
                         type="text"
                         placeholder="Search for Village"
-                        value={fromSearch} // Use fallback value when no `fromSearch` or `itemToEdit?.from`
+                        value={fromSearch ? fromSearch : "સુરત"} // Use fallback value when no `fromSearch` or `itemToEdit?.from`
                         onChange={(e) => setFromSearch(e.target.value)}
                         onClick={toggleFromDropdown}
                         className="w-full mt-2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
