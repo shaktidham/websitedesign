@@ -268,10 +268,7 @@ function Bookingpage() {
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
               <div className="lg:flex lg:flex-wrap justify-between gap-4">
                 {bookedSeats.map((Route, index) => (
-                  <div
-                    key={index}
-                    className={` mt-3 ${routeids ? "w-full" : "lg:w-[48%]"}`}
-                  >
+                  <div key={index} className={` mt-3 lg:w-[48%] `}>
                     <div className="flex justify-between items-center mb-2">
                       <div className="text-sm font-bold text-blue-800">
                         Bus Name : {Route.busName}--{Route.last}
