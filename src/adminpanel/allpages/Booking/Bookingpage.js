@@ -201,7 +201,6 @@ function Bookingpage() {
     }
   };
 
-
   const handlewhatapp = (data) => {
     const filterData = mobilewisedata.filter(
       (item) => item.mobile === data.mobile && item.route === data.route
@@ -269,7 +268,10 @@ function Bookingpage() {
             {Array.isArray(bookedSeats) && bookedSeats.length > 0 ? (
               <div className="lg:flex lg:flex-wrap justify-between gap-4">
                 {bookedSeats.map((Route, index) => (
-                  <div key={index} className="lg:w-[48%] mt-3">
+                  <div
+                    key={index}
+                    className={` mt-3 ${routeids ? "w-full" : "lg:w-[48%]"}`}
+                  >
                     <div className="flex justify-between items-center mb-2">
                       <div className="text-sm font-bold text-blue-800">
                         Bus Name : {Route.busName}--{Route.last}
@@ -286,7 +288,6 @@ function Bookingpage() {
                         Download
                       </button>
                     </div>
-
                     {/* Table Layout */}
                     <div className="flex flex-col lg:flex-row md:flex-row justify-between mb-4 gap-4">
                       {/* Upper and Lower Seat Tables */}
@@ -340,7 +341,6 @@ function Bookingpage() {
                         </table>
                       </div>
                     </div>
-
                     {/* Additional table */}
                     <div className="w-full">
                       <GeneratesTableRows
