@@ -470,8 +470,8 @@ function Busadd() {
                     >
                       {" "}
                       <option value="">timeselect</option>
-                      <option value="velotime">velotime</option>
-                      <option value="modotime">modotime</option>
+                      <option value="velotime">વેલો સમય</option>
+                      <option value="modotime">મોડો સમય</option>
                     </select>
                   </div>
                   {/* End Date */}
