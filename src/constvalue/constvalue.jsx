@@ -112,9 +112,6 @@ const Surat = [
         village: "વડોદરા",
         evillage: "Vadodara",
         point: [
-          { pointName: "જામ્બા ચોકડી", time: "13:00" },
-          { pointName: "ગોલ્ડન ચોકડી", time: "13:10" },
-          { pointName: "વાઘોડિયા ચોકડી", time: "13:20" },
           { pointName: "જામ્બા ચોકડી  વડોદરા", time: "22:45" },
           { pointName: "ગોલ્ડન ચોકડી  વડોદરા", time: "22:50" },
           { pointName: "વાઘોડિયા ચોકડી  વડોદરા", time: "23:00" },
