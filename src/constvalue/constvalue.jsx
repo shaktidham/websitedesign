@@ -117,7 +117,7 @@ const Surat = [
           { pointName: "વાઘોડિયા ચોકડી  વડોદરા", time: "23:00" },
           { pointName: "દુમાડ ચોકડી", time: "23:05" },
           { pointName: "આજવા ચોકડી", time: "23:15" },
-          { pointName: "ફર્ટિલાઇઝર", time: "23:30" }
+          { pointName: "ફર્ટિલાઇઝર", time: "23:30" },   { pointName: "ચુચન સર્કલ ", time: "22:48" },   { pointName: "ખિસકોલી સર્કલ", time: "22:50" },   { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "23:05" },   { pointName: "ચકલી સર્કલ", time: "22:50" }
         ]
       },
       {
@@ -164,6 +164,10 @@ const Surat = [
           { pointName: "દુમાડ ચોકડી", time: "14:15" },
           { pointName: "આજવા ચોકડી", time: "14:30" },
           { pointName: "ફર્ટિલાઇઝર", time: "14:45" },
+           { pointName: "ચુચન સર્કલ ", time: "13:48" }, 
+             { pointName: "ખિસકોલી સર્કલ", time: "13:50" }, 
+               { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "14:05" },   
+               { pointName: "ચકલી સર્કલ", time: "14:00" }
         ]
       },
       {
