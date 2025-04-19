@@ -472,9 +472,9 @@ function Busadd() {
                     >
                       {" "}
                       <option value="">timeselect</option>
-                      <option value="ponasat">પોણાસાત </option>
-                      <option value="velotime">સાડાસાત</option>
-                      <option value="modotime">સાડાનવ</option>
+                      <option value="ponasat">પોણાસાત(6:45) </option>
+                      <option value="velotime">સાડાસાત(7:00)</option>
+                      <option value="modotime">સાડાનવ(9:30)</option>
                    
                     </select>
                   </div>
