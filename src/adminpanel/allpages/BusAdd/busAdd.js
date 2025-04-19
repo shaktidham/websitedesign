@@ -72,7 +72,9 @@ function Busadd() {
     } else if (selectedValue === "modotime") {
       datas = modotime;
     }
-
+    else if (selectedValue === "modotime") {
+      datas = modotime;
+    }
     setData((prevState) => ({
       ...prevState,
       from: datas,
@@ -470,8 +472,9 @@ function Busadd() {
                     >
                       {" "}
                       <option value="">timeselect</option>
-                      <option value="velotime">વેલો સમય</option>
-                      <option value="modotime">મોડો સમય</option>
+                      <option value="velotime">સાત</option>
+                      <option value="modotime">સાડાનવ</option>
+                      <option value="ponasat">પોનાસાત </option>
                     </select>
                   </div>
                   {/* End Date */}
