@@ -121,7 +121,7 @@ const Surat = [
             { pointName: "ચુચન સર્કલ ", time: "22:48" },  
              { pointName: "ખિસકોલી સર્કલ", time: "22:50" },  
               { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "23:05" },  
-               { pointName: "ચકલી સર્કલ", time: "22:50" }
+               { pointName: "ચકલી સર્કલ", time: "22:50" }, { pointName: "આસોદર ચોકડી", time: "23:15" }
         ]
       },
       {
@@ -171,7 +171,8 @@ const Surat = [
            { pointName: "ચુચન સર્કલ ", time: "13:48" }, 
              { pointName: "ખિસકોલી સર્કલ", time: "13:50" }, 
                { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "14:05" },   
-               { pointName: "ચકલી સર્કલ", time: "14:00" }
+               { pointName: "ચકલી સર્કલ", time: "14:00" },
+               { pointName: "આસોદર ચોકડી", time: "14:30" }
         ]
       },
       {
@@ -226,7 +227,7 @@ const Surat = [
             { pointName: "ચુચન સર્કલ ", time: "22:20" },  
              { pointName: "ખિસકોલી સર્કલ", time: "22:25" },  
               { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "22:35" },  
-               { pointName: "ચકલી સર્કલ", time: "22:30" }
+               { pointName: "ચકલી સર્કલ", time: "22:30" }, { pointName: "આસોદર ચોકડી", time: "23:00" }
         ]
       },
       {
