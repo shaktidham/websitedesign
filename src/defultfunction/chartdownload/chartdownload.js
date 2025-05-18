@@ -147,7 +147,7 @@ export const handleDownload = (pickupsit, chartData) => {
       </head>
       <body class="font-sans m-0 p-0">
           <div class="container mx-auto max-w-4xl px-4">
-              <div class="text-xl text-red-500 flex justify-center font-extrabold mb-2">શક્તિધામ ટ્રાવેલ્સ</div>
+              <div class="text-xl text-red-500 flex justify-center font-extrabold my-2">શક્તિધામ ટ્રાવેલ્સ</div>
               <div class="flex justify-between mb-4">
                   <div class="w-1/2 pr-2 flex flex-stretch">
                       <table class="min-w-full border-collapse border border-black">
