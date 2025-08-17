@@ -95,15 +95,15 @@ const Surat = [
         evillage: "surat",
         point: [
           { pointName: "વર્જ ભૂમિ પાર્કિંગ ભગવાન નગર સામે જકાતનાકા", time: "19:30" },
-          { pointName: "ગેટવે શ્યામધામ મંદિર સામે", time: "19:45" },
-          { pointName: "સ્વામિનારાયણ પાર્કિંગ", time: "19:50" },
-          { pointName: "વાલક પાટિયા", time: "20:00" },
-          { pointName: "લસકાણા", time: "20:10" },
-          { pointName: "પસોદરા પાટિયા પ્રમુખમસાલા", time: "20:15" },
-          { pointName: "ભવાની મંદિર કામરેજ", time: "20:20" },
-          { pointName: "રાજ હોટેલ", time: "20:30" },
-          { pointName: "કીમ ચોકડી", time: "20:40" },
-          { pointName: "કોસબાં", time: "20:50" },
+          { pointName: "ગેટવે શ્યામધામ મંદિર સામે", time: "19:35" },
+          { pointName: "સ્વામિનારાયણ પાર્કિંગ", time: "19:40" },
+          { pointName: "વાલક પાટિયા", time: "19:45" },
+          { pointName: "લસકાણા", time: "19:50" },
+          { pointName: "પસોદરા પાટિયા પ્રમુખમસાલા", time: "20:00" },
+          { pointName: "ભવાની મંદિર કામરેજ", time: "20:05" },
+          { pointName: "રાજ હોટેલ", time: "20:15" },
+          { pointName: "કીમ ચોકડી", time: "20:30" },
+          { pointName: "કોસબાં", time: "20:40" },
           { pointName: "પાલેજ", time: "21:00" },
           { pointName: "કરજણ", time: "22:30" }
         ]
@@ -135,7 +135,7 @@ const Surat = [
         village: "ભરૂચ",
         evillage: "Bharuch",
         point: [
-          { pointName: "નર્મદા ચોકડી ભરૂચ", time: "" },
+          { pointName: "નર્મદા ચોકડી ભરૂચ", time: "21:25" },
           { pointName: "ઝાડેશ્વર ચોકડી ભરૂચ", time: "21:30" },
           { pointName: "સ્વામિનારાયણ મંદિર ભરૂચ", time: "21:45" }
         ]
@@ -247,57 +247,57 @@ const Surat = [
         ]
       }
     ];
-      const ponaeight = [
+    const પોણઆઠ = [
       {
         village: "સુરત",
         evillage: "surat",
         point: [
-          { pointName: "વર્જ ભૂમિ પાર્કિંગ ભગવાન નગર સામે જકાતનાકા", time: "18:45" },
-          { pointName: "ગેટવે શ્યામધામ મંદિર સામે", time: "19:00" },
-          { pointName: "સ્વામિનારાયણ પાર્કિંગ", time: "19:10" },
-          { pointName: "વાલક પાટિયા", time: "19:15" },
-          { pointName: "લસકાણા", time: "19:20" },
-          { pointName: "પસોદરા પાટિયા પ્રમુખમસાલા", time: "19:25" },
-          { pointName: "ભવાની મંદિર કામરેજ", time: "19:30" },
-          { pointName: "રાજ હોટેલ", time: "19:45" },
-          { pointName: "કીમ ચોકડી", time: "20:00" },
-          { pointName: "કોસબાં", time: "20:15" },
-          { pointName: "પાલેજ", time: "21:30" },
-          { pointName: "કરજણ", time: "21:45" }
+          { pointName: "વર્જ ભૂમિ પાર્કિંગ ભગવાન નગર સામે જકાતનાકા", time: "19:45" },
+          { pointName: "ગેટવે શ્યામધામ મંદિર સામે", time: "19:50" },
+          { pointName: "સ્વામિનારાયણ પાર્કિંગ", time: "19:55" },
+          { pointName: "વાલક પાટિયા", time: "20:00" },
+          { pointName: "લસકાણા", time: "20:05" },
+          { pointName: "પસોદરા પાટિયા પ્રમુખમસાલા", time: "20:15" },
+          { pointName: "ભવાની મંદિર કામરેજ", time: "20:20" },
+          { pointName: "રાજ હોટેલ", time: "20:30" },
+          { pointName: "કીમ ચોકડી", time: "20:45" },
+          { pointName: "કોસબાં", time: "20:50" },
+          { pointName: "પાલેજ", time: "22:00" },
+          { pointName: "કરજણ", time: "22:45" }
         ]
       },
       {
         village: "વડોદરા",
         evillage: "Vadodara",
         point: [
-          { pointName: "જામ્બા ચોકડી  વડોદરા", time: "22:15" },
-          { pointName: "ગોલ્ડન ચોકડી  વડોદરા", time: "22:20" },
-          { pointName: "વાઘોડિયા ચોકડી  વડોદરા", time: "22:25" },
-          { pointName: "દુમાડ ચોકડી", time: "22:35" },
-          { pointName: "આજવા ચોકડી", time: "22:40" },
-          { pointName: "ફર્ટિલાઇઝર", time: "22:50" }, 
-            { pointName: "ચુચન સર્કલ ", time: "22:20" },  
-             { pointName: "ખિસકોલી સર્કલ", time: "22:25" },  
-              { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "22:35" },  
-               { pointName: "ચકલી સર્કલ", time: "22:30" }, { pointName: "આસોદર ચોકડી", time: "23:00" }
+          { pointName: "જામ્બા ચોકડી  વડોદરા", time: "23:15" },
+          { pointName: "ગોલ્ડન ચોકડી  વડોદરા", time: "23:20" },
+          { pointName: "વાઘોડિયા ચોકડી  વડોદરા", time: "23:25" },
+          { pointName: "દુમાડ ચોકડી", time: "23:35" },
+          { pointName: "આજવા ચોકડી", time: "23:40" },
+          { pointName: "ફર્ટિલાઇઝર", time: "23:50" }, 
+            { pointName: "ચુચન સર્કલ ", time: "23:20" },  
+             { pointName: "ખિસકોલી સર્કલ", time: "23:25" },  
+              { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "23:35" },  
+               { pointName: "ચકલી સર્કલ", time: "23:30" }, { pointName: "આસોદર ચોકડી", time: "23:55" }
         ]
       },
       {
         village: "અંકલેશ્વર",
         evillage: "Anklaswar",
         point: [
-          { pointName: "વાલીયા ચોકડી  અંકલેશ્વર", time: "20:30" }
+          { pointName: "વાલીયા ચોકડી  અંકલેશ્વર", time: "21:15" }
         ]
       },
       {
         village: "ભરૂચ",
         evillage: "Bharuch",
         point: [
-          { pointName: "નર્મદા ચોકડી ભરૂચ", time: "20:45" },
-          { pointName: "ઝાડેશ્વર ચોકડી ભરૂચ", time: "20:50" },
-          { pointName: "સ્વામિનારાયણ મંદિર ભરૂચ", time: "20:55" }
+          { pointName: "નર્મદા ચોકડી ભરૂચ", time: "21:45" },
+          { pointName: "ઝાડેશ્વર ચોકડી ભરૂચ", time: "21:50" },
+          { pointName: "સ્વામિનારાયણ મંદિર ભરૂચ", time: "21:55" }
         ]
       }
     ];
-  export { Surat, village,getLabel,kabin2,kabin,number,labels,modotime,cabin,velotime,ponasat,ponaeight };
+  export { Surat, village,getLabel,kabin2,kabin,number,labels,modotime,cabin,velotime,ponasat,પોણઆઠ };
   

@@ -5,7 +5,7 @@ import Pickuppoint from "./Pickuppoint";
 import Droppoint from "./droppoint";
 import { useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { modotime, ponasat,ponaeight, velotime } from "../../../constvalue/constvalue";
+import { modotime, ponasat,પોણઆઠ, velotime } from "../../../constvalue/constvalue";
 
 function Busadd() {
   const [loading, setLoading] = useState(false);
@@ -75,8 +75,8 @@ function Busadd() {
     else if (selectedValue === "ponasat") {
       datas = ponasat;
     }
-    else if (selectedValue === "ponaeight") {
-      datas = ponaeight;
+    else if (selectedValue === "પોણઆઠ") {
+      datas = પોણઆઠ;
     }
     setData((prevState) => ({
       ...prevState,
@@ -477,7 +477,7 @@ function Busadd() {
                       <option value="">timeselect</option>
                       <option value="ponasat">પોણાસાત(6:45) </option>
                       <option value="velotime">સાડાસાત(7:00)</option>
-                      <option value="ponaeight">પોણઆઠ(7:45) </option>
+                      <option value="પોણઆઠ">પોણઆઠ(7:45) </option>
                       <option value="modotime">સાડાનવ(9:30)</option>
                    
                     </select>
