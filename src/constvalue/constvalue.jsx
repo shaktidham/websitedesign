@@ -247,6 +247,57 @@ const Surat = [
         ]
       }
     ];
-    
-  export { Surat, village,getLabel,kabin2,kabin,number,labels,modotime,cabin,velotime,ponasat };
+      const ponaeight = [
+      {
+        village: "સુરત",
+        evillage: "surat",
+        point: [
+          { pointName: "વર્જ ભૂમિ પાર્કિંગ ભગવાન નગર સામે જકાતનાકા", time: "18:45" },
+          { pointName: "ગેટવે શ્યામધામ મંદિર સામે", time: "19:00" },
+          { pointName: "સ્વામિનારાયણ પાર્કિંગ", time: "19:10" },
+          { pointName: "વાલક પાટિયા", time: "19:15" },
+          { pointName: "લસકાણા", time: "19:20" },
+          { pointName: "પસોદરા પાટિયા પ્રમુખમસાલા", time: "19:25" },
+          { pointName: "ભવાની મંદિર કામરેજ", time: "19:30" },
+          { pointName: "રાજ હોટેલ", time: "19:45" },
+          { pointName: "કીમ ચોકડી", time: "20:00" },
+          { pointName: "કોસબાં", time: "20:15" },
+          { pointName: "પાલેજ", time: "21:30" },
+          { pointName: "કરજણ", time: "21:45" }
+        ]
+      },
+      {
+        village: "વડોદરા",
+        evillage: "Vadodara",
+        point: [
+          { pointName: "જામ્બા ચોકડી  વડોદરા", time: "22:15" },
+          { pointName: "ગોલ્ડન ચોકડી  વડોદરા", time: "22:20" },
+          { pointName: "વાઘોડિયા ચોકડી  વડોદરા", time: "22:25" },
+          { pointName: "દુમાડ ચોકડી", time: "22:35" },
+          { pointName: "આજવા ચોકડી", time: "22:40" },
+          { pointName: "ફર્ટિલાઇઝર", time: "22:50" }, 
+            { pointName: "ચુચન સર્કલ ", time: "22:20" },  
+             { pointName: "ખિસકોલી સર્કલ", time: "22:25" },  
+              { pointName: "બીએપીએસ સ્વામિનારાયણ મંદિર અટલાદરા સર્કલ", time: "22:35" },  
+               { pointName: "ચકલી સર્કલ", time: "22:30" }, { pointName: "આસોદર ચોકડી", time: "23:00" }
+        ]
+      },
+      {
+        village: "અંકલેશ્વર",
+        evillage: "Anklaswar",
+        point: [
+          { pointName: "વાલીયા ચોકડી  અંકલેશ્વર", time: "20:30" }
+        ]
+      },
+      {
+        village: "ભરૂચ",
+        evillage: "Bharuch",
+        point: [
+          { pointName: "નર્મદા ચોકડી ભરૂચ", time: "20:45" },
+          { pointName: "ઝાડેશ્વર ચોકડી ભરૂચ", time: "20:50" },
+          { pointName: "સ્વામિનારાયણ મંદિર ભરૂચ", time: "20:55" }
+        ]
+      }
+    ];
+  export { Surat, village,getLabel,kabin2,kabin,number,labels,modotime,cabin,velotime,ponasat,ponaeight };
   
