@@ -5,6 +5,13 @@ const convertTo12HourFormat = (time) => {
     console.error("Invalid time format:", time);
     return ""; // Fallback value
   }
+
+
+  let [hour, minute] = time.split(":").map(Number);
+  let period = hour >= 12 ? "AM" : "PM";
+  hour = hour % 12 || 12; // Convert 24-hour format to 12-hour format
+  return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
+};
   const villageOrder = [
   "વિસાવદર", "કુબા", "ઢેબર", "જાંબુડા", "ના. પિંડાખાઈ", "ભલગામ", "માણેકવાડા", 
   "ઘંટીયાણ", "ન. હળીયાદ", "જુ. હળીયાદ", "મો. મુંજીયાસર", "બગસરા", "જેઠીયાવદર", 
@@ -12,13 +19,6 @@ const convertTo12HourFormat = (time) => {
   "અમરેલી", "ઈશ્વરીયા", "વરસડા", "ટોડા", "લાઠી", "ચાવંડ", "ઢસા", "માલપરા", 
   "ગુંદાળા", "રણીયાળા", "સ્વા. ગઢડા", "બોટાદ", "સાળંગપુર", "બરવાળા"
 ];
-
-  let [hour, minute] = time.split(":").map(Number);
-  let period = hour >= 12 ? "AM" : "PM";
-  hour = hour % 12 || 12; // Convert 24-hour format to 12-hour format
-  return `${hour}:${minute.toString().padStart(2, '0')} ${period}`;
-};
-
 export const handleSendWhatsApp = (filterData, filterRoute) => {
   // Utility function to safely get values with fallback
   const getValueOrDefault = (value, defaultValue = "") => (value ? value : defaultValue);
@@ -67,6 +67,28 @@ const pickupWithTime = pickupNames.map((name, index) => {
   return `${name} ${time}`;
 }).join(", ");
 const isSpecialRoute = villageOrder.includes(filterData[0].to);
+const officeNumbers = isSpecialRoute
+  ? `
+સુરત ઓફિસ મોબાઇલ નંબર :
+☎️ 8140555570
+
+સૌરાષ્ટ્ર ઓફિસ મોબાઇલ નંબર :
+☎️ 8140555560
+`
+  : `
+સુરત ઓફિસ મોબાઇલ નંબર :
+☎️ 9825450700  
+☎️ 9825805971  
+
+જસદણ ઓફિસ મોબાઇલ નંબર :
+☎️ 9909134545 
+☎️ 9879584545  
+
+મોટા દેવળીયા ઓફિસ મોબાઇલ નંબર:
+☎️ 9825864672 
+☎️ 9586653535
+`;
+
   // Construct the message
   const message = `
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
@@ -82,16 +104,16 @@ const isSpecialRoute = villageOrder.includes(filterData[0].to);
   
   લોકેશન : ${getValueOrDefault(filterRoute[0].location)}
   
-${contactNumbers}
+${officeNumbers}
   હેલ્પલાઇન નંબર: ☎ 8141814190
   બસનું લોકેશન જોવા માટે આ WhatsApp નંબર સેવ કરો.
   `;
 
-  // Check for message length
-  if (encodeURIComponent(message).length > 4000) {
-    alert("Message is too long to send via WhatsApp.");
-    return;
-  }
+  // // Check for message length
+  // if (encodeURIComponent(message).length > 4000) {
+  //   alert("Message is too long to send via WhatsApp.");
+  //   return;
+  // }
 
   // Open WhatsApp with the constructed message
   const url = `https://wa.me/+91${mobile}?text=${encodeURIComponent(message)}`;
