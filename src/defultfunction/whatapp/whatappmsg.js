@@ -5,6 +5,13 @@ const convertTo12HourFormat = (time) => {
     console.error("Invalid time format:", time);
     return ""; // Fallback value
   }
+  const villageOrder = [
+  "વિસાવદર", "કુબા", "ઢેબર", "જાંબુડા", "ના. પિંડાખાઈ", "ભલગામ", "માણેકવાડા", 
+  "ઘંટીયાણ", "ન. હળીયાદ", "જુ. હળીયાદ", "મો. મુંજીયાસર", "બગસરા", "જેઠીયાવદર", 
+  "માંડવડા", "પાણીયા", "જાળીયા પા.", "ભંડારીયા પા.", "બાબાપુર રોડ", "ગાવડકા", 
+  "અમરેલી", "ઈશ્વરીયા", "વરસડા", "ટોડા", "લાઠી", "ચાવંડ", "ઢસા", "માલપરા", 
+  "ગુંદાળા", "રણીયાળા", "સ્વા. ગઢડા", "બોટાદ", "સાળંગપુર", "બરવાળા"
+];
 
   let [hour, minute] = time.split(":").map(Number);
   let period = hour >= 12 ? "AM" : "PM";
@@ -59,7 +66,7 @@ const pickupWithTime = pickupNames.map((name, index) => {
   const time = pickuptimeFormatted[index] || 'N/A'; // Ensure there's a corresponding time for each pickup
   return `${name} ${time}`;
 }).join(", ");
-
+const isSpecialRoute = villageOrder.includes(filterData[0].to);
   // Construct the message
   const message = `
   🚌🚌 શક્તિધામ ટ્રાવેલ્સ 🚌🚌
@@ -75,15 +82,7 @@ const pickupWithTime = pickupNames.map((name, index) => {
   
   લોકેશન : ${getValueOrDefault(filterRoute[0].location)}
   
-  સુરત ઓફિસ મોબાઇલ નંબર :
-  ☎ 9825450700  
-  ☎ 9825805971
-  જસદણ ઓફિસ મોબાઇલ નંબર :
-  ☎ 9909134545 
-  ☎ 9879584545
-  મોટા દેવળીયા ઓફિસ મોબાઇલ નંબર:
-  ☎ 9825864672 
-  ☎ 9586653535
+${contactNumbers}
   હેલ્પલાઇન નંબર: ☎ 8141814190
   બસનું લોકેશન જોવા માટે આ WhatsApp નંબર સેવ કરો.
   `;
