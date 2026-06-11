@@ -230,16 +230,15 @@ function Busadd() {
                       onChange={handleBusNameChange}
                     >
                       <option value="">Select Bus Name</option>
-                      <option value="GJ-05-BZ-0999">GJ-05-BZ-0999</option>
-                      <option value="GJ-05-BZ-9999">GJ-05-BZ-9999</option>
+                      <option value="AR-20-B-9036">AR-20-B-9036</option>
+                      <option value="AR-20-B-9063">AR-20-B-9063</option>
                       <option value="GJ-05-CW-9027">GJ-05-CW-9027</option>
                       <option value="GJ-05-CW-9927">GJ-05-CW-9927</option>
                       <option value="GJ-14-Z-9090">GJ-14-Z-9090</option>
                       <option value="GJ-14-Z-9009">GJ-14-Z-9009</option>
                       <option value="GJ-05-CY-9045">GJ-05-CY-9045</option>
                       <option value="GJ-05-CY-9054">GJ-05-CY-9054</option>
-                      <option value="GJ-05-CU-9081">GJ-05-CY-9081</option>
-                      <option value="GJ-05-CU-9018">GJ-05-CY-9018</option>
+                  
                       <option value="OTHER">Other</option>
                     </select>
                     {isOther && (

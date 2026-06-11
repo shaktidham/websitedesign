@@ -23,7 +23,7 @@ function Hero() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  // Update Redux state if necessary
+  // Update Rdux state if necessary
     // navigate('/seating', { state: formData }); // Navigate to Seating page and pass formData
   };
 
