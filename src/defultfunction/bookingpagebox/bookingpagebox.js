@@ -22,7 +22,7 @@ const SeatCell = ({
   return (
     <td
       className={`border border-black text-sm text-center h-[150px] ${
-        matchingSeat?.bookedBy !== "Vinay111" &&
+        matchingSeat?.bookedBy !== "Sakriy..44" &&
         matchingSeat?.date & (matchingSeat?.bookedBy !== "")
           ? "bg-green-100 font-bold"
           : matchingSeat?.to
